@@ -38,6 +38,7 @@ public class Saving {
 
     private static File createFile(String fullPath) throws FileCouldNotCreated {
         File file = new File (fullPath);
+        file.getParentFile().mkdirs();
         if (file.exists ()) {
             Log.d(TAG, "File: %s exist. Deleting it.");
             file.delete();

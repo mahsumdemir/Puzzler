@@ -15,4 +15,9 @@ public class DummyPermissionActivity extends Activity{
         final String PERMISSION = getIntent().getStringExtra("PERMISSION");
         ActivityCompat.requestPermissions(this, new String[]{PERMISSION}, SUCCESS);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        this.finish();
+    }
 }
