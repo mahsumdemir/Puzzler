@@ -18,35 +18,38 @@ import java.io.File;
 import static org.junit.Assert.*;
 
 public class SavingTest {
-    private Context targetContext;
 
-    @Before
-    public void setUp () throws Exception {
-        targetContext = InstrumentationRegistry.getTargetContext();
-        final String PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        if (!Util.grantPermission(targetContext, PERMISSION)) {
-            fail("Error. Could not grand permission: " + PERMISSION);
-        }
-    }
+  private Context targetContext;
 
-    @Test
-    public void decodeBitmap () throws Exception {
-        Bitmap bitmap = BitmapFactory.decodeResource(targetContext.getResources(),
-                R.drawable.harput);
-        assertTrue(bitmap != null);
+  @Before
+  public void setUp() throws Exception {
+    targetContext = InstrumentationRegistry.getTargetContext();
+    final String PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    if (!Util.grantPermission(targetContext, PERMISSION)) {
+      fail("Error. Could not grand permission: " + PERMISSION);
     }
+  }
 
-    @Test
-    public void saveBitmap () throws Exception {
-        //setup
-        Bitmap bitmap = BitmapFactory.decodeResource(targetContext.getResources(),
-                R.drawable.harput);
-        if (bitmap == null) fail("Bitmap could not be decoded");
-        String storage = Environment.getExternalStorageDirectory().toString();
-        String fullFilePath = storage + "/test5/testBitmap3";
-        //exercise
-        Saving.saveBitmap(bitmap, fullFilePath);
-        //assert
-        assertTrue("Bitmap file could not found", new File(fullFilePath).exists());
+  @Test
+  public void decodeBitmap() throws Exception {
+    Bitmap bitmap = BitmapFactory.decodeResource(targetContext.getResources(),
+        R.drawable.harput);
+    assertTrue(bitmap != null);
+  }
+
+  @Test
+  public void saveBitmap() throws Exception {
+    //setup
+    Bitmap bitmap = BitmapFactory.decodeResource(targetContext.getResources(),
+        R.drawable.harput);
+    if (bitmap == null) {
+      fail("Bitmap could not be decoded");
     }
+    String storage = Environment.getExternalStorageDirectory().toString();
+    String fullFilePath = storage + "/test5/testBitmap3";
+    //exercise
+    Saving.saveBitmap(bitmap, fullFilePath);
+    //assert
+    assertTrue("Bitmap file could not found", new File(fullFilePath).exists());
+  }
 }

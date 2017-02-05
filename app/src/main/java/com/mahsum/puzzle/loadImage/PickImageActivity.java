@@ -10,34 +10,35 @@ import android.widget.ImageView;
 import com.mahsum.puzzle.R;
 
 public class PickImageActivity extends AppCompatActivity implements Contract.View {
-    private static final int PICK_PHOTO = 1;
-    private ImageView imageView;
 
-    private Contract.Presenter presenter;
+  private static final int PICK_PHOTO = 1;
+  private ImageView imageView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.pick_image_activity);
-        presenter = new MainActivityPresenter(this);
+  private Contract.Presenter presenter;
 
-        imageView = (ImageView) findViewById(R.id.imageView);
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.startImageChoosing();
-            }
-        });
-    }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.pick_image_activity);
+    presenter = new MainActivityPresenter(this);
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        presenter.readSelectedImage(requestCode, resultCode, data);
-    }
+    imageView = (ImageView) findViewById(R.id.imageView);
+    Button button = (Button) findViewById(R.id.button);
+    button.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        presenter.startImageChoosing();
+      }
+    });
+  }
 
-    @Override
-    public void showImage(Bitmap image) {
-        imageView.setImageBitmap(image);
-    }
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    presenter.readSelectedImage(requestCode, resultCode, data);
+  }
+
+  @Override
+  public void showImage(Bitmap image) {
+    imageView.setImageBitmap(image);
+  }
 }

@@ -16,17 +16,18 @@ import static org.junit.Assert.*;
 
 
 public class BitmapMaskTest {
-    private Bitmap bitmap;
-    @Before
-    public void setUp() throws Exception {
-        bitmap = BitmapFactory.decodeResource(InstrumentationRegistry.getContext().getResources(),
-                R.drawable.harput);
 
-    }
+  private Bitmap bitmap;
 
-    @Test
-    public void testMaskTopLeft() throws Exception {
+  @Before
+  public void setUp() throws Exception {
+    bitmap = BitmapFactory.decodeResource(InstrumentationRegistry.getContext().getResources(),
+        R.drawable.harput);
 
+  }
 
-    }
+  @Test
+  public void testMaskTopLeft() throws Exception {
+
+  }
 }
