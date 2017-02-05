@@ -14,9 +14,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by mahsum on 14.01.2017.
- */
+
 public class BitmapMaskTest {
     private Bitmap bitmap;
     @Before

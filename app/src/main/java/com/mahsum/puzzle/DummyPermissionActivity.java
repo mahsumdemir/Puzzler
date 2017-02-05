@@ -3,6 +3,7 @@ package com.mahsum.puzzle;
 import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
 public class DummyPermissionActivity extends Activity{
@@ -17,7 +18,9 @@ public class DummyPermissionActivity extends Activity{
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           int[] grantResults) {
         this.finish();
     }
 }
