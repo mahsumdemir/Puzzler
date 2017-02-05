@@ -7,8 +7,8 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-import com.mahsum.puzzle.FileCouldNotCreated;
-import com.mahsum.puzzle.FileCouldNotSaved;
+import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
+import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 import com.mahsum.puzzle.R;
 
 import butterknife.BindView;

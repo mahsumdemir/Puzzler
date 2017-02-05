@@ -2,13 +2,14 @@ package com.mahsum.puzzle;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
+import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 public class Saving {
 
@@ -17,18 +18,21 @@ public class Saving {
   public static void saveBitmap(@NonNull Bitmap bitmap, String fullPath)
       throws FileCouldNotCreated, FileCouldNotSaved {
     File file = createFile(fullPath);
-    save(bitmap, file);
+    if (file == null) {
+      throw new RuntimeException("File could not created. Hence saving bitmap is failed.");
+    }else {
+      save(bitmap, file);
+    }
   }
 
-  private static void save(Bitmap bitmap, File file) throws FileCouldNotSaved {
+  private static void save(@NonNull Bitmap bitmap, @NonNull File file) throws FileCouldNotSaved {
     try {
       FileOutputStream out = new FileOutputStream(file);
       compress(bitmap, out);
       out.flush();
       out.close();
-
-    } catch (Exception ignored) {
-      throw new FileCouldNotSaved(file);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
@@ -39,24 +43,33 @@ public class Saving {
     }
   }
 
-  private static File createFile(String fullPath) throws FileCouldNotCreated {
-    File file = new File(fullPath);
-    file.getParentFile().mkdirs();
-    if (file.exists()) {
-      Log.d(TAG, "File: %s exist. Deleting it.");
-      file.delete();
+  /**
+   * Creates a file at given path. If a file already exist at this path. Replaces it with a new
+   * empty file.
+   *
+   * @param fullPath full path for file
+   * @return null if an error occurred while creation file, created file if everything goes well.
+   */
+  @Nullable
+  private static File createFile(String fullPath) {
+    try {
+      createParent(fullPath);
+      File file = new File(fullPath);
+      if (file.exists()) file.delete();
+      file.createNewFile();
+      return file;
+    } catch (FileCouldNotCreated fileCouldNotCreated) {
+      return null;
+    } catch (IOException e) {
+      return null;
     }
-    makeDirs(file);
-    return file;
   }
 
-  private static void makeDirs(File file) throws FileCouldNotCreated {
-    try {
-      if (!file.createNewFile()) {
-        throw new FileCouldNotCreated(String.format("File: %s Could Not Created", file));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
+  private static void createParent(String fullPath) throws FileCouldNotCreated {
+    File parent = new File(fullPath).getParentFile();
+    if (!parent.mkdirs()) {
+      throw new FileCouldNotCreated(parent);
     }
   }
+
 }

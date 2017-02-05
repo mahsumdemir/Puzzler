@@ -1,4 +1,4 @@
-package com.mahsum.puzzle;
+package com.mahsum.puzzle.exceptions;
 
 public class CompressError extends Exception {
 
