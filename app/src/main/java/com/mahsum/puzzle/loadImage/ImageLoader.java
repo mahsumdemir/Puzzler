@@ -11,15 +11,15 @@ import static android.provider.MediaStore.Images.Media.getBitmap;
 
 public class ImageLoader {
 
-  private ContentResolver contentResolver;
-  private ImageLoadCallBack callBack;
+  private ContentResolver mContentResolver;
+  private ImageLoadCallBack mCallBack;
 
   public ImageLoader(ContentResolver contentResolver) {
-    this.contentResolver = contentResolver;
+    mContentResolver = contentResolver;
   }
 
   public void loadImage(Uri imageUri, ImageLoadCallBack callBack) {
-    this.callBack = callBack;
+    mCallBack = callBack;
     new CustomAsyncTask().execute(imageUri);
   }
 
@@ -29,7 +29,7 @@ public class ImageLoader {
     protected Bitmap doInBackground(Uri... params) {
       Uri contentUri = params[0];
       try {
-        return getBitmap(contentResolver, contentUri);
+        return getBitmap(mContentResolver, contentUri);
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -39,7 +39,7 @@ public class ImageLoader {
 
     @Override
     protected void onPostExecute(Bitmap image) {
-      callBack.onImageLoaded(image);
+      mCallBack.onImageLoaded(image);
     }
   }
 }

@@ -6,10 +6,10 @@ import android.graphics.Bitmap;
 
 public class MainActivityPresenter implements Contract.Presenter {
 
-  private Contract.View view;
+  private Contract.View mView;
 
   public MainActivityPresenter(Contract.View view) {
-    this.view = view;
+    mView = view;
   }
 
   @Override
@@ -18,16 +18,16 @@ public class MainActivityPresenter implements Contract.Presenter {
     Intent intent = new Intent();
     intent.setType("image/*");
     intent.setAction(Intent.ACTION_GET_CONTENT);
-    view.startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PHOTO);
+    mView.startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PHOTO);
   }
 
   @Override
   public void readSelectedImage(int requestCode, int resultCode, Intent data) {
-    ImageLoader imageLoader = new ImageLoader(view.getContentResolver());
+    ImageLoader imageLoader = new ImageLoader(mView.getContentResolver());
     imageLoader.loadImage(data.getData(), new ImageLoadCallBack() {
       @Override
       public void onImageLoaded(Bitmap image) {
-        view.showImage(image);
+        mView.showImage(image);
       }
     });
   }

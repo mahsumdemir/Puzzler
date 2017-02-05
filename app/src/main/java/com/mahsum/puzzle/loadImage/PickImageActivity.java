@@ -12,7 +12,7 @@ import com.mahsum.puzzle.R;
 public class PickImageActivity extends AppCompatActivity implements Contract.View {
 
   private static final int PICK_PHOTO = 1;
-  private ImageView imageView;
+  private ImageView mImageView;
 
   private Contract.Presenter presenter;
 
@@ -22,7 +22,7 @@ public class PickImageActivity extends AppCompatActivity implements Contract.Vie
     setContentView(R.layout.pick_image_activity);
     presenter = new MainActivityPresenter(this);
 
-    imageView = (ImageView) findViewById(R.id.imageView);
+    mImageView = (ImageView) findViewById(R.id.imageView);
     Button button = (Button) findViewById(R.id.button);
     button.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -39,6 +39,6 @@ public class PickImageActivity extends AppCompatActivity implements Contract.Vie
 
   @Override
   public void showImage(Bitmap image) {
-    imageView.setImageBitmap(image);
+    mImageView.setImageBitmap(image);
   }
 }

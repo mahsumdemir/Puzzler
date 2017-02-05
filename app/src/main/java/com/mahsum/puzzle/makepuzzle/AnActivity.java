@@ -19,13 +19,13 @@ import static com.mahsum.puzzle.Saving.saveBitmap;
 public class AnActivity extends AppCompatActivity {
 
   @BindView(R.id.image1)
-  ImageView imageView1;
+  ImageView mImageView1;
   @BindView(R.id.image2)
-  ImageView imageView2;
+  ImageView mImageView2;
   @BindView(R.id.image3)
-  ImageView imageView3;
+  ImageView mImageView3;
   @BindView(R.id.image4)
-  ImageView imageView4;
+  ImageView mImageView4;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

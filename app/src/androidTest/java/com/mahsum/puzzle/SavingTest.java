@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 
 import com.mahsum.puzzle.utility.Util;
@@ -19,20 +18,20 @@ import static org.junit.Assert.*;
 
 public class SavingTest {
 
-  private Context targetContext;
+  private Context mTargetContext;
 
   @Before
   public void setUp() throws Exception {
-    targetContext = InstrumentationRegistry.getTargetContext();
+    mTargetContext = InstrumentationRegistry.getTargetContext();
     final String PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-    if (!Util.grantPermission(targetContext, PERMISSION)) {
+    if (!Util.grantPermission(mTargetContext, PERMISSION)) {
       fail("Error. Could not grand permission: " + PERMISSION);
     }
   }
 
   @Test
   public void decodeBitmap() throws Exception {
-    Bitmap bitmap = BitmapFactory.decodeResource(targetContext.getResources(),
+    Bitmap bitmap = BitmapFactory.decodeResource(mTargetContext.getResources(),
         R.drawable.harput);
     assertTrue(bitmap != null);
   }
@@ -40,7 +39,7 @@ public class SavingTest {
   @Test
   public void saveBitmap() throws Exception {
     //setup
-    Bitmap bitmap = BitmapFactory.decodeResource(targetContext.getResources(),
+    Bitmap bitmap = BitmapFactory.decodeResource(mTargetContext.getResources(),
         R.drawable.harput);
     if (bitmap == null) {
       fail("Bitmap could not be decoded");

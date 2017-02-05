@@ -13,7 +13,7 @@ import com.mahsum.puzzle.R;
 
 public class BitmapMask {
 
-  private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+  private static final Paint PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
 
   static {
         /*
@@ -21,13 +21,13 @@ public class BitmapMask {
         DST = background image.
         SRC = second image drawn by canvas.drawBitmap
          */
-    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+    PAINT.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
   }
 
-  private final Bitmap mask;
+  private final Bitmap MASK;
 
   private BitmapMask(Bitmap mask) {
-    this.mask = mask;
+    MASK = mask;
   }
 
   public static BitmapMask topLeftMask(Context context) {
@@ -73,21 +73,21 @@ public class BitmapMask {
 
 
   public BitmapMask resizeMask(int x, int y) {
-    Bitmap mask = Bitmap.createScaledBitmap(this.mask, x, y, false);
+    Bitmap mask = Bitmap.createScaledBitmap(this.MASK, x, y, false);
     return new BitmapMask(mask);
   }
 
 
   /**
-   * Put mask (x, y) koordinate of source image.
+   * Put MASK (x, y) koordinate of source image.
    *
    * @param x x coordinate
    * @param y y coordinate
    * @return masked bitmap
    */
   public Bitmap maskBitmap(@NonNull Bitmap source, int x, int y) {
-    Bitmap partOfSource = Bitmap.createBitmap(source, x, y, mask.getHeight(), mask.getWidth());
-    new Canvas(partOfSource).drawBitmap(mask, 0, 0, paint);
+    Bitmap partOfSource = Bitmap.createBitmap(source, x, y, MASK.getHeight(), MASK.getWidth());
+    new Canvas(partOfSource).drawBitmap(MASK, 0, 0, PAINT);
     return partOfSource;
   }
 }
