@@ -52,4 +52,22 @@ public class SavingTest {
     assertTrue(String.format("Bitmap file could not found at location: %s", fullFilePath),
                new File(fullFilePath).exists());
   }
+
+  @Test
+  public void testSaveBitmap_saveTwice() throws Exception {
+    //setup
+    Bitmap bitmap = BitmapFactory.decodeResource(mTargetContext.getResources(),
+                                                 image);
+    String storage = Environment.getExternalStorageDirectory().toString();
+    String fullFilePath = storage + "/test12/testBitmap3";
+    Saving.saveBitmap(bitmap, fullFilePath);
+
+    //Exercise
+    Saving.saveBitmap(bitmap, fullFilePath);
+
+    //assert
+    assertTrue(String.format("Bitmap file could not found at location: %s", fullFilePath),
+               new File(fullFilePath).exists());
+
+  }
 }

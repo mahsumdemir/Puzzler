@@ -67,9 +67,8 @@ public class Saving {
 
   private static void createParent(String fullPath) throws FileCouldNotCreated {
     File parent = new File(fullPath).getParentFile();
-    if (!parent.mkdirs()) {
-      throw new FileCouldNotCreated(parent);
-    }
+    if (parent.exists()) return;
+    if (!parent.mkdirs()) throw new FileCouldNotCreated(parent);
   }
 
 }
