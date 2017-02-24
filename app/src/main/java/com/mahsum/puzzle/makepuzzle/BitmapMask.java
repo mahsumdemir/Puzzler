@@ -9,7 +9,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.support.annotation.NonNull;
 
+import android.util.SparseArray;
 import com.mahsum.puzzle.R;
+import java.util.HashMap;
 
 public class BitmapMask {
 
@@ -28,42 +30,6 @@ public class BitmapMask {
 
   private BitmapMask(Bitmap mask) {
     MASK = mask;
-  }
-
-  public static BitmapMask topLeftMask(Context context) {
-    return aMask(context, R.raw.top_left);
-  }
-
-  public static BitmapMask topMask(Context context) {
-    return aMask(context, R.raw.top);
-  }
-
-  public static BitmapMask topRightMask(Context context) {
-    return aMask(context, R.raw.top_right);
-  }
-
-  public static BitmapMask centerMask(Context context) {
-    return aMask(context, R.raw.center);
-  }
-
-  public static BitmapMask leftMask(Context context) {
-    return aMask(context, R.raw.left);
-  }
-
-  public static BitmapMask rightMask(Context context) {
-    return aMask(context, R.raw.right);
-  }
-
-  public static BitmapMask bottomLeftMask(Context context) {
-    return aMask(context, R.raw.bottom_left);
-  }
-
-  public static BitmapMask bottomMask(Context context) {
-    return aMask(context, R.raw.bottom);
-  }
-
-  public static BitmapMask bottomRightMask(Context context) {
-    return aMask(context, R.raw.bottom_right);
   }
 
   private static BitmapMask aMask(Context context, int resource) {
@@ -89,5 +55,55 @@ public class BitmapMask {
     Bitmap partOfSource = Bitmap.createBitmap(source, x, y, MASK.getHeight(), MASK.getWidth());
     new Canvas(partOfSource).drawBitmap(MASK, 0, 0, PAINT);
     return partOfSource;
+  }
+
+  /**
+   * Create all masks with specified height and weight and put them all in a HasMap
+   * HashMap can be queried with BitmapMask.KEY.* keys.
+   * @param context Needed to get mash resources
+   * @param maskHeight Height of a mask
+   * @param maskWeight Weight of a mask
+   * @return filled HashMap
+   */
+  public static SparseArray<BitmapMask> getAll(Context context, int maskHeight, int maskWeight) {
+    SparseArray<BitmapMask> allMasks = new SparseArray<>();
+    allMasks.put(KEY.TOP_LEFT, getMask(context, KEY.TOP_LEFT).resizeMask(maskWeight, maskHeight));
+    allMasks.put(KEY.TOP, getMask(context, KEY.TOP).resizeMask(maskWeight, maskHeight));
+    allMasks.put(KEY.TOP_RIGHT, getMask(context, KEY.TOP_RIGHT).resizeMask(maskWeight, maskHeight));
+    allMasks.put(KEY.CENTER, getMask(context, KEY.CENTER).resizeMask(maskWeight, maskHeight));
+    allMasks.put(KEY.LEFT, getMask(context, KEY.LEFT).resizeMask(maskWeight, maskHeight));
+    allMasks.put(KEY.RIGHT, getMask(context, KEY.RIGHT).resizeMask(maskWeight, maskHeight));
+    allMasks.put(KEY.BOTTOM_LEFT, getMask(context, KEY.BOTTOM_LEFT).resizeMask(maskWeight, maskHeight));
+    allMasks.put(KEY.BOTTOM, getMask(context, KEY.BOTTOM).resizeMask(maskWeight, maskHeight));
+    allMasks.put(KEY.BOTTOM_RIGHT, getMask(context, KEY.BOTTOM_RIGHT).resizeMask(maskWeight, maskHeight));
+    return allMasks;
+  }
+
+
+  public static BitmapMask getMask(Context context, final int BITMAP_KEY) {
+    switch (BITMAP_KEY){
+      case KEY.BOTTOM: return aMask(context, R.raw.bottom);
+      case KEY.BOTTOM_LEFT: return aMask(context, R.raw.bottom_left);
+      case KEY.BOTTOM_RIGHT: return aMask(context, R.raw.bottom_right);
+      case KEY.CENTER: return aMask(context, R.raw.center);
+      case KEY.LEFT: return aMask(context, R.raw.left);
+      case KEY.RIGHT: return aMask(context, R.raw.right);
+      case KEY.TOP: return aMask(context, R.raw.top);
+      case KEY.TOP_LEFT: return aMask(context, R.raw.top_left);
+      case KEY.TOP_RIGHT: return aMask(context, R.raw.top_right);
+      default: return aMask(context, KEY.CENTER);
+    }
+  }
+
+  public static class KEY{
+    public static final int TOP_LEFT = 0;
+    public static final int TOP = 1;
+    public static final int TOP_RIGHT = 2;
+    public static final int CENTER = 3;
+    public static final int LEFT = 4;
+    public static final int RIGHT = 5;
+    public static final int BOTTOM_LEFT = 6;
+    public static final int BOTTOM = 7;
+    public static final int BOTTOM_RIGHT = 8;
   }
 }

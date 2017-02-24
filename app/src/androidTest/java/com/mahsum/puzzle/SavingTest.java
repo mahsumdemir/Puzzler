@@ -9,6 +9,7 @@ import android.support.test.InstrumentationRegistry;
 
 import com.mahsum.puzzle.utility.Util;
 
+import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,6 +20,8 @@ import static org.junit.Assert.*;
 public class SavingTest {
 
   private Context mTargetContext;
+  @Resource
+  private int image = R.drawable.harput;
 
   @Before
   public void setUp() throws Exception {
@@ -32,7 +35,7 @@ public class SavingTest {
   @Test
   public void decodeBitmap() throws Exception {
     Bitmap bitmap = BitmapFactory.decodeResource(mTargetContext.getResources(),
-        R.drawable.harput);
+        image);
     assertTrue(bitmap != null);
   }
 
@@ -40,15 +43,13 @@ public class SavingTest {
   public void saveBitmap() throws Exception {
     //setup
     Bitmap bitmap = BitmapFactory.decodeResource(mTargetContext.getResources(),
-        R.drawable.harput);
-    if (bitmap == null) {
-      fail("Bitmap could not be decoded");
-    }
+        image);
     String storage = Environment.getExternalStorageDirectory().toString();
-    String fullFilePath = storage + "/test5/testBitmap3";
+    String fullFilePath = storage + "/test12/testBitmap3";
     //exercise
     Saving.saveBitmap(bitmap, fullFilePath);
     //assert
-    assertTrue("Bitmap file could not found", new File(fullFilePath).exists());
+    assertTrue(String.format("Bitmap file could not found at location: %s", fullFilePath),
+               new File(fullFilePath).exists());
   }
 }
