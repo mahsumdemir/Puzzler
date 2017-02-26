@@ -1,5 +1,6 @@
 package com.mahsum.puzzle;
 
+import static android.graphics.BitmapFactory.decodeByteArray;
 import static android.graphics.BitmapFactory.decodeResource;
 import static com.mahsum.puzzle.Saving.saveBitmap;
 import static junit.framework.Assert.assertEquals;
@@ -11,8 +12,13 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.support.test.InstrumentationRegistry;
+import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
+import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 import com.mahsum.puzzle.util.Util;
 import org.junit.Before;
 import org.junit.Test;
