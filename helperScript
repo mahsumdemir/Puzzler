@@ -1,0 +1,19 @@
+#!/bin/bash
+if [ $1 == "update" ]
+then
+	adb shell rm -rf /storage/sdcard/puzzle/harput_900x900
+	adb push harput_900x900 /storage/sdcard/puzzle
+elif [ $1 == "error" ]
+then
+	mv error error.old
+	adb pull /storage/sdcard/puzzle/error
+elif [ $1 == "masks" ]
+then
+	mv masks masks.old
+	adb pull /storage/sdcard/puzzle/masks
+else
+	echo "------------------USAGE-------------"
+	echo "./helperScript update to update datas"
+	echo "./helperScript error to pull error dir"
+	echo "./helperScript masks to pull masks"
+fi
