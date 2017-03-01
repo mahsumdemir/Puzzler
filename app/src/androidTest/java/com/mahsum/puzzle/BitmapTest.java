@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.support.test.InstrumentationRegistry;
+import com.mahsum.puzzle.PuzzleFactory.TYPE;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 import com.mahsum.puzzle.util.Util;
@@ -57,16 +58,15 @@ public class BitmapTest {
 
   @Test
   public void testJoinBitmaps_ShouldFail() throws Exception {
-    String dir = BuildConfig.IMAGES_ROOT_DIR + "/harput_900x900";
-    Bitmap original = BitmapFactory.decodeFile(dir + "/original.png");
-    Bitmap[] pieces = readPieces(dir);
+    Puzzle puzzle = new Puzzle();
+    Bitmap original = BitmapFactory.decodeFile(BuildConfig.IMAGES_ROOT_DIR +
+                                                   "/harput_900x900/original.png");
+    puzzle.setOriginalBitmap(original);
+    puzzle.setType(TYPE.FOUR_X_FOUR);
+    puzzle.createPuzzle();
 
-    Bitmap joinedBitmap = Bitmap.createBitmap(original.getWidth(),
-                                              original.getHeight(),
-                                              Config.ARGB_8888);
-
-    Canvas canvas = new Canvas(joinedBitmap);
-    joinAll(pieces, canvas);
+    Bitmap joinedBitmap = Bitmap.createBitmap(original.getWidth(), original.getHeight(), Config.ARGB_8888);
+    joinAll(puzzle.getPieces(), new Canvas(joinedBitmap));
 
     Util.assertBitmapsEquals(original, joinedBitmap);
   }
@@ -83,11 +83,5 @@ public class BitmapTest {
     }
   }
 
-  private Bitmap[] readPieces(String dir) {
-    Bitmap[] pieces = new Bitmap[9];
-    for (int i = 0; i < 9 ; i++){
-      pieces[i] = BitmapFactory.decodeFile(dir + "/" + String.valueOf(i) + ".png");
-    }
-    return pieces;
-  }
+
 }

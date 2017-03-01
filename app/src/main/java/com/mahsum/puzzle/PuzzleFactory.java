@@ -10,7 +10,7 @@ public class PuzzleFactory {
     int pieceCount = PUZZLE_TYPE.getTotalPieceNumber();
     int height = image.getHeight() / PUZZLE_TYPE.getY_PIECE_NUMBER();
     int width = image.getWidth() / PUZZLE_TYPE.getX_PIECE_NUMBER();
-    Puzzle puzzle = new Puzzle(pieceCount);
+    Puzzle puzzle = new Puzzle();
 
     return puzzle;
   }

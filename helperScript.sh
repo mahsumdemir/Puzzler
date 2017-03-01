@@ -11,7 +11,7 @@ then
 elif [ $1 == "masks" ]
 then
 	rm -rf masks.old
-	mv masks/* masks.old
+	mv masks/ masks.old
 	adb pull /storage/sdcard/puzzle/masks
 elif [ $1 == "clean" ]
 then
