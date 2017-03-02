@@ -2,6 +2,7 @@ package com.mahsum.puzzle;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.support.annotation.NonNull;
 
 public class BitmapMask {
 
@@ -24,6 +25,10 @@ public class BitmapMask {
     int realX = (int) (x * REAL_BITMAP_SIZE_MULTIPLIER);
     int realY = (int) (y * REAL_BITMAP_SIZE_MULTIPLIER);
     bitmap = Bitmap.createBitmap(realX, realY, Config.ARGB_8888);
+  }
+
+  public BitmapMask(@NonNull Bitmap bitmap) {
+    this.bitmap = bitmap;
   }
 
   public int getWidth() {

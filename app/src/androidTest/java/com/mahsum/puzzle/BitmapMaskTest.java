@@ -1,20 +1,34 @@
 package com.mahsum.puzzle;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 
 public class BitmapMaskTest {
 
   @Test
-  public void testCreateBitmap_MultipleTests() throws Exception {
-    testCreateBitmap(500, 700);
-    testCreateBitmap(300, 420);
-    testCreateBitmap(301, 420);
-    testCreateBitmap(299, 413);
+  public void testCreateBitmapMask_MultipleTests() throws Exception {
+    testCreateBitmapMask(500, 700);
+    testCreateBitmapMask(300, 420);
+    testCreateBitmapMask(301, 420);
+    testCreateBitmapMask(299, 413);
   }
 
-  private void testCreateBitmap(int size, int realSize) {
+  @Test
+  public void testCreateBitmapMask_FromBitmap() throws Exception {
+    String file = BuildConfig.IMAGES_ROOT_DIR + "/masks/0.png";
+    Bitmap bitmap = BitmapFactory.decodeFile(file);
+    if (bitmap == null) fail(String.format("Error while reading bitmap from file: %s", file));
+    BitmapMask mask = new BitmapMask(bitmap);
+    assertEquals(bitmap.getHeight(), mask.getHeight());
+    assertEquals(bitmap.getWidth(), mask.getWidth());
+  }
+
+  private void testCreateBitmapMask(int size, int realSize) {
     BitmapMask mask = new BitmapMask(size, size);
 
     assert mask.getBitmap() != null;

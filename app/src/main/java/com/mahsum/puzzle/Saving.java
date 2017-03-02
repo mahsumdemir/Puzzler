@@ -71,4 +71,13 @@ public class Saving {
     if (!parent.mkdirs()) throw new FileCouldNotCreated(parent);
   }
 
+  public static void saveBitmapArray(Bitmap[] array, String dir) {
+    for (int index = 0; index < array.length; index++) {
+      try {
+        saveBitmap(array[index], dir + "/" + String.valueOf(index) + ".png");
+      } catch (FileCouldNotCreated | FileCouldNotSaved error) {
+        error.printStackTrace();
+      }
+    }
+  }
 }

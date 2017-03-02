@@ -1,6 +1,7 @@
 #!/bin/bash
 if [ $1 == "update" ]
 then
+	adb shell mkdir -p /storage/sdcard/puzzle/harput_900x900
 	adb shell rm -rf /storage/sdcard/puzzle/harput_900x900
 	adb push harput_900x900 /storage/sdcard/puzzle
 elif [ $1 == "error" ]
@@ -15,8 +16,7 @@ then
 	adb pull /storage/sdcard/puzzle/masks
 elif [ $1 == "clean" ]
 then
-	adb shell rm -rf /storage/sdcard/puzzle/harput_900x900
-	adb shell rm -rf /storage/sdcard/puzzle/masks
+	adb shell rm -rf /storage/sdcard/puzzle
 else
 	echo "------------------USAGE-------------"
 	echo "./helperScript update to update datas"
