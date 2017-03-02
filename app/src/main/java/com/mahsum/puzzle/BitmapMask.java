@@ -5,11 +5,25 @@ import android.graphics.Bitmap.Config;
 
 public class BitmapMask {
 
-  private static final float MASK_CONSTANT = (float) 7 / 5;
+  private static final float REAL_BITMAP_SIZE_MULTIPLIER = (float) 7 / 5;
+  private static final float ADDITION_SIZE_MULTIPLIER = (float) 1 / 7;
+  private static final float MASK_SIZE_MULTIPLIER = (float) 5 / 7;
   private final Bitmap bitmap;
 
+  /**
+   * Creates a new bitmap. x % 5 and y % 5 should be zero, else they will be down graded to be 0.
+   * @param x bitmap mask's x, used to calculate real bitmap size
+   * @param y bitmap mask's y, used to calculate real bitmap size
+     */
   public BitmapMask(int x, int y) {
-    bitmap = Bitmap.createBitmap(x, y, Config.ARGB_8888);
+    int surplusX = x % 5;
+    int surplusY = y % 5;
+    if (surplusX != 0) x = x - surplusX;
+    if (surplusY != 0) y = y - surplusY;
+
+    int realX = (int) (x * REAL_BITMAP_SIZE_MULTIPLIER);
+    int realY = (int) (y * REAL_BITMAP_SIZE_MULTIPLIER);
+    bitmap = Bitmap.createBitmap(realX, realY, Config.ARGB_8888);
   }
 
   public int getWidth() {
@@ -24,15 +38,19 @@ public class BitmapMask {
     return bitmap;
   }
 
-  public int getRealX() {
-    return (int) (getWidth() * MASK_CONSTANT);
+  public int getMaskX() {
+    return (int) (getWidth() * MASK_SIZE_MULTIPLIER);
   }
 
-  public int getRealY() {
-    return (int) (getHeight() * MASK_CONSTANT);
+  public int getMaskY() {
+    return (int) (getHeight() * MASK_SIZE_MULTIPLIER);
   }
 
   public int getAdditionSizeX() {
-    return getWidth() ;
+    return (int) (getWidth() * ADDITION_SIZE_MULTIPLIER) ;
+  }
+
+  public int getAdditionSizeY() {
+    return (int) (getHeight() * ADDITION_SIZE_MULTIPLIER);
   }
 }
