@@ -35,7 +35,7 @@ public class Puzzle {
         this.image = image.copy(Bitmap.Config.ARGB_8888, true);
     }
 
-    public Bitmap[] createPuzzle() {
+    public BitmapMask[] createPuzzle() {
         int maskX = 300, maskY = 300;
         BitmapMask[] masks = createMasks(maskX, maskY);
         Bitmap image = surroundImage(masks[0].getAdditionSizeX(), masks[0].getAdditionSizeY());
@@ -53,8 +53,7 @@ public class Puzzle {
             }
         }
 
-        savePieces(masks);
-        return pieces;
+        return masks;
     }
 
     private Bitmap surroundImage(int x, int y) {
@@ -79,11 +78,15 @@ public class Puzzle {
     }
 
     private BitmapMask[] createMasks(int x, int y) {
+        BitmapMask mask = new BitmapMask(x, y);
+        int realX = mask.getWidth();
+        int realY = mask.getHeight();
+
         BitmapMask[] masks = new BitmapMask[9];
         for (int index = 0; index < masks.length; index++) {
             Bitmap aMask = BitmapFactory.decodeFile(BuildConfig.IMAGES_ROOT_DIR + "/masks/"
                     + String.valueOf(index) + ".png");
-            aMask = Bitmap.createScaledBitmap(aMask, x, y, false);
+            aMask = Bitmap.createScaledBitmap(aMask, realX, realY, false);
             masks[index] = new BitmapMask(aMask);
         }
         return masks;
