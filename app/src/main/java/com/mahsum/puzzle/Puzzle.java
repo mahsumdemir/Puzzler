@@ -35,25 +35,31 @@ public class Puzzle {
         this.image = image.copy(Bitmap.Config.ARGB_8888, true);
     }
 
-    public BitmapMask[] createPuzzle() {
-        int maskX = 300, maskY = 300;
+    public Piece[] createPuzzle() {
+        int maskX = image.getWidth() / type.getXPieceNumber();
+        int maskY = image.getHeight() / type.getYPieceNumber();
         BitmapMask[] masks = createMasks(maskX, maskY);
         Bitmap image = surroundImage(masks[0].getAdditionSizeX(), masks[0].getAdditionSizeY());
+        Piece[] pieces = new Piece[type.getPieceNumber()];
+
 
         int currentX = 0;
         int currentY = 0;
-        for (int index = 0; index < masks.length; index++) {
+        for (int index = 0; index < type.getPieceNumber(); index++) {
             Log.d(TAG, String.format("iterating for currentX: %d, currentY: %d", currentX, currentY));
-            maskImage(image, masks[index], currentX, currentY);
+            BitmapMask mask = type.decideMask(index, masks);
+            pieces[index] = new Piece();
+            pieces[index].setMask(mask);
+            pieces[index].setBitmap(maskImage(image, mask, currentX, currentY));
 
             currentX += maskX;
-            if (index % 3 == 2){
+            if (index % type.getXPieceNumber() == type.getXPieceNumber() - 1){
                 currentX = 0;
                 currentY += maskY;
             }
         }
 
-        return masks;
+        return pieces;
     }
 
     private Bitmap surroundImage(int x, int y) {
@@ -64,10 +70,11 @@ public class Puzzle {
         return surroundedImage;
     }
 
-    private void maskImage(Bitmap image, BitmapMask mask, int currentX, int currentY) {
+    private Bitmap maskImage(Bitmap image, BitmapMask mask, int currentX, int currentY) {
         Canvas canvas = new Canvas(mask.getBitmap());
         Bitmap partOfSource = Bitmap.createBitmap(image, currentX, currentY, mask.getWidth(), mask.getHeight());
         canvas.drawBitmap(partOfSource, 0, 0, paint);
+        return mask.getBitmap().copy(Bitmap.Config.ARGB_8888, false);
     }
 
     private void savePieces(BitmapMask[] masks) {

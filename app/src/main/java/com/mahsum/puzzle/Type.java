@@ -1,5 +1,7 @@
 package com.mahsum.puzzle;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by mahsumd on 02.03.2017.
  */
@@ -28,5 +30,13 @@ public class Type {
 
     public int getYPieceNumber() {
         return YPieceNumber;
+    }
+
+    public int getPieceNumber() {
+        return getXPieceNumber() * getYPieceNumber();
+    }
+
+    public BitmapMask decideMask(int index, BitmapMask[] masks) {
+        return masks[index];
     }
 }

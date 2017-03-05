@@ -12,6 +12,7 @@ import com.mahsum.puzzle.BuildConfig;
 import com.mahsum.puzzle.Puzzle;
 import com.mahsum.puzzle.Type;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static com.mahsum.puzzle.util.Util.assertBitmapsEquals;
@@ -19,20 +20,45 @@ import static junit.framework.Assert.fail;
 
 
 public class PuzzleTests {
-    @Test
-    public void testCreatePuzzle() throws Exception {
-        //set up
-        Puzzle puzzle = new Puzzle(Type.Three_X_Three);
-        String file = BuildConfig.IMAGES_ROOT_DIR + "/harput_900x900/original.png";
-        Bitmap image = BitmapFactory.decodeFile(file);
-        if (image == null) fail("Error while decoding file: " + file);
-        puzzle.setImage(image);
-        BitmapMask[] pieces = puzzle.createPuzzle();
+    private Puzzle puzzle;
+    private Bitmap image;
 
-        Bitmap joinedBitmap = joinPuzzlePieces(puzzle, pieces);
-        assertBitmapsEquals(image, joinedBitmap);
+    @Before
+    public void setUp() throws Exception {
+        puzzle = new Puzzle(Type.Three_X_Three);
+        image = BitmapFactory.decodeFile(BuildConfig.IMAGES_ROOT_DIR + "/harput.png");
+        if (image == null) {
+            fail("Error while decoding file: " + BuildConfig.IMAGES_ROOT_DIR + "/harput.png");
+        }
     }
-    private static Bitmap joinPuzzlePieces(Puzzle puzzle, BitmapMask[] pieces){
+
+    @Test
+    public void testCreatePuzzle_3X3_900x900_Image() throws Exception {
+        //setup
+        image = Bitmap.createScaledBitmap(image, 900, 900, false);
+        puzzle.setImage(image);
+
+        //exercise
+        Piece[] pieces = puzzle.createPuzzle();
+
+        //assert
+        assertBitmapsEquals(image, joinPuzzlePieces(puzzle, pieces));
+    }
+
+    @Test
+    public void testCreatePuzzle_3X3_1200x1200_Image() throws Exception {
+        //setup
+        image = Bitmap.createScaledBitmap(image, 1200, 1200, false);
+        puzzle.setImage(image);
+
+        //exercise
+        Piece[] pieces = puzzle.createPuzzle();
+
+        //assert
+        assertBitmapsEquals(image, joinPuzzlePieces(puzzle, pieces));
+    }
+
+    private static Bitmap joinPuzzlePieces(Puzzle puzzle, Piece[] pieces){
         int width = pieces[0].getMaskX() * puzzle.getXPieceNumber() +
                 2 * pieces[0].getAdditionSizeX();
 
@@ -53,7 +79,7 @@ public class PuzzleTests {
         return shelvedBitmap;
     }
 
-    private static void drawPiecesOn(Puzzle puzzle, Bitmap joinedBitmap, BitmapMask[] pieces) {
+    private static void drawPiecesOn(Puzzle puzzle, Bitmap joinedBitmap, Piece[] pieces) {
         Canvas canvas = new Canvas(joinedBitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));

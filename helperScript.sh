@@ -1,9 +1,9 @@
 #!/bin/bash
 if [ $1 == "update" ]
 then
-	adb shell mkdir -p /storage/sdcard/puzzle/harput_900x900
-	adb shell rm -rf /storage/sdcard/puzzle/harput_900x900
-	adb push harput_900x900 /storage/sdcard/puzzle
+	adb shell rm -rf /storage/sdcard/puzzle
+	adb shell mkdir -p /storage/sdcard/puzzle
+	adb push harput.png /storage/sdcard/puzzle
 elif [ $1 == "error" ]
 then
 	rm -rf error.old
