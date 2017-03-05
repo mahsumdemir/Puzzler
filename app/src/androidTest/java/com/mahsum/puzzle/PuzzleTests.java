@@ -1,4 +1,4 @@
-package com.mahsum.puzzle.utility;
+package com.mahsum.puzzle;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,8 +9,8 @@ import android.graphics.PorterDuffXfermode;
 
 import com.mahsum.puzzle.BitmapMask;
 import com.mahsum.puzzle.BuildConfig;
+import com.mahsum.puzzle.Puzzle;
 import com.mahsum.puzzle.Type;
-import com.mahsum.puzzle.util.*;
 
 import org.junit.Test;
 
@@ -29,16 +29,20 @@ public class PuzzleTests {
         puzzle.setImage(image);
         BitmapMask[] pieces = puzzle.createPuzzle();
 
-        Bitmap joinedBitmap = joinPuzzlePieces(pieces);
+        Bitmap joinedBitmap = joinPuzzlePieces(puzzle, pieces);
         assertBitmapsEquals(image, joinedBitmap);
     }
-    private static Bitmap joinPuzzlePieces(BitmapMask[] pieces){
-        int width = pieces[0].getMaskX() * 3 + 2 * pieces[0].getAdditionSizeX();
-        int height = pieces[0].getMaskY() * 3 + 2 * pieces[0].getAdditionSizeY();
-        Bitmap joinedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+    private static Bitmap joinPuzzlePieces(Puzzle puzzle, BitmapMask[] pieces){
+        int width = pieces[0].getMaskX() * puzzle.getXPieceNumber() +
+                2 * pieces[0].getAdditionSizeX();
 
-        drawPiecesOn(joinedBitmap, pieces);
-        Bitmap result = shelveJoinedBitmap(joinedBitmap, pieces[0].getAdditionSizeX(), pieces[0].getAdditionSizeY());
+        int height = pieces[0].getMaskY() * puzzle.getYPieceNumber() +
+                2 * pieces[0].getAdditionSizeY();
+
+        Bitmap joinedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        drawPiecesOn(puzzle, joinedBitmap, pieces);
+        Bitmap result = shelveJoinedBitmap(joinedBitmap, pieces[0].getAdditionSizeX(),
+                pieces[0].getAdditionSizeY());
         return result;
     }
 
@@ -49,7 +53,7 @@ public class PuzzleTests {
         return shelvedBitmap;
     }
 
-    private static void drawPiecesOn(Bitmap joinedBitmap, BitmapMask[] pieces) {
+    private static void drawPiecesOn(Puzzle puzzle, Bitmap joinedBitmap, BitmapMask[] pieces) {
         Canvas canvas = new Canvas(joinedBitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));
@@ -60,7 +64,7 @@ public class PuzzleTests {
             canvas.drawBitmap(pieces[index].getBitmap(), currentX, currentY, paint);
 
             currentX += maskX;
-            if(index % 3 == 2){
+            if(index % puzzle.getXPieceNumber() == 2){
                 currentX = 0;
                 currentY += maskY;
             }

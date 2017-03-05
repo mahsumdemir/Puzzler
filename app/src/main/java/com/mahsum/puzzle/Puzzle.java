@@ -1,4 +1,4 @@
-package com.mahsum.puzzle.utility;
+package com.mahsum.puzzle;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -90,5 +90,13 @@ public class Puzzle {
             masks[index] = new BitmapMask(aMask);
         }
         return masks;
+    }
+
+    public int getXPieceNumber() {
+        return type.getXPieceNumber();
+    }
+
+    public int getYPieceNumber() {
+        return type.getYPieceNumber();
     }
 }
