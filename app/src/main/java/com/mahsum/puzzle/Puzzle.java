@@ -124,6 +124,8 @@ public class Puzzle {
     }
 
     public int getPieceType(int index) {
+        if (index < 0 || index > (type.getPieceNumber())) return -1;
+
         boolean hasLeft = (index % type.getXPieceNumber()) != 0;
         boolean hasRight = (index % type.getXPieceNumber()) != type.getXPieceNumber() - 1;
         boolean hasBottom = (index / type.getYPieceNumber()) != type.getYPieceNumber() - 1;

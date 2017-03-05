@@ -3,8 +3,6 @@ package com.mahsum.puzzle;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.mahsum.puzzle.utility.Util;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,19 +12,32 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
 public class FourXFourPuzzleTest {
-    private Puzzle puzzle;
     private Bitmap image;
 
     @Before
     public void setUp() throws Exception {
-        puzzle = new Puzzle(Type.Four_X_Four);
         image = BitmapFactory.decodeFile(BuildConfig.IMAGES_ROOT_DIR + "/harput.png");
     }
 
     @Test
-    public void testCreatePuzzle_4X4_1600x1600() throws Exception {
-        //set up
-        image = Bitmap.createScaledBitmap(image, 1600, 1600, false);
+    public void testCreatePuzzle_MultipleDimensions() throws Exception {
+        testCreatePuzzle(1600, 1600);
+        testCreatePuzzle(900, 800);
+        testCreatePuzzle(1240, 1880);
+    }
+
+    @Test
+    public void testCreatePuzzle_SouldFail() throws Exception {
+        try {
+            testCreatePuzzle(899, 899);
+            fail("Puzzle with a inappropriate image should be throwed");
+        }catch (RuntimeException e){}
+    }
+
+    private void testCreatePuzzle(int width, int height){
+        //setup
+        Puzzle puzzle = new Puzzle(Type.Four_X_Four);
+        image = Bitmap.createScaledBitmap(image, width, height, false);
         puzzle.setImage(image);
 
         //exercise
@@ -34,16 +45,6 @@ public class FourXFourPuzzleTest {
 
         //assert
         assertBitmapsEquals(image, joinPuzzlePieces(puzzle, pieces));
-    }
-
-    @Test
-    public void testCreatePuzzle_4X4_899x899_SouldFail() throws Exception {
-        image = Bitmap.createScaledBitmap(image, 899, 899, false);
-        try {
-            puzzle.setImage(image);
-            fail("Puzzle with a inappropriate image should be throwed");
-        }catch (RuntimeException e){}
-
     }
 
     @Test
@@ -60,6 +61,7 @@ public class FourXFourPuzzleTest {
     }
 
     private void assertPiecesEquals(int type, int... indixes) {
+        Puzzle puzzle = new Puzzle(Type.Four_X_Four);
         for (int i = 0; i < indixes.length; i++) {
             assertEquals(type, puzzle.getPieceType(indixes[i]));
         }
