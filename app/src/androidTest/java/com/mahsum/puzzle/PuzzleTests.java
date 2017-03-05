@@ -58,6 +58,21 @@ public class PuzzleTests {
         assertBitmapsEquals(image, joinPuzzlePieces(puzzle, pieces));
     }
 
+    @Test
+    public void testCreatePuzzle_3X3_899x899_Image_ShouldFail() throws Exception {
+        //setup
+        image = Bitmap.createScaledBitmap(image, 899, 899, false);
+
+        //exercise
+        try {
+            puzzle.setImage(image);
+            fail("Creating of puzzle should failed cause of inappropriate size.");
+        }catch (RuntimeException e){
+
+        }
+
+    }
+
     private static Bitmap joinPuzzlePieces(Puzzle puzzle, Piece[] pieces){
         int width = pieces[0].getMaskX() * puzzle.getXPieceNumber() +
                 2 * pieces[0].getAdditionSizeX();

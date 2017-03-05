@@ -32,7 +32,19 @@ public class Puzzle {
     }
 
     public void setImage(Bitmap image) {
+        checkImageSize(image);
         this.image = image.copy(Bitmap.Config.ARGB_8888, true);
+    }
+
+    private void checkImageSize(Bitmap image) {
+        if (image.getWidth() % (getXPieceNumber() * 5) != 0){
+            throw new RuntimeException("Images width should be a multiple of " +
+                    String.valueOf(getXPieceNumber() * 5));
+        }
+        else if(image.getHeight() % (getYPieceNumber() * 5) != 0){
+            throw new RuntimeException("Images height should be a multiple of" +
+                    String.valueOf(getYPieceNumber() * 5));
+        }
     }
 
     public Piece[] createPuzzle() {
