@@ -2,7 +2,7 @@ package com.mahsum.puzzle;
 
 import android.graphics.Bitmap;
 
-class Piece {
+public class Piece {
     private Bitmap bitmap;
     private BitmapMask mask;
 

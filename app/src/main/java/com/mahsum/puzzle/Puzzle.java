@@ -3,19 +3,22 @@ package com.mahsum.puzzle;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.util.Log;
-
-import com.mahsum.puzzle.BitmapMask;
-import com.mahsum.puzzle.BuildConfig;
-import com.mahsum.puzzle.Type;
 
 public class Puzzle {
     private static final String TAG = "Puzzle";
+    public static final int TOP_LEFT = 0;
+    public static final int TOP = 1;
+    public static final int TOP_RIGHT = 2;
+    public static final int LEFT = 3;
+    public static final int CENTER = 4;
+    public static final int RIGHT = 5;
+    public static final int BOTTOM_LEFT = 6;
+    public static final int BOTTOM = 7;
+    public static final int BOTTOM_RIGHT = 8;
     private final Type type;
     private Bitmap image;
     private Bitmap[] pieces;
@@ -59,7 +62,8 @@ public class Puzzle {
         int currentY = 0;
         for (int index = 0; index < type.getPieceNumber(); index++) {
             Log.d(TAG, String.format("iterating for currentX: %d, currentY: %d", currentX, currentY));
-            BitmapMask mask = type.decideMask(index, masks);
+
+            BitmapMask mask = masks[getPieceType(index)];
             pieces[index] = new Piece();
             pieces[index].setMask(mask);
             pieces[index].setBitmap(maskImage(image, mask, currentX, currentY));
@@ -117,5 +121,23 @@ public class Puzzle {
 
     public int getYPieceNumber() {
         return type.getYPieceNumber();
+    }
+
+    public int getPieceType(int index) {
+        boolean hasLeft = (index % type.getXPieceNumber()) != 0;
+        boolean hasRight = (index % type.getXPieceNumber()) != type.getXPieceNumber() - 1;
+        boolean hasBottom = (index / type.getYPieceNumber()) != type.getYPieceNumber() - 1;
+        boolean hasTop = (index / type.getYPieceNumber() != 0);
+
+        if (!hasLeft && hasRight && hasBottom && !hasTop) return TOP_LEFT;
+        else if (hasLeft && hasRight && hasBottom && !hasTop ) return TOP;
+        else if (hasLeft && !hasRight && hasBottom && !hasTop) return TOP_RIGHT;
+        else if (!hasLeft && hasRight && hasBottom && hasTop) return LEFT;
+        else if (hasLeft && hasRight && hasBottom && hasTop) return CENTER;
+        else if (hasLeft && !hasRight && hasBottom && hasTop) return RIGHT;
+        else if (!hasLeft && hasRight && !hasBottom && hasTop) return BOTTOM_LEFT;
+        else if (hasLeft && hasRight && !hasBottom && hasTop) return BOTTOM;
+        else if (hasLeft && !hasRight && !hasBottom && hasTop) return BOTTOM_RIGHT;
+        else return -1;
     }
 }

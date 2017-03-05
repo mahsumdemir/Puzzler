@@ -58,4 +58,5 @@ public class BitmapMask {
   public int getAdditionSizeY() {
     return (int) (getHeight() * ADDITION_SIZE_MULTIPLIER);
   }
+
 }
