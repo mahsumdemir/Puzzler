@@ -1,12 +1,11 @@
 package com.mahsum.puzzle;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import org.junit.Test;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import org.junit.Test;
 
 public class BitmapMaskTest {
 
@@ -22,7 +21,9 @@ public class BitmapMaskTest {
   public void testCreateBitmapMask_FromBitmap() throws Exception {
     String file = BuildConfig.IMAGES_ROOT_DIR + "/masks/0.png";
     Bitmap bitmap = BitmapFactory.decodeFile(file);
-    if (bitmap == null) fail(String.format("Error while reading bitmap from file: %s", file));
+    if (bitmap == null) {
+      fail(String.format("Error while reading bitmap from file: %s", file));
+    }
     BitmapMask mask = new BitmapMask(bitmap);
     assertEquals(bitmap.getHeight(), mask.getHeight());
     assertEquals(bitmap.getWidth(), mask.getWidth());

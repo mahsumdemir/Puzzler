@@ -1,21 +1,19 @@
 package com.mahsum.puzzle;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import android.Manifest;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
-
 import com.mahsum.puzzle.utility.Util;
-
+import java.io.File;
 import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.File;
-
-import static org.junit.Assert.*;
 
 public class SavingTest {
 
@@ -50,14 +48,14 @@ public class SavingTest {
     Saving.saveBitmap(bitmap, fullFilePath);
     //assert
     assertTrue(String.format("Bitmap file could not found at location: %s", fullFilePath),
-               new File(fullFilePath).exists());
+        new File(fullFilePath).exists());
   }
 
   @Test
   public void testSaveBitmap_saveTwice() throws Exception {
     //setup
     Bitmap bitmap = BitmapFactory.decodeResource(mTargetContext.getResources(),
-                                                 image);
+        image);
     String storage = Environment.getExternalStorageDirectory().toString();
     String fullFilePath = storage + "/test12/testBitmap3";
     Saving.saveBitmap(bitmap, fullFilePath);
@@ -67,7 +65,7 @@ public class SavingTest {
 
     //assert
     assertTrue(String.format("Bitmap file could not found at location: %s", fullFilePath),
-               new File(fullFilePath).exists());
+        new File(fullFilePath).exists());
 
   }
 }

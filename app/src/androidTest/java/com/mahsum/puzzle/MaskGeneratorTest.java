@@ -3,10 +3,10 @@ package com.mahsum.puzzle;
 import static com.mahsum.puzzle.Saving.saveBitmap;
 
 import android.graphics.Bitmap;
-
 import org.junit.Test;
 
 public class MaskGeneratorTest {
+
   private static final MaskGenerator MASK_GENERATOR = new MaskGenerator();
   private static final String MASK_DIR = BuildConfig.IMAGES_ROOT_DIR + "/masks/";
 

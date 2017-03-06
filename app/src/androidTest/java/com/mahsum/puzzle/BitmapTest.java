@@ -22,22 +22,22 @@ public class BitmapTest {
   @Test
   public void testBitmapsEqual() throws Exception {
     Bitmap bitmap = decodeResource(mTargetContext.getResources(),
-                                                 R.drawable.harput);
+        R.drawable.harput);
     Bitmap bitmap2 = decodeResource(mTargetContext.getResources(),
-                                                  R.drawable.harput);
+        R.drawable.harput);
     Util.assertBitmapsEquals(bitmap, bitmap2);
   }
 
   @Test
   public void testBitmapsEqual_ShouldFail() throws Exception {
     Bitmap bitmap = decodeResource(mTargetContext.getResources(),
-                                                 R.drawable.harput);
+        R.drawable.harput);
     Bitmap bitmap2 = decodeResource(mTargetContext.getResources(),
-                                                  R.drawable.harput_modified);
+        R.drawable.harput_modified);
     try {
       Util.assertBitmapsEquals(bitmap, bitmap2);
       fail("Images should be different.");
-    }catch (RuntimeException e){
+    } catch (RuntimeException e) {
       //Ignored.
     }
   }

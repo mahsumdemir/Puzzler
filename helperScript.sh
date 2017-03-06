@@ -17,6 +17,10 @@ then
 elif [ $1 == "clean" ]
 then
 	adb shell rm -rf /storage/sdcard/puzzle
+elif [ $1 == "pull" ]
+then
+	rm -rf puzzle
+	adb pull /storage/sdcard/puzzle
 else
 	echo "------------------USAGE-------------"
 	echo "./helperScript update to update datas"

@@ -3,34 +3,35 @@ package com.mahsum.puzzle;
 import android.graphics.Bitmap;
 
 public class Piece {
-    private Bitmap bitmap;
-    private BitmapMask mask;
 
-    public int getMaskX() {
-        return mask.getMaskX();
-    }
+  private Bitmap bitmap;
+  private BitmapMask mask;
 
-    public int getAdditionSizeX() {
-        return mask.getAdditionSizeX();
-    }
+  public int getMaskX() {
+    return mask.getMaskX();
+  }
 
-    public int getMaskY() {
-        return mask.getMaskY();
-    }
+  public int getAdditionSizeX() {
+    return mask.getAdditionSizeX();
+  }
 
-    public int getAdditionSizeY() {
-        return mask.getAdditionSizeY();
-    }
+  public int getMaskY() {
+    return mask.getMaskY();
+  }
 
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
+  public int getAdditionSizeY() {
+    return mask.getAdditionSizeY();
+  }
 
-    public void setMask(BitmapMask mask) {
-        this.mask = mask;
-    }
+  public Bitmap getBitmap() {
+    return bitmap;
+  }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
+  public void setBitmap(Bitmap bitmap) {
+    this.bitmap = bitmap;
+  }
+
+  public void setMask(BitmapMask mask) {
+    this.mask = mask;
+  }
 }

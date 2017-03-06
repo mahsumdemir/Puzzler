@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 import java.io.File;
@@ -20,7 +19,7 @@ public class Saving {
     File file = createFile(fullPath);
     if (file == null) {
       throw new RuntimeException("File could not created. Hence saving bitmap is failed.");
-    }else {
+    } else {
       save(bitmap, file);
     }
   }
@@ -55,7 +54,9 @@ public class Saving {
     try {
       createParent(fullPath);
       File file = new File(fullPath);
-      if (file.exists()) file.delete();
+      if (file.exists()) {
+        file.delete();
+      }
       file.createNewFile();
       return file;
     } catch (FileCouldNotCreated fileCouldNotCreated) {
@@ -67,8 +68,12 @@ public class Saving {
 
   private static void createParent(String fullPath) throws FileCouldNotCreated {
     File parent = new File(fullPath).getParentFile();
-    if (parent.exists()) return;
-    if (!parent.mkdirs()) throw new FileCouldNotCreated(parent);
+    if (parent.exists()) {
+      return;
+    }
+    if (!parent.mkdirs()) {
+      throw new FileCouldNotCreated(parent);
+    }
   }
 
   public static void saveBitmapArray(Bitmap[] array, String dir) {

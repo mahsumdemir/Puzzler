@@ -13,14 +13,19 @@ public class BitmapMask {
 
   /**
    * Creates a new bitmap. x % 5 and y % 5 should be zero, else they will be down graded to be 0.
+   *
    * @param x bitmap mask's x, used to calculate real bitmap size
    * @param y bitmap mask's y, used to calculate real bitmap size
-     */
+   */
   public BitmapMask(int x, int y) {
     int surplusX = x % 5;
     int surplusY = y % 5;
-    if (surplusX != 0) x = x - surplusX;
-    if (surplusY != 0) y = y - surplusY;
+    if (surplusX != 0) {
+      x = x - surplusX;
+    }
+    if (surplusY != 0) {
+      y = y - surplusY;
+    }
 
     int realX = (int) (x * REAL_BITMAP_SIZE_MULTIPLIER);
     int realY = (int) (y * REAL_BITMAP_SIZE_MULTIPLIER);
@@ -52,7 +57,7 @@ public class BitmapMask {
   }
 
   public int getAdditionSizeX() {
-    return (int) (getWidth() * ADDITION_SIZE_MULTIPLIER) ;
+    return (int) (getWidth() * ADDITION_SIZE_MULTIPLIER);
   }
 
   public int getAdditionSizeY() {

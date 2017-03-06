@@ -1,5 +1,7 @@
 package com.mahsum.puzzle.utility;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,12 +15,9 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
-
 import com.mahsum.puzzle.DummyPermissionActivity;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
-
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
 public class Util {
 
@@ -66,24 +65,25 @@ public class Util {
   }
 
 
-  public static Bitmap joinPuzzlePieces(Puzzle puzzle, Piece[] pieces){
+  public static Bitmap joinPuzzlePieces(Puzzle puzzle, Piece[] pieces) {
     int width = pieces[0].getMaskX() * puzzle.getXPieceNumber() +
-            2 * pieces[0].getAdditionSizeX();
+        2 * pieces[0].getAdditionSizeX();
 
     int height = pieces[0].getMaskY() * puzzle.getYPieceNumber() +
-            2 * pieces[0].getAdditionSizeY();
+        2 * pieces[0].getAdditionSizeY();
 
     Bitmap joinedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
     drawPiecesOn(puzzle, joinedBitmap, pieces);
     Bitmap result = shelveJoinedBitmap(joinedBitmap, pieces[0].getAdditionSizeX(),
-            pieces[0].getAdditionSizeY());
+        pieces[0].getAdditionSizeY());
     return result;
   }
 
-  private static Bitmap shelveJoinedBitmap(Bitmap joinedBitmap, int additionSizeX, int additionSizeY) {
+  private static Bitmap shelveJoinedBitmap(Bitmap joinedBitmap, int additionSizeX,
+      int additionSizeY) {
     Bitmap shelvedBitmap = Bitmap.createBitmap(joinedBitmap, additionSizeX, additionSizeY,
-            joinedBitmap.getWidth() - 2 * additionSizeX,
-            joinedBitmap.getHeight() - 2 * additionSizeY);
+        joinedBitmap.getWidth() - 2 * additionSizeX,
+        joinedBitmap.getHeight() - 2 * additionSizeY);
     return shelvedBitmap;
   }
 
@@ -98,7 +98,7 @@ public class Util {
       canvas.drawBitmap(pieces[index].getBitmap(), currentX, currentY, paint);
 
       currentX += maskX;
-      if(index % puzzle.getXPieceNumber() == puzzle.getXPieceNumber() - 1){
+      if (index % puzzle.getXPieceNumber() == puzzle.getXPieceNumber() - 1) {
         currentX = 0;
         currentY += maskY;
       }
