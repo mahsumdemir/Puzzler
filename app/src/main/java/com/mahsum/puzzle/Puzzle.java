@@ -109,7 +109,7 @@ public class Puzzle {
 
     BitmapMask[] masks = new BitmapMask[9];
     for (int index = 0; index < masks.length; index++) {
-      Bitmap aMask = BitmapFactory.decodeFile(BuildConfig.IMAGES_ROOT_DIR + "/masks/"
+      Bitmap aMask = BitmapFactory.decodeFile(Application.getImagesRootDir() + "/masks/"
           + String.valueOf(index) + ".png");
       aMask = Bitmap.createScaledBitmap(aMask, realX, realY, false);
       masks[index] = new BitmapMask(aMask);

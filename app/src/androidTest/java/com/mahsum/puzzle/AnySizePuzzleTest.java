@@ -18,7 +18,7 @@ public class AnySizePuzzleTest {
 
   @Before
   public void setUp() throws Exception {
-    image = BitmapFactory.decodeFile(BuildConfig.IMAGES_ROOT_DIR + "/harput.png");
+    image = BitmapFactory.decodeFile(Application.getImagesRootDir() + "/harput.png");
     if (image == null) {
       fail("Needed image file is null");
     }
@@ -46,7 +46,7 @@ public class AnySizePuzzleTest {
         "x" + String.valueOf(puzzle.getYPieceNumber()) + "_" +
         String.valueOf(width) + "x" + String.valueOf(height);
 
-    savePieces(pieces, BuildConfig.IMAGES_ROOT_DIR + dir);
+    savePieces(pieces, Application.getImagesRootDir() + dir);
     assertBitmapsEquals(image, joinPuzzlePieces(puzzle, pieces));
   }
 

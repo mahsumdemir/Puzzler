@@ -16,7 +16,7 @@ public class FourXFourPuzzleTest {
 
   @Before
   public void setUp() throws Exception {
-    image = BitmapFactory.decodeFile(BuildConfig.IMAGES_ROOT_DIR + "/harput.png");
+    image = BitmapFactory.decodeFile(Application.getImagesRootDir() + "/harput.png");
   }
 
   @Test

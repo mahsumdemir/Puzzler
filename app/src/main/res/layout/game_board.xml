@@ -3,11 +3,14 @@
   android:orientation="vertical" android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <GridLayout
-    android:id="@+id/pieceBoard"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+  <com.mahsum.puzzle.ui.ZoomLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <GridLayout
+      android:id="@+id/pieceBoard"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content">
 
-  </GridLayout>
-
+    </GridLayout>
+  </com.mahsum.puzzle.ui.ZoomLayout>o
 </LinearLayout>

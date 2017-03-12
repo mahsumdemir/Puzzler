@@ -17,9 +17,9 @@ public class ThreeXThreePuzzleTest {
 
   @Before
   public void setUp() throws Exception {
-    image = BitmapFactory.decodeFile(BuildConfig.IMAGES_ROOT_DIR + "/harput.png");
+    image = BitmapFactory.decodeFile(Application.getImagesRootDir() + "/harput.png");
     if (image == null) {
-      fail("Error while decoding file: " + BuildConfig.IMAGES_ROOT_DIR + "/harput.png");
+      fail("Error while decoding file: " + Application.getImagesRootDir() + "/harput.png");
     }
   }
 

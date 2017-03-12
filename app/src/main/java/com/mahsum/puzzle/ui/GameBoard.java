@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.widget.GridLayout;
 import android.widget.GridLayout.LayoutParams;
 import android.widget.ImageView;
+import com.mahsum.puzzle.Application;
+import com.mahsum.puzzle.BuildConfig;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
 import com.mahsum.puzzle.R;
@@ -37,7 +39,7 @@ public class GameBoard extends Activity {
 
   private Piece[] createPuzzle() {
     Puzzle puzzle = new Puzzle(new Type(piecesX, piecesY));
-    Bitmap image = BitmapFactory.decodeFile(imageFilePath);
+    Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.harput);
     image = Bitmap.createScaledBitmap(image, resolutionX, resolutionY, false);
     puzzle.setImage(image);
     return puzzle.createPuzzle();
@@ -68,10 +70,12 @@ public class GameBoard extends Activity {
 
   private void parseIntent(Intent intent) {
     imageFilePath = intent.getStringExtra("ORIGINAL_IMAGE_FILE_PATH");
-    resolutionX = intent.getIntExtra("RESOLUTION_X", 0);
-    resolutionY = intent.getIntExtra("RESOLUTION_Y", 0);
-    piecesX = intent.getIntExtra("PIECES_X", 0);
-    piecesY = intent.getIntExtra("PIECES_Y", 0);
+    resolutionX = intent.getIntExtra("RESOLUTION_X", 900);
+    resolutionY = intent.getIntExtra("RESOLUTION_Y", 900);
+    piecesX = intent.getIntExtra("PIECES_X", 2);
+    piecesY = intent.getIntExtra("PIECES_Y", 2);
+
+    if (imageFilePath == null) imageFilePath = Application.getImagesRootDir() + "/harput.png";
   }
 
   public Bitmap getImage() {

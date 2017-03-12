@@ -19,7 +19,7 @@ public class BitmapMaskTest {
 
   @Test
   public void testCreateBitmapMask_FromBitmap() throws Exception {
-    String file = BuildConfig.IMAGES_ROOT_DIR + "/masks/0.png";
+    String file = Application.getImagesRootDir() + "/masks/0.png";
     Bitmap bitmap = BitmapFactory.decodeFile(file);
     if (bitmap == null) {
       fail(String.format("Error while reading bitmap from file: %s", file));

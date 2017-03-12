@@ -17,6 +17,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
+import com.mahsum.puzzle.Application;
 import com.mahsum.puzzle.BuildConfig;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
@@ -44,7 +45,7 @@ public class GameBoardTest {
   @Test
   public void testActivityReceivedData() throws Exception {
     //set up
-    String imageFilePath = BuildConfig.IMAGES_ROOT_DIR + "/harput.png";
+    String imageFilePath = Application.getImagesRootDir() + "/harput.png";
     int resolutionX = 900, resolutionY = 900;
     int piecesX = 3, piecesY = 3;
     Intent intent = createIntentWithExtras(imageFilePath, resolutionX, resolutionY, piecesX,
@@ -84,7 +85,7 @@ public class GameBoardTest {
   private void testUserSeesPuzzlePieces(int resolutionX, int resolutionY, int piecesX, int piecesY)
       throws FileCouldNotSaved, FileCouldNotCreated {
     //set up
-    String imageFilePath = BuildConfig.IMAGES_ROOT_DIR + "/harput.png";
+    String imageFilePath = Application.getImagesRootDir() + "/harput.png";
     Intent intent = createIntentWithExtras(imageFilePath, resolutionX, resolutionY, piecesX,
                                            piecesY);
     //exercise
@@ -92,7 +93,7 @@ public class GameBoardTest {
 
     //take Screen shot for examination
     String ssName =
-        BuildConfig.IMAGES_ROOT_DIR + "/harput" + String.valueOf(resolutionX) + "x" + String
+        Application.getImagesRootDir() + "/harput" + String.valueOf(resolutionX) + "x" + String
             .valueOf(resolutionY) + "_" + String.valueOf(piecesX) + "x" + String.valueOf(piecesY);
     takeScreenShot(gameBoardActivityTestRule.getActivity(), ssName);
 
@@ -111,7 +112,8 @@ public class GameBoardTest {
     }
   }
 
-  private void takeScreenShot(Activity activity, String ssName) throws FileCouldNotSaved, FileCouldNotCreated {
+  private void takeScreenShot(Activity activity, String ssName)
+      throws FileCouldNotSaved, FileCouldNotCreated {
     View rootView = activity.getWindow().getDecorView().getRootView();
     rootView.setDrawingCacheEnabled(true);
     Bitmap bitmap = rootView.getDrawingCache();
