@@ -15,12 +15,17 @@ public class Saving {
   private static final String TAG = "SAVING";
 
   public static void saveBitmap(@NonNull Bitmap bitmap, String fullPath)
+      throws FileCouldNotSaved, FileCouldNotCreated {
+    saveBitmap(bitmap, fullPath, true);
+  }
+
+  public static void saveBitmap(@NonNull Bitmap bitmap, String fullPath, boolean deleteIfExist)
       throws FileCouldNotCreated, FileCouldNotSaved {
-    File file = createFile(fullPath);
+    File file = createFile(fullPath, deleteIfExist);
     if (file == null) {
       throw new RuntimeException("File could not created. Hence saving bitmap is failed.");
     } else {
-      save(bitmap, file);
+      if (deleteIfExist) save(bitmap, file);
     }
   }
 
@@ -50,14 +55,14 @@ public class Saving {
    * @return null if an error occurred while creation file, created file if everything goes well.
    */
   @Nullable
-  private static File createFile(String fullPath) {
+  private static File createFile(String fullPath, boolean deleteIfExist) {
     try {
       createParent(fullPath);
       File file = new File(fullPath);
-      if (file.exists()) {
+      if (file.exists() && deleteIfExist) {
         file.delete();
+        file.createNewFile();
       }
-      file.createNewFile();
       return file;
     } catch (FileCouldNotCreated fileCouldNotCreated) {
       return null;
@@ -76,10 +81,10 @@ public class Saving {
     }
   }
 
-  public static void saveBitmapArray(Bitmap[] array, String dir) {
+  public static void saveBitmapArray(Bitmap[] array, String dir, boolean deleteIfExist) {
     for (int index = 0; index < array.length; index++) {
       try {
-        saveBitmap(array[index], dir + "/" + String.valueOf(index) + ".png");
+        saveBitmap(array[index], dir + "/" + String.valueOf(index) + ".png", deleteIfExist);
       } catch (FileCouldNotCreated | FileCouldNotSaved error) {
         error.printStackTrace();
       }
