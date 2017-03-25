@@ -1,7 +1,5 @@
 package com.mahsum.puzzle.utility;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,10 +9,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Build;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
 import com.mahsum.puzzle.DummyPermissionActivity;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
@@ -46,18 +40,6 @@ public class Util {
   }
 
   private static void clickAllowPermission() {
-    try {
-      UiDevice device = UiDevice.getInstance(getInstrumentation());
-      UiObject allowPermissions = device.findObject(new UiSelector()
-          .clickable(true)
-          .checkable(false)
-          .index(GRANT_BUTTON_INDEX));
-      if (allowPermissions.exists()) {
-        allowPermissions.click();
-      }
-    } catch (UiObjectNotFoundException e) {
-      e.printStackTrace();
-    }
   }
 
   private static boolean checkPermission(Context appContext, String permission) {

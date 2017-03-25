@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.mahsum.puzzle"
-        minSdkVersion 18
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -35,6 +35,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    //androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 
 }

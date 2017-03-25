@@ -42,6 +42,8 @@ public class GameBoard extends Activity {
   private Piece[] pieces;
   private Uri imageFileURI;
 
+  private static int id = 50;
+
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -100,7 +102,6 @@ public class GameBoard extends Activity {
         scaleBoard(scaleFactor);
       }
     });
-
   }
 
   private void scaleBoard(double scaleFactor) {
@@ -124,7 +125,7 @@ public class GameBoard extends Activity {
 
   private ImageView initImageView(Bitmap image) {
     ImageView view = new ImageView(getApplicationContext());
-    view.setId(ImageView.generateViewId());
+    view.setId(id++);
     view.setImageBitmap(image);
     LayoutParams layoutParams = new LayoutParams();
     layoutParams.height = LayoutParams.WRAP_CONTENT;

@@ -1,5 +1,7 @@
 package com.mahsum.puzzle.loadImage;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -40,8 +42,8 @@ public class PickImageActivity extends AppCompatActivity implements Contract.Vie
       intent.putExtra(GameBoard.ORIGINAL_IMAGE_FILE_PATH, data.getData());
       intent.putExtra(GameBoard.PIECES_X, 10);
       intent.putExtra(GameBoard.PIECES_Y, 10);
-      intent.putExtra(GameBoard.RESOLUTION_X, 1000);
-      intent.putExtra(GameBoard.RESOLUTION_Y, 1000);
+      intent.putExtra(GameBoard.RESOLUTION_X, 800);
+      intent.putExtra(GameBoard.RESOLUTION_Y, 1400);
       startActivity(intent);
     }
   }
