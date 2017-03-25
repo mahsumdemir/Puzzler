@@ -121,4 +121,18 @@ public class GameBoardTest {
     Bitmap bitmap = rootView.getDrawingCache();
     saveBitmap(bitmap, ssName);
   }
+
+  @Test
+  public void testFindScaleFactor_MultipleTimes() throws Exception {
+    testFindScaleFactor(1000, 2000, 3000, 3000, 0.33);
+    testFindScaleFactor(1500, 2000, 1500, 3000, 0.66);
+    testFindScaleFactor(500, 1000, 3000, 3000, (double) 1/6);
+  }
+
+  private void testFindScaleFactor(int screenWidth, int screenHeight, int puzzleWidth,
+                                   int puzzleHeight, double expected) {
+    assertEquals(expected,
+                 GameBoard.findScaleFactor(screenWidth, screenHeight, puzzleWidth, puzzleHeight),
+                 0.01);
+  }
 }

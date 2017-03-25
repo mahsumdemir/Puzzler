@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.View;
 import android.widget.GridLayout;
 import android.widget.GridLayout.LayoutParams;
 import android.widget.ImageView;
@@ -20,6 +22,7 @@ import com.mahsum.puzzle.Type;
 
 public class GameBoard extends Activity {
 
+  private static final String TAG = "GameBoard";
   private Bitmap image;
   private String imageFilePath;
   private int resolutionX;
@@ -27,13 +30,14 @@ public class GameBoard extends Activity {
   private int piecesX;
   private int piecesY;
   private ImageView[] views;
+  private Piece[] pieces;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.game_board);
     parseIntent(getIntent());
-    Piece[] pieces = createPuzzle();
+    pieces = createPuzzle();
     initBoard(pieces);
   }
 
@@ -45,7 +49,7 @@ public class GameBoard extends Activity {
     return puzzle.createPuzzle();
   }
 
-  private void initBoard(Piece[] pieces) {
+  private void initBoard(final Piece[] pieces) {
     views = new ImageView[piecesX * piecesY];
 
     GridLayout gridLayout = (GridLayout) findViewById(R.id.pieceBoard);
@@ -55,6 +59,41 @@ public class GameBoard extends Activity {
       views[index] = initImageView(pieces[index].getBitmap());
       gridLayout.addView(views[index]);
     }
+
+    //scale board
+    final View rootView = findViewById(R.id.root);
+    rootView.post(new Runnable() {
+      @Override
+      public void run() {
+        int screenWidth = rootView.getWidth();
+        int screenHeight = rootView.getHeight();
+        double scaleFactor = findScaleFactor(screenWidth,
+                                             screenHeight,
+                                             pieces[0].getBitmap().getWidth() * piecesX,
+                                             pieces[0].getBitmap().getHeight() * piecesY);
+        scaleBoard(scaleFactor);
+      }
+    });
+
+  }
+
+  private void scaleBoard(double scaleFactor) {
+    Log.d(TAG, "scaleBoard() called with: scaleFactor = [" + scaleFactor + "]");
+
+    for (ImageView view : views) {
+      LayoutParams params = (LayoutParams) view.getLayoutParams();
+      params.height = (int) (view.getHeight() * scaleFactor);
+      params.width = (int) (view.getWidth() * scaleFactor);
+    }
+  }
+
+  public static double findScaleFactor(int screenWidth, int screenHeight,
+                                       int puzzleWidth, int puzzleHeight) {
+
+    double scaleWidth = (double) screenWidth / puzzleWidth;
+    double scaleHeight = (double) screenHeight / puzzleHeight;
+
+    return Math.min(scaleWidth, scaleHeight);
   }
 
   private ImageView initImageView(Bitmap image) {
@@ -70,8 +109,8 @@ public class GameBoard extends Activity {
 
   private void parseIntent(Intent intent) {
     imageFilePath = intent.getStringExtra("ORIGINAL_IMAGE_FILE_PATH");
-    resolutionX = intent.getIntExtra("RESOLUTION_X", 1000);
-    resolutionY = intent.getIntExtra("RESOLUTION_Y", 1000);
+    resolutionX = intent.getIntExtra("RESOLUTION_X", 1600);
+    resolutionY = intent.getIntExtra("RESOLUTION_Y", 1600);
     piecesX = intent.getIntExtra("PIECES_X", 10);
     piecesY = intent.getIntExtra("PIECES_Y", 10);
 
@@ -101,6 +140,5 @@ public class GameBoard extends Activity {
   public int getImageViewIdByIndex(int index) {
     return views[index].getId();
   }
-
 
 }
