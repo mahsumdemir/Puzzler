@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -18,12 +19,20 @@ import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.Type;
+import com.mahsum.puzzle.loadImage.ImageLoadCallBack;
+import com.mahsum.puzzle.loadImage.ImageLoader;
 
 
 public class GameBoard extends Activity {
 
   private static final String TAG = "GameBoard";
+  public static final String ORIGINAL_IMAGE_FILE_PATH = "ORIGINAL_IMAGE_FILE_PATH";
+  public static final String RESOLUTION_X = "RESOLUTION_X";
+  public static final String RESOLUTION_Y = "RESOLUTION_Y";
+  public static final String PIECES_X = "PIECES_X";
+  public static final String PIECES_Y = "PIECES_Y";
   private Bitmap image;
+  private Puzzle puzzle;
   private String imageFilePath;
   private int resolutionX;
   private int resolutionY;
@@ -31,25 +40,42 @@ public class GameBoard extends Activity {
   private int piecesY;
   private ImageView[] views;
   private Piece[] pieces;
+  private Uri imageFileURI;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.game_board);
     parseIntent(getIntent());
-    pieces = createPuzzle();
-    initBoard(pieces);
+    readImage();
   }
 
-  private Piece[] createPuzzle() {
-    Puzzle puzzle = new Puzzle(new Type(piecesX, piecesY));
-    Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.harput);
-    image = Bitmap.createScaledBitmap(image, resolutionX, resolutionY, false);
+  private void readImage() {
+    if (imageFilePath != null){
+      image = Bitmap.createScaledBitmap(image, resolutionX, resolutionY, false);
+      createPuzzle();
+      initBoard();
+    }
+    if (imageFileURI != null){
+      ImageLoader imageLoader = new ImageLoader(getContentResolver());
+      imageLoader.loadImage(imageFileURI, new ImageLoadCallBack() {
+        @Override
+        public void onImageLoaded(Bitmap image) {
+          GameBoard.this.image = Bitmap.createScaledBitmap(image, resolutionX, resolutionY, false);
+          createPuzzle();
+          initBoard();
+        }
+      });
+    }
+  }
+
+  private void createPuzzle() {
+    puzzle = new Puzzle(new Type(piecesX, piecesY));
     puzzle.setImage(image);
-    return puzzle.createPuzzle();
+    pieces = puzzle.createPuzzle();
   }
 
-  private void initBoard(final Piece[] pieces) {
+  private void initBoard() {
     views = new ImageView[piecesX * piecesY];
 
     GridLayout gridLayout = (GridLayout) findViewById(R.id.pieceBoard);
@@ -108,13 +134,13 @@ public class GameBoard extends Activity {
   }
 
   private void parseIntent(Intent intent) {
-    imageFilePath = intent.getStringExtra("ORIGINAL_IMAGE_FILE_PATH");
-    resolutionX = intent.getIntExtra("RESOLUTION_X", 1600);
-    resolutionY = intent.getIntExtra("RESOLUTION_Y", 1600);
-    piecesX = intent.getIntExtra("PIECES_X", 10);
-    piecesY = intent.getIntExtra("PIECES_Y", 10);
+    imageFilePath = intent.getStringExtra(ORIGINAL_IMAGE_FILE_PATH);
+    if (imageFilePath == null) imageFileURI = intent.getParcelableExtra(ORIGINAL_IMAGE_FILE_PATH);
 
-    if (imageFilePath == null) imageFilePath = Application.getImagesRootDir() + "/harput.png";
+    resolutionX = intent.getIntExtra(RESOLUTION_X, 1600);
+    resolutionY = intent.getIntExtra(RESOLUTION_Y, 1600);
+    piecesX = intent.getIntExtra(PIECES_X, 10);
+    piecesY = intent.getIntExtra(PIECES_Y, 10);
   }
 
   public Bitmap getImage() {

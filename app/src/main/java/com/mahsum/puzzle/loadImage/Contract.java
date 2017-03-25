@@ -3,6 +3,7 @@ package com.mahsum.puzzle.loadImage;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 public interface Contract {
 
@@ -20,5 +21,7 @@ public interface Contract {
     void startImageChoosing();
 
     void readSelectedImage(int requestCode, int resultCode, Intent data);
+
+    void startGameBoard(Uri bitmap);
   }
 }

@@ -2,6 +2,7 @@ package com.mahsum.puzzle.loadImage;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 
 public class MainActivityPresenter implements Contract.Presenter {
@@ -30,5 +31,10 @@ public class MainActivityPresenter implements Contract.Presenter {
         mView.showImage(image);
       }
     });
+  }
+
+  @Override
+  public void startGameBoard(Uri bitmap) {
+
   }
 }

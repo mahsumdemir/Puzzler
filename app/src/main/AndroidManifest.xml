@@ -12,14 +12,13 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity android:name=".loadImage.PickImageActivity">
-    </activity>
-    <activity android:name=".DummyPermissionActivity"/>
-    <activity android:name=".ui.GameBoard">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    <activity android:name=".DummyPermissionActivity"/>
+    <activity android:name=".ui.GameBoard"></activity>
   </application>
 
 </manifest>
