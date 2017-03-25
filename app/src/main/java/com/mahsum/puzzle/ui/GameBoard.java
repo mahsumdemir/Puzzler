@@ -70,10 +70,10 @@ public class GameBoard extends Activity {
 
   private void parseIntent(Intent intent) {
     imageFilePath = intent.getStringExtra("ORIGINAL_IMAGE_FILE_PATH");
-    resolutionX = intent.getIntExtra("RESOLUTION_X", 900);
-    resolutionY = intent.getIntExtra("RESOLUTION_Y", 900);
-    piecesX = intent.getIntExtra("PIECES_X", 2);
-    piecesY = intent.getIntExtra("PIECES_Y", 2);
+    resolutionX = intent.getIntExtra("RESOLUTION_X", 1000);
+    resolutionY = intent.getIntExtra("RESOLUTION_Y", 1000);
+    piecesX = intent.getIntExtra("PIECES_X", 10);
+    piecesY = intent.getIntExtra("PIECES_Y", 10);
 
     if (imageFilePath == null) imageFilePath = Application.getImagesRootDir() + "/harput.png";
   }
@@ -101,4 +101,6 @@ public class GameBoard extends Activity {
   public int getImageViewIdByIndex(int index) {
     return views[index].getId();
   }
+
+
 }

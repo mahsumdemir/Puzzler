@@ -22,6 +22,7 @@ import com.mahsum.puzzle.BuildConfig;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 import com.mahsum.puzzle.utility.Util;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -80,6 +81,7 @@ public class GameBoardTest {
     testUserSeesPuzzlePieces(900, 900, 3, 3);
     testUserSeesPuzzlePieces(600, 600, 2, 2);
     testUserSeesPuzzlePieces(600, 600, 3, 3);
+    testUserSeesPuzzlePieces(1600, 1600, 5, 5);
   }
 
   private void testUserSeesPuzzlePieces(int resolutionX, int resolutionY, int piecesX, int piecesY)
@@ -93,8 +95,8 @@ public class GameBoardTest {
 
     //take Screen shot for examination
     String ssName =
-        Application.getImagesRootDir() + "/harput" + String.valueOf(resolutionX) + "x" + String
-            .valueOf(resolutionY) + "_" + String.valueOf(piecesX) + "x" + String.valueOf(piecesY);
+        Application.getImagesRootDir() + "/ss" + "/harput" + String.valueOf(resolutionX) + "x" + String
+            .valueOf(resolutionY) + "_" + String.valueOf(piecesX) + "x" + String.valueOf(piecesY) + ".png";
     takeScreenShot(gameBoardActivityTestRule.getActivity(), ssName);
 
     //assert

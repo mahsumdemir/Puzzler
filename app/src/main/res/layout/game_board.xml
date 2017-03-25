@@ -3,14 +3,24 @@
   android:orientation="vertical" android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <com.mahsum.puzzle.ui.ZoomLayout
+  <HorizontalScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <GridLayout
-      android:id="@+id/pieceBoard"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+      <com.mahsum.puzzle.ui.ZoomLayout
+        android:id="@+id/zoomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <GridLayout
+          android:id="@+id/pieceBoard"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
 
-    </GridLayout>
-  </com.mahsum.puzzle.ui.ZoomLayout>o
+        </GridLayout>
+      </com.mahsum.puzzle.ui.ZoomLayout>
+
+    </ScrollView>
+  </HorizontalScrollView>
 </LinearLayout>

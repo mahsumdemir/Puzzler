@@ -21,23 +21,19 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
   }
 
   private static final String TAG = "ZoomLayout";
-  private static final float MIN_ZOOM = 1.0f;
-  private static final float MAX_ZOOM = 4.0f;
-
+  private static final float MIN_ZOOM = 0.2f;
+  private static final float MAX_ZOOM = 6.0f;
   private Mode mode = Mode.NONE;
   private float scale = 1.0f;
   private float lastScaleFactor = 0f;
-
   // Where the finger first  touches the screen
   private float startX = 0f;
   private float startY = 0f;
-
   // How much to translate the canvas
   private float dx = 0f;
   private float dy = 0f;
   private float prevDx = 0f;
   private float prevDy = 0f;
-
   public ZoomLayout(Context context) {
     super(context);
     init(context);
@@ -91,11 +87,11 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
         if ((mode == Mode.DRAG && scale >= MIN_ZOOM) || mode == Mode.ZOOM) {
           getParent().requestDisallowInterceptTouchEvent(true);
           float maxDx = (child().getWidth() - (child().getWidth() / scale)) / 2 * scale;
-          float maxDy = (child().getHeight() - (child().getHeight() / scale))/ 2 * scale;
+          float maxDy = (child().getHeight() - (child().getHeight() / scale)) / 2 * scale;
           dx = Math.min(Math.max(dx, -maxDx), maxDx);
           dy = Math.min(Math.max(dy, -maxDy), maxDy);
-          Log.i(TAG, "Width: " + child().getWidth() + ", scale " + scale + ", dx " + dx
-              + ", max " + maxDx);
+          Log.i(TAG, "Width: " + child().getWidth() + ", scale " + scale + ", dx " + dx + ", max "
+              + maxDx);
           applyScaleAndTranslation();
         }
 
@@ -104,13 +100,13 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
     });
   }
 
-  // ScaleGestureDetector
-
   @Override
   public boolean onScaleBegin(ScaleGestureDetector scaleDetector) {
     Log.i(TAG, "onScaleBegin");
     return true;
   }
+
+  // ScaleGestureDetector
 
   @Override
   public boolean onScale(ScaleGestureDetector scaleDetector) {
