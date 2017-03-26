@@ -11,4 +11,6 @@
   <style name="CustomImageView">
     <item name="android:layout_marginTop">-35.5dp</item>
   </style>
+
+  <style name="AppBase"></style>
 </resources>

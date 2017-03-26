@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.ui.GameBoard;
+import com.mahsum.puzzle.ui.PuzzlePropertiesDialog;
 
 public class PickImageActivity extends AppCompatActivity implements Contract.View {
 
@@ -36,13 +37,9 @@ public class PickImageActivity extends AppCompatActivity implements Contract.Vie
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (data != null){
-      Intent intent = new Intent(getApplicationContext(), GameBoard.class);
-      intent.putExtra(GameBoard.ORIGINAL_IMAGE_FILE_PATH, data.getData());
-      intent.putExtra(GameBoard.PIECES_X, 10);
-      intent.putExtra(GameBoard.PIECES_Y, 10);
-      intent.putExtra(GameBoard.RESOLUTION_X, 1000);
-      intent.putExtra(GameBoard.RESOLUTION_Y, 1000);
-      startActivity(intent);
+      PuzzlePropertiesDialog dialog = new PuzzlePropertiesDialog();
+      dialog.setImageUri(data.getData());
+      dialog.show(getFragmentManager(), "MY DIALOG");
     }
   }
 

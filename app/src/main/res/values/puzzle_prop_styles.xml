@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="PuzzlePropDialogLineLay">
+    <item name="android:orientation">horizontal</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:gravity">center</item>
+  </style>
+
+  <style name="PuzzlePropDialogEditText"
+    parent="@style/PuzzlePropDialogBase">
+    <item name="android:textStyle">bold|italic</item>
+    <item name="android:ems">2</item>
+    <item name="android:inputType">number</item>
+    <item name="android:lineSpacingExtra">18sp</item>
+    <item name="android:text">10</item>
+    <item name="android:textAlignment">center</item>
+    <item name="android:textAppearance">
+      @style/TextAppearance.AppCompat.Body1
+    </item>
+    <item name="android:textSize">18sp</item>
+  </style>
+
+  <style name="PuzzlePropDialogTextView"
+    parent="@style/PuzzlePropDialogBase"
+    >
+    <item name="android:textStyle">bold</item>
+    <item name="android:textAppearance">
+      @style/TextAppearance.AppCompat.Body1
+    </item>
+    <item name="android:textSize">30sp</item>
+  </style>
+
+
+  <style name="PuzzlePropDialogBase"
+    parent="@style/AppBase">
+    <item name="android:layout_margin">20dp</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+  </style>
+
+</resources>

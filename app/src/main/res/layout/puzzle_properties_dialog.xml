@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <LinearLayout style="@style/PuzzlePropDialogLineLay">
+    <TextView style="@style/PuzzlePropDialogTextView"
+      android:id="@+id/textView2"
+      android:text="Pieces X" />
+    <EditText style="@style/PuzzlePropDialogEditText"
+      android:id="@+id/piecesX" />
+  </LinearLayout>
+
+  <LinearLayout style="@style/PuzzlePropDialogLineLay">
+    <TextView style="@style/PuzzlePropDialogTextView"
+      android:id="@+id/textView3"
+      android:text="Pieces Y"/>
+    <EditText style="@style/PuzzlePropDialogEditText"
+      android:id="@+id/piecesY"/>
+  </LinearLayout>
+
+</LinearLayout>
