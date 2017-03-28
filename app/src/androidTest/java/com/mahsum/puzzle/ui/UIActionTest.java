@@ -55,7 +55,7 @@ public class UIActionTest {
     GameBoard activity = (GameBoard) activityMonitor.waitForActivityWithTimeout(2000);
     assertTrue(activity != null);
 
-    uiDevice.findObject(By.res("com.mahsum.puzzle:id/pieceBoard")).pinchOpen(1f);
+    uiDevice.findObject(By.res("com.mahsum.puzzle:id/pieceBoard")).pinchOpen(0.5f);
 
     //save activity result for further examination
     Util.takeScreenShot(activity, Application.getImagesRootDir() + "/ss/sample.png");

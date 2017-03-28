@@ -3,18 +3,15 @@ package com.mahsum.puzzle.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.GridLayout;
-import android.widget.GridLayout.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import com.mahsum.puzzle.Application;
-import com.mahsum.puzzle.BuildConfig;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
 import com.mahsum.puzzle.R;
@@ -25,12 +22,12 @@ import com.mahsum.puzzle.loadImage.ImageLoader;
 
 public class GameBoard extends Activity {
 
-  private static final String TAG = "GameBoard";
   public static final String ORIGINAL_IMAGE_FILE_PATH = "ORIGINAL_IMAGE_FILE_PATH";
   public static final String RESOLUTION_X = "RESOLUTION_X";
   public static final String RESOLUTION_Y = "RESOLUTION_Y";
   public static final String PIECES_X = "PIECES_X";
   public static final String PIECES_Y = "PIECES_Y";
+  private static final String TAG = "GameBoard";
   private Bitmap image;
   private Puzzle puzzle;
   private String imageFilePath;
@@ -78,12 +75,14 @@ public class GameBoard extends Activity {
   private void initBoard() {
     views = new ImageView[piecesX * piecesY];
 
-    GridLayout gridLayout = (GridLayout) findViewById(R.id.pieceBoard);
-    gridLayout.setRowCount(piecesY);
-    gridLayout.setColumnCount(piecesX);
-    for (int index = 0; index < views.length; index++){
-      views[index] = initImageView(pieces[index].getBitmap());
-      gridLayout.addView(views[index]);
+    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.pieceBoard);
+    FrameLayout.LayoutParams layoutParams =
+        new FrameLayout.LayoutParams(piecesX * pieces[0].getBitmap().getWidth(),
+                                        piecesY * pieces[0].getBitmap().getHeight());
+    relativeLayout.setLayoutParams(layoutParams);
+    for (int index = 0; index < views.length; index++) {
+      views[index] = initImageView(pieces[index], piecesX, piecesY, index);
+      relativeLayout.addView(views[index]);
     }
 
     //scale board
@@ -100,14 +99,13 @@ public class GameBoard extends Activity {
         scaleBoard(scaleFactor);
       }
     });
-
   }
 
   private void scaleBoard(double scaleFactor) {
     Log.d(TAG, "scaleBoard() called with: scaleFactor = [" + scaleFactor + "]");
 
     for (ImageView view : views) {
-      LayoutParams params = (LayoutParams) view.getLayoutParams();
+      RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
       params.height = (int) (view.getHeight() * scaleFactor);
       params.width = (int) (view.getWidth() * scaleFactor);
     }
@@ -121,21 +119,24 @@ public class GameBoard extends Activity {
 
     return Math.min(scaleWidth, scaleHeight);
   }
-
-  private ImageView initImageView(Bitmap image) {
+  private ImageView initImageView(Piece piece, int piecesX, int piecesY, int index) {
+    int row = index / piecesY;
+    int column = index % piecesX;
+    int viewX = column * piece.getBitmap().getWidth();
+    int viewY = row * piece.getBitmap().getHeight();
     ImageView view = new ImageView(getApplicationContext());
     view.setId(ImageView.generateViewId());
-    view.setImageBitmap(image);
-    LayoutParams layoutParams = new LayoutParams();
-    layoutParams.height = LayoutParams.WRAP_CONTENT;
-    layoutParams.width = LayoutParams.WRAP_CONTENT;
-    view.setLayoutParams(layoutParams);
+    view.setImageBitmap(piece.getBitmap());
+    view.setX(viewX);
+    view.setY(viewY);
     return view;
   }
 
   private void parseIntent(Intent intent) {
     imageFilePath = intent.getStringExtra(ORIGINAL_IMAGE_FILE_PATH);
-    if (imageFilePath == null) imageFileURI = intent.getParcelableExtra(ORIGINAL_IMAGE_FILE_PATH);
+    if (imageFilePath == null) {
+      imageFileURI = intent.getParcelableExtra(ORIGINAL_IMAGE_FILE_PATH);
+    }
 
     resolutionX = intent.getIntExtra(RESOLUTION_X, 1600);
     resolutionY = intent.getIntExtra(RESOLUTION_Y, 1600);
@@ -147,8 +148,13 @@ public class GameBoard extends Activity {
     return image;
   }
 
-  public String getImageFilePath() { return imageFilePath; }
-  public int getResolutionX() { return resolutionX; }
+  public String getImageFilePath() {
+    return imageFilePath;
+  }
+
+  public int getResolutionX() {
+    return resolutionX;
+  }
 
 
   public int getResolutionY() {
