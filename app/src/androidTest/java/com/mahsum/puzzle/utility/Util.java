@@ -1,7 +1,9 @@
 package com.mahsum.puzzle.utility;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static com.mahsum.puzzle.Saving.saveBitmap;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,9 +17,12 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
+import android.view.View;
 import com.mahsum.puzzle.DummyPermissionActivity;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
+import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
+import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 
 public class Util {
 
@@ -103,5 +108,22 @@ public class Util {
         currentY += maskY;
       }
     }
+  }
+
+  public static void takeScreenShot(final Activity activity, final String ssName)
+      throws FileCouldNotSaved, FileCouldNotCreated {
+    activity.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        View rootView = activity.getWindow().getDecorView().getRootView();
+        rootView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = rootView.getDrawingCache();
+        try {
+          saveBitmap(bitmap, ssName);
+        } catch (FileCouldNotSaved | FileCouldNotCreated error) {
+          error.printStackTrace();
+        }
+      }
+    });
   }
 }

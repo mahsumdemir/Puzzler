@@ -97,7 +97,7 @@ public class GameBoardTest {
     String ssName =
         Application.getImagesRootDir() + "/ss" + "/harput" + String.valueOf(resolutionX) + "x" + String
             .valueOf(resolutionY) + "_" + String.valueOf(piecesX) + "x" + String.valueOf(piecesY) + ".png";
-    takeScreenShot(gameBoardActivityTestRule.getActivity(), ssName);
+    Util.takeScreenShot(gameBoardActivityTestRule.getActivity(), ssName);
 
     //assert
     assertPiecesDisplayed(gameBoardActivityTestRule.getActivity(), piecesX * piecesY);
@@ -114,13 +114,7 @@ public class GameBoardTest {
     }
   }
 
-  private void takeScreenShot(Activity activity, String ssName)
-      throws FileCouldNotSaved, FileCouldNotCreated {
-    View rootView = activity.getWindow().getDecorView().getRootView();
-    rootView.setDrawingCacheEnabled(true);
-    Bitmap bitmap = rootView.getDrawingCache();
-    saveBitmap(bitmap, ssName);
-  }
+
 
   @Test
   public void testFindScaleFactor_MultipleTimes() throws Exception {
