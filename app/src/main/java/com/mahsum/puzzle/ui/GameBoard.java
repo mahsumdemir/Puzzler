@@ -108,6 +108,8 @@ public class GameBoard extends Activity {
       RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
       params.height = (int) (view.getHeight() * scaleFactor);
       params.width = (int) (view.getWidth() * scaleFactor);
+      view.setX((float) (view.getX() * scaleFactor));
+      view.setY((float) (view.getY() * scaleFactor));
     }
   }
 
@@ -124,6 +126,18 @@ public class GameBoard extends Activity {
     int column = index % piecesX;
     int viewX = column * piece.getBitmap().getWidth();
     int viewY = row * piece.getBitmap().getHeight();
+    int xPadding = 2;
+    int yPadding = 2;
+    if (column != 0){
+      viewX = viewX - (2 * column) * piece.getAdditionSizeX() + 2 * column * xPadding;
+    }
+
+    if (row != 0){
+      viewY = viewY - (2 * row ) * piece.getAdditionSizeY() + yPadding + 2 * row * yPadding;
+    }
+
+
+    //viewY = viewY - piece.getAdditionSizeY();
     ImageView view = new ImageView(getApplicationContext());
     view.setId(ImageView.generateViewId());
     view.setImageBitmap(piece.getBitmap());
