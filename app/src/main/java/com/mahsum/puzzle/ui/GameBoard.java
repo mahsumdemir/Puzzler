@@ -3,6 +3,7 @@ package com.mahsum.puzzle.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,7 +36,7 @@ public class GameBoard extends Activity {
   private int resolutionY;
   private int piecesX;
   private int piecesY;
-  private ImageView[] views;
+  private PieceImageView[] views;
   private Piece[] pieces;
   private Uri imageFileURI;
 
@@ -49,6 +50,7 @@ public class GameBoard extends Activity {
 
   private void readImage() {
     if (imageFilePath != null){
+      image = BitmapFactory.decodeFile(imageFilePath);
       image = Bitmap.createScaledBitmap(image, resolutionX, resolutionY, false);
       createPuzzle();
       initBoard();
@@ -73,7 +75,7 @@ public class GameBoard extends Activity {
   }
 
   private void initBoard() {
-    views = new ImageView[piecesX * piecesY];
+    views = new PieceImageView[piecesX * piecesY];
 
     RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.pieceBoard);
     FrameLayout.LayoutParams layoutParams =
@@ -102,14 +104,8 @@ public class GameBoard extends Activity {
   }
 
   private void scaleBoard(double scaleFactor) {
-    Log.d(TAG, "scaleBoard() called with: scaleFactor = [" + scaleFactor + "]");
-
-    for (ImageView view : views) {
-      RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
-      params.height = (int) (view.getHeight() * scaleFactor);
-      params.width = (int) (view.getWidth() * scaleFactor);
-      view.setX((float) (view.getX() * scaleFactor));
-      view.setY((float) (view.getY() * scaleFactor));
+    for (PieceImageView view : views) {
+      view.scale(scaleFactor);
     }
   }
 
@@ -121,29 +117,10 @@ public class GameBoard extends Activity {
 
     return Math.min(scaleWidth, scaleHeight);
   }
-  private ImageView initImageView(Piece piece, int piecesX, int piecesY, int index) {
-    int row = index / piecesY;
-    int column = index % piecesX;
-    int viewX = column * piece.getBitmap().getWidth();
-    int viewY = row * piece.getBitmap().getHeight();
-    int xPadding = 2;
-    int yPadding = 2;
-    if (column != 0){
-      viewX = viewX - (2 * column) * piece.getAdditionSizeX() + 2 * column * xPadding;
-    }
-
-    if (row != 0){
-      viewY = viewY - (2 * row ) * piece.getAdditionSizeY() + yPadding + 2 * row * yPadding;
-    }
-
-
-    //viewY = viewY - piece.getAdditionSizeY();
-    ImageView view = new ImageView(getApplicationContext());
-    view.setId(ImageView.generateViewId());
-    view.setImageBitmap(piece.getBitmap());
-    view.setX(viewX);
-    view.setY(viewY);
-    return view;
+  private PieceImageView initImageView(Piece piece, int piecesX, int piecesY, int index) {
+    PieceImageView pieceImageView = new PieceImageView(getApplicationContext());
+    pieceImageView.configure(piece, piecesX, piecesY, index);
+    return pieceImageView;
   }
 
   private void parseIntent(Intent intent) {
