@@ -7,12 +7,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
 import com.mahsum.puzzle.R;
@@ -36,8 +33,8 @@ public class GameBoard extends Activity {
   private int resolutionY;
   private int piecesX;
   private int piecesY;
-  private PieceImageView[] views;
-  private Piece[] pieces;
+  private static PieceImageView[] views;
+  private static Piece[] pieces;
   private Uri imageFileURI;
 
   @Override
@@ -164,4 +161,19 @@ public class GameBoard extends Activity {
     return views[index].getId();
   }
 
+  public static void swapContents(int item1, int item2) {
+    Piece piece1 = views[item1].getPiece();
+    int pieceIndex1 = views[item1].getPieceArrayIndex();
+
+    Piece piece2 = views[item2].getPiece();
+    int pieceIndex2 = views[item2].getPieceArrayIndex();
+
+    views[item1].setPiece(piece2);
+    views[item1].setPieceArrayIndex(pieceIndex2);
+
+
+    views[item2].setPiece(piece1);
+    views[item2].setPieceArrayIndex(pieceIndex1);
+
+  }
 }
