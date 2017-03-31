@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
@@ -16,6 +17,8 @@ import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.Type;
 import com.mahsum.puzzle.loadImage.ImageLoadCallBack;
 import com.mahsum.puzzle.loadImage.ImageLoader;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class GameBoard extends Activity {
@@ -36,6 +39,7 @@ public class GameBoard extends Activity {
   private static PieceViewList pieceViewList;
   private static Piece[] pieces;
   private Uri imageFileURI;
+  private ProgressBar progressBar;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +76,7 @@ public class GameBoard extends Activity {
   }
 
   private void initBoard() {
+    progressBar = (ProgressBar) findViewById(R.id.progressBar);
     pieceViewList = new PieceViewList(piecesX * piecesY);
 
     RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.pieceBoard);
@@ -85,7 +90,19 @@ public class GameBoard extends Activity {
       relativeLayout.addView(pieceViewList.get(index));
     }
     pieceViewList.shuffle(piecesX * piecesY);
+    progressBar.setProgress(pieceViewList.getProgress());
 
+    new Timer("Progress Bar Timer").schedule(new TimerTask() {
+      @Override
+      public void run() {
+        progressBar.post(new Runnable() {
+          @Override
+          public void run() {
+            progressBar.setProgress(pieceViewList.getProgress());
+          }
+        });
+      }
+    }, 0, 1000);
 
     //scale board
     final View rootView = findViewById(R.id.root);

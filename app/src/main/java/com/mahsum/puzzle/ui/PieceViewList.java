@@ -56,4 +56,15 @@ class PieceViewList {
       swapContents(index1, index2);
     }
   }
+
+  public int getProgress() {
+    int progress = 0;
+    for (PieceImageView pieceImageView : list) {
+      if (pieceImageView.getPieceArrayIndex() == pieceImageView.getViewArrayIndex()){
+        progress++;
+      }
+    }
+    double percent = (double) progress / (double) size();
+    return (int) (percent * 100);
+  }
 }

@@ -133,4 +133,8 @@ public class PieceImageView extends AppCompatImageView implements OnLongClickLis
   public int getPieceArrayIndex() {
     return pieceArrayIndex;
   }
+
+  public int getViewArrayIndex() {
+    return viewArrayIndex;
+  }
 }
