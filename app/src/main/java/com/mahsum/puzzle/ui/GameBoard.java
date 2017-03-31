@@ -1,6 +1,7 @@
 package com.mahsum.puzzle.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
 import com.mahsum.puzzle.R;
@@ -99,6 +101,10 @@ public class GameBoard extends Activity {
           @Override
           public void run() {
             progressBar.setProgress(pieceViewList.getProgress());
+            if (progressBar.getProgress() == 100){
+              Toast.makeText(GameBoard.this.getApplicationContext(), "Game is finished", Toast.LENGTH_LONG).show();
+              GameBoard.this.finish();
+            }
           }
         });
       }
