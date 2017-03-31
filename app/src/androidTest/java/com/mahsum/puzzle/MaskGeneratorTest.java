@@ -5,6 +5,17 @@ import static com.mahsum.puzzle.Saving.saveBitmap;
 import android.graphics.Bitmap;
 import org.junit.Test;
 
+
+/**
+ * This class is rather a helpful class than test.
+ * Making it test able us to run it instantly.
+ *
+ * This class generates bitmap masks used to create puzzle pieces,
+ * and saves them on the devices external storage.
+ * Full saving path changes from device to device because
+ * external storage location changes.
+ * So relative path of masks is EXTERNAL_STORAGE + /puzzle/masks.
+ */
 public class MaskGeneratorTest {
 
   private static final MaskGenerator MASK_GENERATOR = new MaskGenerator();

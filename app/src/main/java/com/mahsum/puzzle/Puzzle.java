@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 
 public class Puzzle {
@@ -109,8 +110,7 @@ public class Puzzle {
 
     BitmapMask[] masks = new BitmapMask[9];
     for (int index = 0; index < masks.length; index++) {
-      Bitmap aMask = BitmapFactory.decodeFile(Application.getImagesRootDir() + "/masks/"
-          + String.valueOf(index) + ".png");
+      Bitmap aMask = Application.getMask(index);
       aMask = Bitmap.createScaledBitmap(aMask, realX, realY, false);
       masks[index] = new BitmapMask(aMask);
     }
