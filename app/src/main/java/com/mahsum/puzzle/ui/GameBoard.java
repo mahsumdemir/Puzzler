@@ -33,7 +33,7 @@ public class GameBoard extends Activity {
   private int resolutionY;
   private int piecesX;
   private int piecesY;
-  private static PieceImageView[] views;
+  private static PieceViewList pieceViewList;
   private static Piece[] pieces;
   private Uri imageFileURI;
 
@@ -72,16 +72,17 @@ public class GameBoard extends Activity {
   }
 
   private void initBoard() {
-    views = new PieceImageView[piecesX * piecesY];
+    pieceViewList = new PieceViewList(piecesX * piecesY);
 
     RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.pieceBoard);
     FrameLayout.LayoutParams layoutParams =
         new FrameLayout.LayoutParams(piecesX * pieces[0].getBitmap().getWidth(),
                                         piecesY * pieces[0].getBitmap().getHeight());
     relativeLayout.setLayoutParams(layoutParams);
-    for (int index = 0; index < views.length; index++) {
-      views[index] = initImageView(pieces[index], piecesX, piecesY, index);
-      relativeLayout.addView(views[index]);
+    for (int index = 0; index < pieceViewList.size(); index++) {
+      PieceImageView imageView = initImageView(pieces[index], piecesX, piecesY, index);
+      pieceViewList.add(imageView, index);
+      relativeLayout.addView(pieceViewList.get(index));
     }
 
     //scale board
@@ -95,15 +96,9 @@ public class GameBoard extends Activity {
                                              screenHeight,
                                              pieces[0].getBitmap().getWidth() * piecesX,
                                              pieces[0].getBitmap().getHeight() * piecesY);
-        scaleBoard(scaleFactor);
+        pieceViewList.scaleAll(scaleFactor);
       }
     });
-  }
-
-  private void scaleBoard(double scaleFactor) {
-    for (PieceImageView view : views) {
-      view.scale(scaleFactor);
-    }
   }
 
   public static double findScaleFactor(int screenWidth, int screenHeight,
@@ -158,22 +153,7 @@ public class GameBoard extends Activity {
   }
 
   public int getImageViewIdByIndex(int index) {
-    return views[index].getId();
+    return pieceViewList.get(index).getId();
   }
 
-  public static void swapContents(int item1, int item2) {
-    Piece piece1 = views[item1].getPiece();
-    int pieceIndex1 = views[item1].getPieceArrayIndex();
-
-    Piece piece2 = views[item2].getPiece();
-    int pieceIndex2 = views[item2].getPieceArrayIndex();
-
-    views[item1].setPiece(piece2);
-    views[item1].setPieceArrayIndex(pieceIndex2);
-
-
-    views[item2].setPiece(piece1);
-    views[item2].setPieceArrayIndex(pieceIndex1);
-
-  }
 }

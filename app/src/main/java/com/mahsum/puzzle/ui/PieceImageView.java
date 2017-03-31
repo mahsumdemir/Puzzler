@@ -103,7 +103,7 @@ public class PieceImageView extends AppCompatImageView implements OnLongClickLis
 
         ClipData data = event.getClipData();
         String arrayIndex = (String) data.getItemAt(0).getText();
-        GameBoard.swapContents(Integer.valueOf(arrayIndex), this.viewArrayIndex);
+        PieceViewList.swapContents(Integer.valueOf(arrayIndex), this.viewArrayIndex);
         // Returns true. DragEvent.getResult() will return true.
         return true;
 
