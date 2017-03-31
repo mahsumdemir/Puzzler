@@ -84,6 +84,8 @@ public class GameBoard extends Activity {
       pieceViewList.add(imageView, index);
       relativeLayout.addView(pieceViewList.get(index));
     }
+    pieceViewList.shuffle(piecesX * piecesY);
+
 
     //scale board
     final View rootView = findViewById(R.id.root);

@@ -1,13 +1,15 @@
 package com.mahsum.puzzle.ui;
 
 
-import android.view.View;
 import com.mahsum.puzzle.Piece;
+import java.util.Random;
+
 
 class PieceViewList {
 
   private static PieceImageView[] list;
-  
+
+
   public PieceViewList(int size) {
     list = new PieceImageView[size];
   }
@@ -44,5 +46,14 @@ class PieceViewList {
 
   public PieceImageView get(int index) {
     return list[index];
+  }
+
+  public void shuffle(int times) {
+    Random random = new Random();
+    for (int i = 0; i < times; i++) {
+      int index1 = random.nextInt(size());
+      int index2 = random.nextInt(size());
+      swapContents(index1, index2);
+    }
   }
 }
