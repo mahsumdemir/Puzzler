@@ -43,13 +43,16 @@ public class Puzzle {
   }
 
   private void checkImageSize(Bitmap image) {
-    if (image.getWidth() % (getXPieceNumber() * 5) != 0) {
-      throw new RuntimeException("Images width should be a multiple of " +
-          String.valueOf(getXPieceNumber() * 5));
-    } else if (image.getHeight() % (getYPieceNumber() * 5) != 0) {
-      throw new RuntimeException("Images height should be a multiple of" +
-          String.valueOf(getYPieceNumber() * 5));
+    int newWidth, newHeight;
+    int widthOutGrow = image.getWidth() % (getXPieceNumber() * 5);
+    int heightOutGrow = image.getHeight() % (getYPieceNumber() * 5);
+
+    if (widthOutGrow == 0 && heightOutGrow == 0) return;
+    else{
+      newWidth = image.getWidth() - widthOutGrow;
+      newHeight = image.getHeight() - heightOutGrow;
     }
+    image = Bitmap.createScaledBitmap(image, newWidth, newHeight, false);
   }
 
   public Piece[] createPuzzle() {
