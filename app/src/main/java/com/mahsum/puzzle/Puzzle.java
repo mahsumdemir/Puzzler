@@ -1,12 +1,10 @@
 package com.mahsum.puzzle;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 
 public class Puzzle {
@@ -38,21 +36,22 @@ public class Puzzle {
   }
 
   public void setImage(Bitmap image) {
-    checkImageSize(image);
-    this.image = image.copy(Bitmap.Config.ARGB_8888, true);
+    this.image = resizeImage(image);
+    this.image = this.image.copy(Bitmap.Config.ARGB_8888, true);
   }
 
-  private void checkImageSize(Bitmap image) {
+  private Bitmap resizeImage(Bitmap image) {
     int newWidth, newHeight;
     int widthOutGrow = image.getWidth() % (getXPieceNumber() * 5);
     int heightOutGrow = image.getHeight() % (getYPieceNumber() * 5);
 
-    if (widthOutGrow == 0 && heightOutGrow == 0) return;
+    if (widthOutGrow == 0 && heightOutGrow == 0) return image;
     else{
       newWidth = image.getWidth() - widthOutGrow;
       newHeight = image.getHeight() - heightOutGrow;
     }
     image = Bitmap.createScaledBitmap(image, newWidth, newHeight, false);
+    return image;
   }
 
   public Piece[] createPuzzle() {
@@ -159,5 +158,13 @@ public class Puzzle {
     } else {
       return -1;
     }
+  }
+
+  /**
+   * Setted image and getted image could have different size.
+   * @return The Bitmap this puzzle is working on.
+   */
+  public Bitmap getImage() {
+    return image;
   }
 }

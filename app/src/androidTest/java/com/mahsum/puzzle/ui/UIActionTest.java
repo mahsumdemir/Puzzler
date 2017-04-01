@@ -11,10 +11,8 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
-import com.mahsum.puzzle.Application;
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.loadImage.PickImageActivity;
-import com.mahsum.puzzle.utility.Util;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -28,6 +26,15 @@ public class UIActionTest {
 
   @Test
   public void testPickImage_EnterInput_ShowResult() throws Exception {
+    testPickImage_EnterInput_ShowResult(2, 2);
+  }
+
+  @Test
+  public void testPickImage_EnterInput_ShowResult_ChangeInput() throws Exception {
+    testPickImage_EnterInput_ShowResult(3, 3);
+  }
+
+  private void testPickImage_EnterInput_ShowResult(int piecesX, int piecesY) throws InterruptedException {
     //start image picking
     onView(withId(R.id.button)).perform(ViewActions.click());
 
@@ -39,16 +46,15 @@ public class UIActionTest {
     //enter input
     onView(withId(R.id.piecesX))
         .perform(ViewActions.clearText())
-        .perform(ViewActions.typeText("2"));
+        .perform(ViewActions.typeText(String.valueOf(piecesX)));
     onView(withId(R.id.piecesY))
         .perform(ViewActions.clearText())
-        .perform(ViewActions.typeText("2"));
+        .perform(ViewActions.typeText(String.valueOf(piecesY)));
 
     //register activity monitor
     Instrumentation.ActivityMonitor activityMonitor = InstrumentationRegistry
         .getInstrumentation()
         .addMonitor(GameBoard.class.getName(), null, false);
-
 
     onView(withText("Ok")).perform(ViewActions.click());
 
@@ -56,9 +62,5 @@ public class UIActionTest {
     assertTrue(activity != null);
 
     uiDevice.findObject(By.res("com.mahsum.puzzle:id/pieceBoard")).pinchOpen(0.5f);
-
-    //save activity result for further examination
-    Util.takeScreenShot(activity, Application.getImagesRootDir() + "/ss/sample.png");
-
   }
 }
