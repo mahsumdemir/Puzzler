@@ -1,14 +1,29 @@
 apply plugin: 'com.android.application'
 
+
+def renameArtifact(variant, defaultConfig) {
+    variant.outputs.each { output ->
+        def formattedDate = new Date().format('yyyy.MM.dd')
+        def fullName = output.outputFile.name
+        print(fullName)
+        def projectName = fullName.substring(0, fullName.indexOf('-'))
+        println(projectName)
+        output.outputFile = new File(
+                (String) output.outputFile.parent,
+                (String) output.outputFile.name.replace(projectName, "puzzler-${defaultConfig.versionName}-${formattedDate}"))
+    }
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+    applicationVariants.all { variant -> renameArtifact(variant, defaultConfig) }
     defaultConfig {
         applicationId "com.mahsum.puzzle"
         minSdkVersion 18
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 0
+        versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
