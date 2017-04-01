@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<HorizontalScrollView
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/root"
-  android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <HorizontalScrollView
+  <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <ScrollView
+    android:layout_height="match_parent">
+    <LinearLayout
+      android:id="@+id/root"
+      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
+
       <com.mahsum.puzzle.ui.ZoomLayout
         android:id="@+id/zoomLayout"
         android:layout_width="match_parent"
@@ -24,12 +25,16 @@
         </RelativeLayout>
       </com.mahsum.puzzle.ui.ZoomLayout>
 
-    </ScrollView>
-  </HorizontalScrollView>
+      <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-  <ProgressBar
-    android:id="@+id/progressBar"
-    style="?android:attr/progressBarStyleHorizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
-</LinearLayout>
+      <ImageView
+        android:id="@+id/original"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+  </ScrollView>
+</HorizontalScrollView>

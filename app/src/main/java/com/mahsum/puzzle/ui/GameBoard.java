@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -80,6 +81,9 @@ public class GameBoard extends Activity {
   private void initBoard() {
     progressBar = (ProgressBar) findViewById(R.id.progressBar);
     pieceViewList = new PieceViewList(piecesX * piecesY);
+
+    ImageView original = (ImageView) findViewById(R.id.original);
+    original.setImageBitmap(image);
 
     RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.pieceBoard);
     FrameLayout.LayoutParams layoutParams =
