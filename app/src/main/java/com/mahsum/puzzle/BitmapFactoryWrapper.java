@@ -25,7 +25,7 @@ public class BitmapFactoryWrapper {
     options.inMutable = true;
     options.inDensity = context.getResources().getDisplayMetrics().densityDpi;
 
-    Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resource);
+    Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resource, options);
     int density = context.getResources().getDisplayMetrics().densityDpi;
     bitmap.setDensity(density);
     return bitmap;
