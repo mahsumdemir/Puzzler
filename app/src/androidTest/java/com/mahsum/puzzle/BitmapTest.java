@@ -1,6 +1,5 @@
 package com.mahsum.puzzle;
 
-import static android.graphics.BitmapFactory.decodeResource;
 import static junit.framework.Assert.fail;
 
 import android.content.Context;
@@ -21,18 +20,18 @@ public class BitmapTest {
 
   @Test
   public void testBitmapsEqual() throws Exception {
-    Bitmap bitmap = decodeResource(mTargetContext.getResources(),
+    Bitmap bitmap = BitmapFactoryWrapper.decodeResource(mTargetContext,
         R.drawable.harput);
-    Bitmap bitmap2 = decodeResource(mTargetContext.getResources(),
+    Bitmap bitmap2 = BitmapFactoryWrapper.decodeResource(mTargetContext,
         R.drawable.harput);
     Util.assertBitmapsEquals(bitmap, bitmap2);
   }
 
   @Test
   public void testBitmapsEqual_ShouldFail() throws Exception {
-    Bitmap bitmap = decodeResource(mTargetContext.getResources(),
+    Bitmap bitmap = BitmapFactoryWrapper.decodeResource(mTargetContext,
         R.drawable.harput);
-    Bitmap bitmap2 = decodeResource(mTargetContext.getResources(),
+    Bitmap bitmap2 = BitmapFactoryWrapper.decodeResource(mTargetContext,
         R.drawable.harput_modified);
     try {
       Util.assertBitmapsEquals(bitmap, bitmap2);

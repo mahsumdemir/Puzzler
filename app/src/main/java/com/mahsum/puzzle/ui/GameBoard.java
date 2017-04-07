@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import com.mahsum.puzzle.BitmapFactoryWrapper;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
 import com.mahsum.puzzle.R;
@@ -53,7 +54,7 @@ public class GameBoard extends Activity {
 
   private void readImage() {
     if (imageFilePath != null){
-      image = BitmapFactory.decodeFile(imageFilePath);
+      image = BitmapFactoryWrapper.decodeFile(imageFilePath);
       image = Bitmap.createScaledBitmap(image, resolutionX, resolutionY, false);
       createPuzzle();
       initBoard();

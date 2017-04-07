@@ -4,6 +4,7 @@ package com.mahsum.puzzle.util;
 import static com.mahsum.puzzle.Saving.saveBitmap;
 
 import android.graphics.Bitmap;
+import com.mahsum.puzzle.Application;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 
@@ -26,7 +27,7 @@ public class Util {
   }
 
   private static void printErrorMessage(Bitmap bitmap, Bitmap bitmap2, int height, int width) {
-    String path = "/storage/sdcard/puzzle/error/";
+    String path = Application.getImagesRootDir() + "/error";
     String errorMessage = String
         .format("Pixels at (%d, %d) of bitmaps are different", width, height);
     try {

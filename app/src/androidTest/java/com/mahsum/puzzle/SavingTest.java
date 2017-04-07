@@ -32,7 +32,7 @@ public class SavingTest {
 
   @Test
   public void decodeBitmap() throws Exception {
-    Bitmap bitmap = BitmapFactory.decodeResource(mTargetContext.getResources(),
+    Bitmap bitmap = BitmapFactoryWrapper.decodeResource(mTargetContext,
         image);
     assertTrue(bitmap != null);
   }
@@ -40,7 +40,7 @@ public class SavingTest {
   @Test
   public void saveBitmap() throws Exception {
     //setup
-    Bitmap bitmap = BitmapFactory.decodeResource(mTargetContext.getResources(),
+    Bitmap bitmap = BitmapFactoryWrapper.decodeResource(mTargetContext,
         image);
     String storage = Environment.getExternalStorageDirectory().toString();
     String fullFilePath = storage + "/test12/testBitmap3";
@@ -54,7 +54,7 @@ public class SavingTest {
   @Test
   public void testSaveBitmap_saveTwice() throws Exception {
     //setup
-    Bitmap bitmap = BitmapFactory.decodeResource(mTargetContext.getResources(),
+    Bitmap bitmap = BitmapFactoryWrapper.decodeResource(mTargetContext,
         image);
     String storage = Environment.getExternalStorageDirectory().toString();
     String fullFilePath = storage + "/test12/testBitmap3";

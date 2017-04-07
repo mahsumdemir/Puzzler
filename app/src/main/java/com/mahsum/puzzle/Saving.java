@@ -65,8 +65,10 @@ public class Saving {
       }
       return file;
     } catch (FileCouldNotCreated fileCouldNotCreated) {
+      fileCouldNotCreated.printStackTrace();
       return null;
     } catch (IOException e) {
+      e.printStackTrace();
       return null;
     }
   }

@@ -32,6 +32,7 @@ public class Util {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
       return checkPermission(appContext, permission);
     } else {
+      if (checkPermission(appContext, permission)) return true;
       startActivityToHostPermissionDialog(appContext, permission);
       return checkPermission(appContext, permission);
     }
@@ -98,14 +99,14 @@ public class Util {
     paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));
 
     int currentX = 0, currentY = 0;
-    int maskX = pieces[0].getMaskX(), maskY = pieces[0].getMaskY();
+    int xIncrement = pieces[0].getMaskX(), yIncrement = pieces[0].getMaskY();
     for (int index = 0; index < pieces.length; index++) {
       canvas.drawBitmap(pieces[index].getBitmap(), currentX, currentY, paint);
 
-      currentX += maskX;
+      currentX += xIncrement;
       if (index % puzzle.getXPieceNumber() == puzzle.getXPieceNumber() - 1) {
         currentX = 0;
-        currentY += maskY;
+        currentY += yIncrement;
       }
     }
   }
