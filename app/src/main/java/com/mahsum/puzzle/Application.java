@@ -25,7 +25,7 @@ public class Application extends android.app.Application {
         R.drawable.three, R.drawable.four, R.drawable.five,
         R.drawable.six, R.drawable.seven, R.drawable.eight};
 
-    BitmapFactoryWrapper.decodeMultipleResource(Application.application.getApplicationContext(),
+    masks = BitmapFactoryWrapper.decodeMultipleResource(Application.application.getApplicationContext(),
                                                 drawables);
 
   }
