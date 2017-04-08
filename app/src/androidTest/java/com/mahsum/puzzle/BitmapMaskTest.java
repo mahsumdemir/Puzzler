@@ -3,11 +3,20 @@ package com.mahsum.puzzle;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.test.InstrumentationRegistry;
+import org.junit.Before;
 import org.junit.Test;
 
 public class BitmapMaskTest {
+
+  private Context targetContext;
+  @Before
+  public void setUp() throws Exception {
+    targetContext = InstrumentationRegistry.getTargetContext();
+  }
 
   @Test
   public void testCreateBitmapMask_MultipleTests() throws Exception {
@@ -19,10 +28,9 @@ public class BitmapMaskTest {
 
   @Test
   public void testCreateBitmapMask_FromBitmap() throws Exception {
-    String file = Application.getImagesRootDir() + "/masks/0.png";
-    Bitmap bitmap = BitmapFactory.decodeFile(file);
+    Bitmap bitmap = BitmapFactoryWrapper.decodeResource(targetContext, R.drawable.zero);
     if (bitmap == null) {
-      fail(String.format("Error while reading bitmap from file: %s", file));
+      fail(String.format("Error while reading bitmap from resources"));
     }
     BitmapMask mask = new BitmapMask(bitmap);
     assertEquals(bitmap.getHeight(), mask.getHeight());

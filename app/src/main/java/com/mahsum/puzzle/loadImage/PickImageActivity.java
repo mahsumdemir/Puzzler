@@ -7,44 +7,53 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.mahsum.puzzle.R;
-import com.mahsum.puzzle.ui.GameBoard;
 import com.mahsum.puzzle.ui.PuzzlePropertiesDialog;
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 public class PickImageActivity extends AppCompatActivity implements Contract.View {
 
-  private static final int PICK_PHOTO = 1;
-  private ImageView mImageView;
+  @BindView(R.id.button) Button button;
+  @BindView(R.id.imageView) ImageView imageView;
 
+  private static final int PICK_PHOTO = 1;
   private Contract.Presenter presenter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.pick_image_activity);
+    ButterKnife.bind(this);
     presenter = new MainActivityPresenter(this);
+  }
 
-    mImageView = (ImageView) findViewById(R.id.imageView);
-    Button button = (Button) findViewById(R.id.button);
-    button.setOnClickListener(new View.OnClickListener() {
+  @OnClick(R.id.button)
+  public void buttonClicked(View v){
+    presenter.startImageChoosing();
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (data == null) return;
+    Observable<Intent> imageUri = Observable.just(data);
+
+    imageUri.subscribe(new Consumer<Intent>() {
       @Override
-      public void onClick(View v) {
-        presenter.startImageChoosing();
+      public void accept(@NonNull Intent data) throws Exception {
+        PuzzlePropertiesDialog dialog = new PuzzlePropertiesDialog();
+        dialog.setImageUri(data.getData());
+        dialog.show(getFragmentManager(), "MY DIALOG");
       }
     });
   }
 
   @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (data != null){
-      PuzzlePropertiesDialog dialog = new PuzzlePropertiesDialog();
-      dialog.setImageUri(data.getData());
-      dialog.show(getFragmentManager(), "MY DIALOG");
-    }
-  }
-
-  @Override
   public void showImage(Bitmap image) {
-    mImageView.setImageBitmap(image);
+    imageView.setImageBitmap(image);
   }
 }

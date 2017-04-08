@@ -6,8 +6,10 @@ import static com.mahsum.puzzle.utility.Util.joinPuzzlePieces;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.test.InstrumentationRegistry;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 import org.junit.Before;
@@ -15,14 +17,9 @@ import org.junit.Test;
 
 public class AnySizePuzzleTest {
 
-  private Bitmap image;
-
   @Before
   public void setUp() throws Exception {
-    image = BitmapFactory.decodeFile(Application.getImagesRootDir() + "/harput.png");
-    if (image == null) {
-      fail("Needed image file is null");
-    }
+
   }
 
   @Test
@@ -35,6 +32,9 @@ public class AnySizePuzzleTest {
   private void testCreatePuzzle(Type type, int width, int height)
       throws FileCouldNotSaved, FileCouldNotCreated {
     //setup
+    Context mTargetContext = InstrumentationRegistry.getTargetContext();
+    Bitmap image = BitmapFactoryWrapper.decodeResource(mTargetContext, R.drawable.harput);
+
     Puzzle puzzle = new Puzzle(type);
     image = Bitmap.createScaledBitmap(image, width, height, false);
     puzzle.setImage(image);
@@ -43,12 +43,6 @@ public class AnySizePuzzleTest {
     //exercise
     Piece[] pieces = puzzle.createPuzzle();
 
-    //assert
-    String dir = "/harput_" + String.valueOf(puzzle.getXPieceNumber()) +
-        "x" + String.valueOf(puzzle.getYPieceNumber()) + "_" +
-        String.valueOf(width) + "x" + String.valueOf(height);
-
-    savePieces(pieces, Application.getImagesRootDir() + dir);
     assertBitmapsEquals(image, joinPuzzlePieces(puzzle, pieces));
   }
 
