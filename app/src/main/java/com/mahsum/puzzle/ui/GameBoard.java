@@ -9,11 +9,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.mahsum.puzzle.BitmapFactoryWrapper;
 import com.mahsum.puzzle.Piece;
 import com.mahsum.puzzle.Puzzle;
@@ -44,11 +48,15 @@ public class GameBoard extends Activity {
   private static Piece[] pieces;
   private Uri imageFileURI;
   private ProgressBar progressBar;
+  @BindView(R.id.original) ImageView original;
+  @BindView(R.id.toggle) Button toggle;
+  @BindView(R.id.zoomLayout) ZoomLayout zoomLayout;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.game_board);
+    ButterKnife.bind(this);
     parseIntent(getIntent());
     readImage();
   }
@@ -83,7 +91,6 @@ public class GameBoard extends Activity {
     progressBar = (ProgressBar) findViewById(R.id.progressBar);
     pieceViewList = new PieceViewList(piecesX * piecesY);
 
-    ImageView original = (ImageView) findViewById(R.id.original);
     original.setImageBitmap(image);
 
     RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.pieceBoard);
@@ -115,7 +122,7 @@ public class GameBoard extends Activity {
       }
     }, 0, 1000);
 
-    //scale board
+    /*//scale board
     final View rootView = findViewById(R.id.root);
     rootView.post(new Runnable() {
       @Override
@@ -128,7 +135,7 @@ public class GameBoard extends Activity {
                                              pieces[0].getBitmap().getHeight() * piecesY);
         pieceViewList.scaleAll(scaleFactor);
       }
-    });
+    });*/
   }
 
   public static double findScaleFactor(int screenWidth, int screenHeight,
@@ -155,6 +162,20 @@ public class GameBoard extends Activity {
     resolutionY = intent.getIntExtra(RESOLUTION_Y, 1600);
     piecesX = intent.getIntExtra(PIECES_X, 10);
     piecesY = intent.getIntExtra(PIECES_Y, 10);
+  }
+
+  @OnClick(R.id.toggle)
+  public void toggleClicked(View v){
+    if (original.getVisibility() == View.VISIBLE){
+      toggle.setText("Real Image");
+      original.setVisibility(View.INVISIBLE);
+      zoomLayout.setVisibility(View.VISIBLE);
+    }
+    else{
+      toggle.setText("Puzzle");
+      original.setVisibility(View.VISIBLE);
+      zoomLayout.setVisibility(View.INVISIBLE);
+    }
   }
 
   public Bitmap getImage() {

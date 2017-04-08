@@ -45,19 +45,11 @@ public class PieceImageView extends AppCompatImageView{
         final int action = event.getAction();
 
         // Handles each of the expected events
-        switch(action) {
-          case DragEvent.ACTION_DROP:
-
+        if (action == DragEvent.ACTION_DROP) {
             ClipData data = event.getClipData();
             String arrayIndex = (String) data.getItemAt(0).getText();
             PieceViewList.swapContents(Integer.valueOf(arrayIndex), PieceImageView.this.viewArrayIndex);
             // Returns true. DragEvent.getResult() will return true.
-            break;
-
-          // An unknown action type was received.
-          default:
-            Log.e("DragDrop Example", "Unknown action type received by OnDragListener.");
-            break;
         }
       }
     });

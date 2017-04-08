@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView
-  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout android:id="@+id/root"
+  android:orientation="vertical"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <ScrollView
+  <Button
+    android:id="@+id/toggle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:text="Real Image"/>
+  <ProgressBar
+    android:id="@+id/progressBar"
+    style="?android:attr/progressBarStyleHorizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-      android:id="@+id/root"
-      android:orientation="vertical"
+    android:layout_height="wrap_content" />
+
+  <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.mahsum.puzzle.ui.ZoomLayout
+      android:id="@+id/zoomLayout"
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
-
-      <com.mahsum.puzzle.ui.ZoomLayout
-        android:id="@+id/zoomLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
-          android:id="@+id/pieceBoard"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
-
-        </RelativeLayout>
-      </com.mahsum.puzzle.ui.ZoomLayout>
-
-      <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-      <ImageView
-        android:id="@+id/original"
+      android:layout_height="match_parent"
+      android:layout_centerInParent="true">
+      <RelativeLayout
+        android:id="@+id/pieceBoard"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
-  </ScrollView>
-</HorizontalScrollView>
+        android:layout_height="wrap_content">
+
+      </RelativeLayout>
+    </com.mahsum.puzzle.ui.ZoomLayout>
+
+    <ImageView
+      android:id="@+id/original"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="invisible"/>
+
+  </RelativeLayout>
+</LinearLayout>
