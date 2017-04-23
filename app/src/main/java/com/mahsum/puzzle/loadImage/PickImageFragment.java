@@ -1,10 +1,15 @@
 package com.mahsum.puzzle.loadImage;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,9 +19,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.ui.PuzzlePropertiesDialog;
+import com.yalantis.ucrop.UCrop;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import java.io.File;
 
 public class PickImageFragment extends Fragment implements Contract.View{
   private Contract.Presenter presenter;
@@ -54,14 +61,15 @@ public class PickImageFragment extends Fragment implements Contract.View{
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (data == null) return;
-    Observable<Intent> imageUri = Observable.just(data);
+    final Observable<Intent> imageUri = Observable.just(data);
 
     imageUri.subscribe(new Consumer<Intent>() {
+      @RequiresApi(api = VERSION_CODES.M)
       @Override
-      public void accept(@NonNull Intent data) throws Exception {
-        PuzzlePropertiesDialog dialog = new PuzzlePropertiesDialog();
-        dialog.setImageUri(data.getData());
-        dialog.show(getFragmentManager(), "MY DIALOG");
+      public void accept(@NonNull Intent intent) throws Exception {
+        UCrop.of(intent.getData(), Uri.fromFile(new File(getActivity().getCacheDir(), "image")))
+            .withAspectRatio(1, 1)
+            .start(getActivity());  //handle result at PickImageActivity
       }
     });
   }

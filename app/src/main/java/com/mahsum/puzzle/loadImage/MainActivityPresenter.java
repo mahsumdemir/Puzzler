@@ -8,6 +8,7 @@ import android.net.Uri;
 public class MainActivityPresenter implements Contract.Presenter {
 
   private Contract.View mView;
+  public final static int PICK_PHOTO = 1;
 
   public MainActivityPresenter(Contract.View view) {
     mView = view;
@@ -15,7 +16,6 @@ public class MainActivityPresenter implements Contract.Presenter {
 
   @Override
   public void startImageChoosing() {
-    final int PICK_PHOTO = 1;
     Intent intent = new Intent();
     intent.setType("image/*");
     intent.setAction(Intent.ACTION_GET_CONTENT);
