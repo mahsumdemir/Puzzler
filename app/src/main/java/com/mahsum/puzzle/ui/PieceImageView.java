@@ -3,8 +3,8 @@ package com.mahsum.puzzle.ui;
 import android.content.ClipData;
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
-import android.util.Log;
 import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -17,7 +17,7 @@ public class PieceImageView extends AppCompatImageView{
   private Piece piece;
   private int pieceArrayIndex;
   private int viewArrayIndex;
-  private Observable<Object> longClickSource;
+  private Observable<MotionEvent> touchStream;
 
   public PieceImageView(Context context) {
     super(context);
@@ -56,7 +56,7 @@ public class PieceImageView extends AppCompatImageView{
   }
 
   private void setUpLongClickStream() {
-    longClickSource = RxView.longClicks(this);
+    touchStream = RxView.touches(this);
     Consumer shadowDrawer = new Consumer() {
       @Override
       public void accept(@NonNull Object o) throws Exception {
@@ -64,7 +64,7 @@ public class PieceImageView extends AppCompatImageView{
         startDrag(dragData, new ImageView.DragShadowBuilder(PieceImageView.this), viewArrayIndex, 0);
       }
     };
-    longClickSource.subscribe(shadowDrawer);
+    touchStream.subscribe(shadowDrawer);
   }
 
   private void setY(Piece piece, int piecesY, int index){
