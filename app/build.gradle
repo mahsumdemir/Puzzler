@@ -27,7 +27,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
+        debug {
             buildConfigField("String", "IMAGES_ROOT_DIR",
                     "\"/storage/sdcard/puzzle\"")
         }
@@ -39,20 +39,21 @@ android {
 }
 
 dependencies {
-    compile "io.reactivex.rxjava2:rxjava:2.0.8"
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    testCompile 'junit:junit:4.12'
-    androidTestCompile "org.mockito:mockito-core:2.7.9"
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.android.support:support-v4:25.3.1'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'org.mockito:mockito-core:2.7.9'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
