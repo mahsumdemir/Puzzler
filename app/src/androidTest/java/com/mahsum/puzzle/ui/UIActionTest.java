@@ -12,7 +12,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
 import com.mahsum.puzzle.R;
-import com.mahsum.puzzle.loadImage.PickImageActivity;
+import com.mahsum.puzzle.MainActivity;
+
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -20,8 +21,8 @@ import org.junit.Test;
 public class UIActionTest {
 
   @Rule
-  public ActivityTestRule<PickImageActivity> activityActivityTestRule =
-      new ActivityTestRule<>(PickImageActivity.class);
+  public ActivityTestRule<MainActivity> activityActivityTestRule =
+      new ActivityTestRule<>(MainActivity.class);
 
 
   @Test

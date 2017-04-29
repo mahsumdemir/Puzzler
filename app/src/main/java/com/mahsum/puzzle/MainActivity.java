@@ -1,4 +1,4 @@
-package com.mahsum.puzzle.loadImage;
+package com.mahsum.puzzle;
 
 import android.Manifest.permission;
 import android.app.Activity;
@@ -11,12 +11,13 @@ import android.support.v4.app.ActivityCompat;
 
 import com.mahsum.puzzle.LocalStorage;
 import com.mahsum.puzzle.R;
+import com.mahsum.puzzle.loadImage.PickImageFragment;
 import com.mahsum.puzzle.ui.PermissionFragment;
 import com.mahsum.puzzle.ui.PuzzlePropertiesDialog;
 import com.yalantis.ucrop.UCrop;
 
 
-public class PickImageActivity extends Activity implements PermissionFragment.PermissionCallbacks{
+public class MainActivity extends Activity implements PermissionFragment.PermissionCallbacks{
 
   private static final String[] NEEDED_PERMISSIONS = new String[]{permission.WRITE_EXTERNAL_STORAGE,
       permission.READ_EXTERNAL_STORAGE};
