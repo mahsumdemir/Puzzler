@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.DragEvent;
 import android.view.MotionEvent;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.mahsum.puzzle.Piece;
@@ -28,12 +27,12 @@ public class PieceImageView extends AppCompatImageView{
     this.pieceArrayIndex = index;
     this.viewArrayIndex = index;
 
-    setId(ImageView.generateViewId());
+    setId(AppCompatImageView.generateViewId());
     setX(piece, piecesX, index);
     setY(piece, piecesY, index);
     setImageBitmap(piece.getBitmap());
 
-    setUpLongClickStream();
+    setUpTouchStream();
     setUpDragAndDropStream();
   }
 
@@ -55,13 +54,13 @@ public class PieceImageView extends AppCompatImageView{
     });
   }
 
-  private void setUpLongClickStream() {
+  private void setUpTouchStream() {
     touchStream = RxView.touches(this);
     Consumer shadowDrawer = new Consumer() {
       @Override
       public void accept(@NonNull Object o) throws Exception {
         ClipData dragData = ClipData.newPlainText(null, String.valueOf(viewArrayIndex));
-        startDrag(dragData, new ImageView.DragShadowBuilder(PieceImageView.this), viewArrayIndex, 0);
+        startDrag(dragData, new AppCompatImageView.DragShadowBuilder(PieceImageView.this), viewArrayIndex, 0);
       }
     };
     touchStream.subscribe(shadowDrawer);

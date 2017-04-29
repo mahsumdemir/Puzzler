@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,9 +42,8 @@ public class PickImageFragment extends Fragment implements Contract.View{
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_pick_image, container, false);
-    imageView = (ImageView) view.findViewById(R.id.imageView);
-    Button button = (Button) view.findViewById(R.id.button);
-    button.setOnClickListener(new OnClickListener() {
+    FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.addPuzzleFab);
+    fab.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         presenter.startImageChoosing();

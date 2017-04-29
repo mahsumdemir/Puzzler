@@ -1,23 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context="com.mahsum.puzzle.loadImage.PickImageFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.mahsum.puzzle.loadImage.PickImageFragment">
 
-  <Button
-    android:text="Select Image"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="15dp"
-    android:id="@+id/button"/>
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/addPuzzleFab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentBottom="true"
+      android:layout_margin="20dp"
+      android:src="@drawable/circle_add"
+      app:fabSize="auto" />
 
-  <ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="40dp"
-    android:id="@+id/imageView"
-    android:layout_below="@+id/button"
-    android:layout_centerHorizontal="true"/>
 </RelativeLayout>

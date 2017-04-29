@@ -36,7 +36,7 @@ public class UIActionTest {
 
   private void testPickImage_EnterInput_ShowResult(int piecesX, int piecesY) throws InterruptedException {
     //start image picking
-    onView(withId(R.id.button)).perform(ViewActions.click());
+    onView(withId(R.id.addPuzzleFab)).perform(ViewActions.click());
 
     //chose Image at Location
     Thread.sleep(500); //wait to don't miss click event.

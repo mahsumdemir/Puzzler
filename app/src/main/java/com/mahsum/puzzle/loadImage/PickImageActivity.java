@@ -8,14 +8,15 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.ui.PermissionFragment;
 import com.mahsum.puzzle.ui.PuzzlePropertiesDialog;
 import com.yalantis.ucrop.UCrop;
 
+
 public class PickImageActivity extends Activity implements PermissionFragment.PermissionCallbacks{
 
-  private static final int PICK_PHOTO = 1;
   private static final String[] NEEDED_PERMISSIONS = new String[]{permission.WRITE_EXTERNAL_STORAGE,
       permission.READ_EXTERNAL_STORAGE};
 
@@ -49,6 +50,7 @@ public class PickImageActivity extends Activity implements PermissionFragment.Pe
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    //Handle Image Cropping Library Response
     if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
       final Uri resultUri = UCrop.getOutput(data);
       PuzzlePropertiesDialog dialog = new PuzzlePropertiesDialog();
