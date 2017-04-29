@@ -13,9 +13,13 @@ import java.util.ArrayList;
 
 class SavedPuzzlesAdapter extends RecyclerView.Adapter {
 
-    private final ArrayList<Bitmap> savedBitmaps;
+    private ArrayList<Bitmap> savedBitmaps;
 
     public SavedPuzzlesAdapter(ArrayList<Bitmap> savedBitmaps) {
+        this.savedBitmaps = savedBitmaps;
+    }
+
+    public void setSavedBitmaps(ArrayList<Bitmap> savedBitmaps) {
         this.savedBitmaps = savedBitmaps;
     }
 

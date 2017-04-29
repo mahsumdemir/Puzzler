@@ -13,21 +13,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.mahsum.puzzle.BitmapFactoryWrapper;
+import com.mahsum.puzzle.LocalStorage;
 import com.mahsum.puzzle.R;
 import com.yalantis.ucrop.UCrop;
+
+import java.io.File;
+
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import java.io.File;
-import java.util.ArrayList;
 
 public class PickImageFragment extends Fragment implements Contract.View{
   private Contract.Presenter presenter;
-  private ImageView imageView;
+  private SavedPuzzlesAdapter adapter;
+
   public PickImageFragment() {
     // Required empty public constructor
   }
@@ -50,9 +51,7 @@ public class PickImageFragment extends Fragment implements Contract.View{
 
     RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.savedPuzzles);
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    ArrayList<Bitmap> savedBitmaps = new ArrayList<>();
-    savedBitmaps.add(BitmapFactoryWrapper.decodeResource(getActivity(), R.drawable.harput));
-    RecyclerView.Adapter adapter = new SavedPuzzlesAdapter(savedBitmaps);
+    adapter = new SavedPuzzlesAdapter(LocalStorage.getSavedPuzzles());
     recyclerView.setAdapter(adapter);
 
     FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.addPuzzleFab);
@@ -63,6 +62,13 @@ public class PickImageFragment extends Fragment implements Contract.View{
       }
     });
     return view;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    adapter.setSavedBitmaps(LocalStorage.getSavedPuzzles());
+    adapter.notifyDataSetChanged();
   }
 
   @Override
@@ -82,7 +88,6 @@ public class PickImageFragment extends Fragment implements Contract.View{
 
   @Override
   public void showImage(Bitmap image) {
-    imageView.setImageBitmap(image);
   }
 
   @Override

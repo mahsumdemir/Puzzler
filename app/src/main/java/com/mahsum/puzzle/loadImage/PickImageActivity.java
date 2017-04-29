@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
+import com.mahsum.puzzle.LocalStorage;
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.ui.PermissionFragment;
 import com.mahsum.puzzle.ui.PuzzlePropertiesDialog;
@@ -24,6 +25,7 @@ public class PickImageActivity extends Activity implements PermissionFragment.Pe
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.pick_image_activity);
+    LocalStorage.init(getApplicationContext());
 
     if (hasNeededPermission()) {
       FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -53,6 +55,7 @@ public class PickImageActivity extends Activity implements PermissionFragment.Pe
     //Handle Image Cropping Library Response
     if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
       final Uri resultUri = UCrop.getOutput(data);
+      LocalStorage.addSavedPuzzles(resultUri);
       PuzzlePropertiesDialog dialog = new PuzzlePropertiesDialog();
       dialog.setImageUri(resultUri);
       dialog.show(getFragmentManager(), "MY DIALOG");
@@ -69,4 +72,10 @@ public class PickImageActivity extends Activity implements PermissionFragment.Pe
     transaction.replace(R.id.root, PickImageFragment.newInstance());
     transaction.commit();
   }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalStorage.save();
+    }
 }
