@@ -1,10 +1,8 @@
 package com.mahsum.puzzle.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.mahsum.puzzle.BitmapFactoryWrapper;
 import com.mahsum.puzzle.Piece;
-import com.mahsum.puzzle.Puzzle;
+import com.mahsum.puzzle.PuzzleCreator;
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.Type;
 import com.mahsum.puzzle.loadImage.ImageLoadCallBack;
@@ -38,7 +36,7 @@ public class GameBoard extends Activity {
   public static final String PIECES_Y = "PIECES_Y";
   private static final String TAG = "GameBoard";
   private Bitmap image;
-  private Puzzle puzzle;
+  private PuzzleCreator puzzleCreator;
   private String imageFilePath;
   private int resolutionX;
   private int resolutionY;
@@ -82,9 +80,9 @@ public class GameBoard extends Activity {
   }
 
   private void createPuzzle() {
-    puzzle = new Puzzle(new Type(piecesX, piecesY));
-    puzzle.setImage(image);
-    pieces = puzzle.createPuzzle();
+    puzzleCreator = new PuzzleCreator(new Type(piecesX, piecesY));
+    puzzleCreator.setImage(image);
+    pieces = puzzleCreator.createPuzzle();
   }
 
   private void initBoard() {
@@ -172,7 +170,7 @@ public class GameBoard extends Activity {
       zoomLayout.setVisibility(View.VISIBLE);
     }
     else{
-      toggle.setText("Puzzle");
+      toggle.setText("PuzzleCreator");
       original.setVisibility(View.VISIBLE);
       zoomLayout.setVisibility(View.INVISIBLE);
     }

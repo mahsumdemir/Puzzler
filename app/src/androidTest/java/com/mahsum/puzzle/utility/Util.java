@@ -20,7 +20,7 @@ import android.support.test.uiautomator.UiSelector;
 import android.view.View;
 import com.mahsum.puzzle.DummyPermissionActivity;
 import com.mahsum.puzzle.Piece;
-import com.mahsum.puzzle.Puzzle;
+import com.mahsum.puzzle.PuzzleCreator;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 
@@ -71,15 +71,15 @@ public class Util {
   }
 
 
-  public static Bitmap joinPuzzlePieces(Puzzle puzzle, Piece[] pieces) {
-    int width = pieces[0].getMaskX() * puzzle.getXPieceNumber() +
+  public static Bitmap joinPuzzlePieces(PuzzleCreator puzzleCreator, Piece[] pieces) {
+    int width = pieces[0].getMaskX() * puzzleCreator.getXPieceNumber() +
         2 * pieces[0].getAdditionSizeX();
 
-    int height = pieces[0].getMaskY() * puzzle.getYPieceNumber() +
+    int height = pieces[0].getMaskY() * puzzleCreator.getYPieceNumber() +
         2 * pieces[0].getAdditionSizeY();
 
     Bitmap joinedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-    drawPiecesOn(puzzle, joinedBitmap, pieces);
+    drawPiecesOn(puzzleCreator, joinedBitmap, pieces);
     Bitmap result = shelveJoinedBitmap(joinedBitmap, pieces[0].getAdditionSizeX(),
         pieces[0].getAdditionSizeY());
     return result;
@@ -93,7 +93,7 @@ public class Util {
     return shelvedBitmap;
   }
 
-  private static void drawPiecesOn(Puzzle puzzle, Bitmap joinedBitmap, Piece[] pieces) {
+  private static void drawPiecesOn(PuzzleCreator puzzleCreator, Bitmap joinedBitmap, Piece[] pieces) {
     Canvas canvas = new Canvas(joinedBitmap);
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));
@@ -104,7 +104,7 @@ public class Util {
       canvas.drawBitmap(pieces[index].getBitmap(), currentX, currentY, paint);
 
       currentX += xIncrement;
-      if (index % puzzle.getXPieceNumber() == puzzle.getXPieceNumber() - 1) {
+      if (index % puzzleCreator.getXPieceNumber() == puzzleCreator.getXPieceNumber() - 1) {
         currentX = 0;
         currentY += yIncrement;
       }

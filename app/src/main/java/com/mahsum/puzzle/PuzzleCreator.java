@@ -7,7 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.Log;
 
-public class Puzzle {
+public class PuzzleCreator {
 
   public static final int TOP_LEFT = 0;
   public static final int TOP = 1;
@@ -18,7 +18,7 @@ public class Puzzle {
   public static final int BOTTOM_LEFT = 6;
   public static final int BOTTOM = 7;
   public static final int BOTTOM_RIGHT = 8;
-  private static final String TAG = "Puzzle";
+  private static final String TAG = "PuzzleCreator";
   private static final Paint paint;
 
   static {
@@ -31,7 +31,7 @@ public class Puzzle {
   private Bitmap[] pieces;
 
 
-  public Puzzle(Type type) {
+  public PuzzleCreator(Type type) {
     this.type = type;
   }
 
