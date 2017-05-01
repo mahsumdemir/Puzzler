@@ -4,13 +4,21 @@ import android.util.Log;
 
 public class GameBoard {
 
-  private static final String TAG = "GameBoardActivity";
-  private Puzzle puzzle;
-  private int[] pieceOrder;
+  public interface GameBoardTracer{
+    void init(int[] pieceOrder);
+    void swap(int pieceId1, int pieceId2);
+  }
 
-  public GameBoard(Puzzle puzzle) {
-    this.puzzle = puzzle;
+  private static final String TAG = "GameBoardActivity";
+  private static Puzzle puzzle;
+  private static int[] pieceOrder;
+  private static GameBoardTracer tracer;
+
+  public GameBoard(Puzzle puzzle, GameBoardTracer tracer) {
+    GameBoard.puzzle = puzzle;
+    GameBoard.tracer = tracer;
     initBoard();
+    tracer.init(pieceOrder);
   }
 
   private void initBoard() {
@@ -21,15 +29,16 @@ public class GameBoard {
     }
   }
 
-  public void swapPieces(int index1, int index2){
-    if (index1 > pieceOrder.length ||
-        index2 > pieceOrder.length){
-      Log.d(TAG, "Invail piece index");
+  public static void swapPieces(int pieceId1, int pieceId2){
+    if (pieceId1 > pieceOrder.length ||
+        pieceId2 > pieceOrder.length){
+      Log.d(TAG, "Invalid piece id");
     }
     else {
-      int temp = pieceOrder[index1];
-      pieceOrder[index1] = pieceOrder[index2];
-      pieceOrder[index2] = temp;
+      int temp = pieceOrder[pieceId1];
+      pieceOrder[pieceId1] = pieceOrder[pieceId2];
+      pieceOrder[pieceId2] = temp;
+      tracer.swap(pieceId1, pieceId2);
     }
   }
 }

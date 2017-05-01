@@ -15,22 +15,6 @@ class PieceViewList {
     list = new PieceImageView[size];
   }
 
-  public static void swapContents(int index1, int index2) {
-    Piece piece1 = list[index1].getPiece();
-    int pieceIndex1 = list[index1].getPieceArrayIndex();
-
-    Piece piece2 = list[index2].getPiece();
-    int pieceIndex2 = list[index2].getPieceArrayIndex();
-
-    list[index1].setPiece(piece2);
-    list[index1].setPieceArrayIndex(pieceIndex2);
-
-
-    list[index2].setPiece(piece1);
-    list[index2].setPieceArrayIndex(pieceIndex1);
-
-  }
-
   public void add(PieceImageView imageView, int index) {
     list[index] = imageView;
   }
@@ -54,18 +38,28 @@ class PieceViewList {
     for (int i = 0; i < times; i++) {
       int index1 = random.nextInt(size());
       int index2 = random.nextInt(size());
-      swapContents(index1, index2);
+      Piece temp = list[index1].getPiece();
+      list[index1].setPiece(list[index2].getPiece());
+      list[index2].setPiece(temp);
     }
   }
 
   public int getProgress() {
     int progress = 0;
-    for (PieceImageView pieceImageView : list) {
-      if (pieceImageView.getPieceArrayIndex() == pieceImageView.getViewArrayIndex()){
+    for (int index = 0; index < list.length; index++) {
+      PieceImageView pieceImageView = list[index];
+      if (pieceImageView.getPiece().getId() == index){
         progress++;
       }
     }
     double percent = (double) progress / (double) size();
     return (int) (percent * 100);
+  }
+
+  public static PieceImageView findViewById(int pieceId) {
+    for (PieceImageView view : list) {
+      if (view.getPiece().getId() == pieceId) return view;
+    }
+    return null;
   }
 }

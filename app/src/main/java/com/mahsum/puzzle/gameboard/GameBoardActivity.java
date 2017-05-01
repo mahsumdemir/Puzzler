@@ -15,6 +15,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.mahsum.puzzle.R;
+import com.mahsum.puzzle.core.GameBoard;
+import com.mahsum.puzzle.core.GameBoard.GameBoardTracer;
 import com.mahsum.puzzle.core.Piece;
 import com.mahsum.puzzle.core.Puzzle;
 import java.util.Timer;
@@ -64,24 +66,7 @@ public class GameBoardActivity extends Activity implements Contract.View{
       pieceViewList.add(imageView, index);
       relativeLayout.addView(pieceViewList.get(index));
     }
-    pieceViewList.shuffle(piecesX * piecesY);
     progressBar.setProgress(pieceViewList.getProgress());
-
-    new Timer("Progress Bar Timer").schedule(new TimerTask() {
-      @Override
-      public void run() {
-        progressBar.post(new Runnable() {
-          @Override
-          public void run() {
-            progressBar.setProgress(pieceViewList.getProgress());
-            if (progressBar.getProgress() == 100){
-              Toast.makeText(GameBoardActivity.this.getApplicationContext(), "Game is finished", Toast.LENGTH_LONG).show();
-              GameBoardActivity.this.finish();
-            }
-          }
-        });
-      }
-    }, 0, 1000);
 
     /*//scale board
     final View rootView = findViewById(R.id.root);
@@ -133,8 +118,44 @@ public class GameBoardActivity extends Activity implements Contract.View{
 
 
   @Override
-  public void onPuzzleCreated(Puzzle puzzle) {
+  public void onPuzzleCreated(final Puzzle puzzle) {
     this.puzzle = puzzle;
-    initBoard();
+    GameBoard gameBoard = new GameBoard(puzzle, new GameBoardTracer() {
+      @Override
+      public void init(int[] pieceOrder) {
+        initBoard();
+        for (int index = 0; index < pieceOrder.length; index++) {
+          Piece currentPiece = puzzle.getPieceAt(pieceOrder[index]);
+          PieceImageView view = pieceViewList.get(index);
+          view.setPiece(currentPiece);
+        }
+        pieceViewList.shuffle(100);
+
+        new Timer("Progress Bar Timer").schedule(new TimerTask() {
+          @Override
+          public void run() {
+            progressBar.post(new Runnable() {
+              @Override
+              public void run() {
+                progressBar.setProgress(pieceViewList.getProgress());
+                if (progressBar.getProgress() == 100){
+                  Toast.makeText(GameBoardActivity.this.getApplicationContext(), "Game is finished", Toast.LENGTH_LONG).show();
+                  GameBoardActivity.this.finish();
+                }
+              }
+            });
+          }
+        }, 0, 1000);
+      }
+
+      @Override
+      public void swap(int pieceId1, int pieceId2) {
+        PieceImageView view = PieceViewList.findViewById(pieceId1);
+        PieceImageView view1 = PieceViewList.findViewById(pieceId2);
+        Piece temp = view.getPiece();
+        view.setPiece(view1.getPiece());
+        view1.setPiece(temp);
+      }
+    });
   }
 }

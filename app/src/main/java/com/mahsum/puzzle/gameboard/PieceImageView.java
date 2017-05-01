@@ -7,6 +7,7 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.mahsum.puzzle.core.GameBoard;
 import com.mahsum.puzzle.core.Piece;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
@@ -14,8 +15,6 @@ import io.reactivex.functions.Consumer;
 
 public class PieceImageView extends AppCompatImageView{
   private Piece piece;
-  private int pieceArrayIndex;
-  private int viewArrayIndex;
 
   public PieceImageView(Context context) {
     super(context);
@@ -23,8 +22,6 @@ public class PieceImageView extends AppCompatImageView{
 
   public void configure(Piece piece, int piecesX, int piecesY, int index){
     this.piece = piece;
-    this.pieceArrayIndex = index;
-    this.viewArrayIndex = index;
 
     setId(AppCompatImageView.generateViewId());
     setX(piece, piecesX, index);
@@ -44,12 +41,9 @@ public class PieceImageView extends AppCompatImageView{
 
         // Handles each of the expected events
         if (action == DragEvent.ACTION_DROP) {
-            ClipData data = event.getClipData();
-            String arrayIndex = (String) data.getItemAt(0).getText();
-
-            PieceViewList
-                .swapContents(Integer.valueOf(arrayIndex), PieceImageView.this.viewArrayIndex);
-            // Returns true. DragEvent.getResult() will return true.
+          int sourcePieceId = (int) event.getLocalState();
+          GameBoard.swapPieces(sourcePieceId, piece.getId());
+          // Returns true. DragEvent.getResult() will return true.
         }
       }
     });
@@ -60,8 +54,7 @@ public class PieceImageView extends AppCompatImageView{
     Consumer shadowDrawer = new Consumer() {
       @Override
       public void accept(@NonNull Object o) throws Exception {
-        ClipData dragData = ClipData.newPlainText(null, String.valueOf(viewArrayIndex));
-        startDrag(dragData, new AppCompatImageView.DragShadowBuilder(PieceImageView.this), viewArrayIndex, 0);
+        startDrag(null, new AppCompatImageView.DragShadowBuilder(PieceImageView.this), piece.getId(), 0);
       }
     };
     touchStream.subscribe(shadowDrawer);
@@ -100,19 +93,7 @@ public class PieceImageView extends AppCompatImageView{
     setImageBitmap(piece.getBitmap());
   }
 
-  public void setPieceArrayIndex(int pieceArrayIndex) {
-    this.pieceArrayIndex = pieceArrayIndex;
-  }
-
   public Piece getPiece() {
     return piece;
-  }
-
-  public int getPieceArrayIndex() {
-    return pieceArrayIndex;
-  }
-
-  public int getViewArrayIndex() {
-    return viewArrayIndex;
   }
 }

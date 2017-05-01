@@ -50,4 +50,8 @@ public class Puzzle {
   public Piece[] getPieces() {
     return pieces;
   }
+
+  public Piece getPieceAt(int index) {
+    return pieces[index];
+  }
 }

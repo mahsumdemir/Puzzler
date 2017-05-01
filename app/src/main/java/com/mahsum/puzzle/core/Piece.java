@@ -49,4 +49,8 @@ public class Piece {
   public void setMask(BitmapMask mask) {
     this.mask = mask;
   }
+
+  public int getId() {
+    return id;
+  }
 }
