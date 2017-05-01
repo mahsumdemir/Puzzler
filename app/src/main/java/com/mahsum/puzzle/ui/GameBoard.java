@@ -19,7 +19,7 @@ import butterknife.OnClick;
 import com.mahsum.puzzle.BitmapFactoryWrapper;
 import com.mahsum.puzzle.core.Piece;
 import com.mahsum.puzzle.core.Puzzle;
-import com.mahsum.puzzle.core.PuzzleCreator;
+import com.mahsum.puzzle.core.PuzzleBuilder;
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.core.Type;
 import com.mahsum.puzzle.loadImage.ImageLoadCallBack;
@@ -37,7 +37,7 @@ public class GameBoard extends Activity {
   public static final String PIECES_Y = "PIECES_Y";
   private static final String TAG = "GameBoard";
   private Bitmap image;
-  private PuzzleCreator puzzleCreator;
+  private Puzzle puzzle;
   private String imageFilePath;
   private int resolutionX;
   private int resolutionY;
@@ -81,9 +81,12 @@ public class GameBoard extends Activity {
   }
 
   private void createPuzzle() {
-    puzzleCreator = new PuzzleCreator(new Type(piecesX, piecesY));
-    Puzzle.setImage(image);
-    pieces = puzzleCreator.createPuzzle();
+    puzzle = PuzzleBuilder.start()
+        .setType(new Type(piecesX, piecesY))
+        .setImage(image)
+        .build();
+
+    pieces = puzzle.getPieces();
   }
 
   private void initBoard() {
@@ -171,7 +174,7 @@ public class GameBoard extends Activity {
       zoomLayout.setVisibility(View.VISIBLE);
     }
     else{
-      toggle.setText("PuzzleCreator");
+      toggle.setText("PuzzleBuilder");
       original.setVisibility(View.VISIBLE);
       zoomLayout.setVisibility(View.INVISIBLE);
     }

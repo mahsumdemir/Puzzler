@@ -4,18 +4,23 @@ import android.graphics.Bitmap;
 
 public class Puzzle {
 
-  static Bitmap image;
-  static Type type;
+  private Bitmap image;
+  public Type type;
+  private Piece[] pieces;
 
-  public static void setImage(Bitmap image) {
-    Puzzle.image = resizeImage(image);
-    Puzzle.image = Puzzle.image.copy(Bitmap.Config.ARGB_8888, true);
+  public void setType(Type type) {
+    this.type = type;
   }
 
-  private static Bitmap resizeImage(Bitmap image) {
+  public void setImage(Bitmap image) {
+    this.image = resizeImage(image, type.getXPieceNumber(), type.getYPieceNumber());
+    this.image = this.image.copy(Bitmap.Config.ARGB_8888, true);
+  }
+
+  private static Bitmap resizeImage(Bitmap image, int xPieceNumber, int yPieceNumber) {
     int newWidth, newHeight;
-    int widthOutGrow = image.getWidth() % (type.getXPieceNumber() * 5);
-    int heightOutGrow = image.getHeight() % (type.getYPieceNumber() * 5);
+    int widthOutGrow = image.getWidth() % (xPieceNumber * 5);
+    int heightOutGrow = image.getHeight() % (yPieceNumber * 5);
 
     if (widthOutGrow == 0 && heightOutGrow == 0) return image;
     else{
@@ -30,7 +35,19 @@ public class Puzzle {
    * Setted image and getted image could have different size.
    * @return The Bitmap this puzzle is working on.
    */
-  public static Bitmap getImage() {
+  public Bitmap getImage() {
     return image;
+  }
+
+  public void setPieces(Piece[] pieces) {
+    this.pieces = pieces;
+  }
+
+  public Type getType() {
+    return type;
+  }
+
+  public Piece[] getPieces() {
+    return pieces;
   }
 }

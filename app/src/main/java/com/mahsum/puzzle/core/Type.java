@@ -46,4 +46,37 @@ public class Type {
   public int getPieceNumber() {
     return getXPieceNumber() * getYPieceNumber();
   }
+
+  public int getPieceType(int index) {
+    if (index < 0 || index > (getPieceNumber())) {
+      return -1;
+    }
+
+    boolean hasLeft = (index % getXPieceNumber()) != 0;
+    boolean hasRight = (index % getXPieceNumber()) != getXPieceNumber() - 1;
+    boolean hasBottom = (index / getYPieceNumber()) != getYPieceNumber() - 1;
+    boolean hasTop = (index / getYPieceNumber() != 0);
+
+    if (!hasLeft && hasRight && hasBottom && !hasTop) {
+      return Piece.TOP_LEFT;
+    } else if (hasLeft && hasRight && hasBottom && !hasTop) {
+      return Piece.TOP;
+    } else if (hasLeft && !hasRight && hasBottom && !hasTop) {
+      return Piece.TOP_RIGHT;
+    } else if (!hasLeft && hasRight && hasBottom && hasTop) {
+      return Piece.LEFT;
+    } else if (hasLeft && hasRight && hasBottom && hasTop) {
+      return Piece.CENTER;
+    } else if (hasLeft && !hasRight && hasBottom && hasTop) {
+      return Piece.RIGHT;
+    } else if (!hasLeft && hasRight && !hasBottom && hasTop) {
+      return Piece.BOTTOM_LEFT;
+    } else if (hasLeft && hasRight && !hasBottom && hasTop) {
+      return Piece.BOTTOM;
+    } else if (hasLeft && !hasRight && !hasBottom && hasTop) {
+      return Piece.BOTTOM_RIGHT;
+    } else {
+      return -1;
+    }
+  }
 }

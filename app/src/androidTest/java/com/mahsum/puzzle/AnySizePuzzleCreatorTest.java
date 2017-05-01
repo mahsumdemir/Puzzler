@@ -11,7 +11,7 @@ import android.graphics.Bitmap;
 import android.support.test.InstrumentationRegistry;
 import com.mahsum.puzzle.core.Piece;
 import com.mahsum.puzzle.core.Puzzle;
-import com.mahsum.puzzle.core.PuzzleCreator;
+import com.mahsum.puzzle.core.PuzzleBuilder;
 import com.mahsum.puzzle.core.Type;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
@@ -60,19 +60,19 @@ public class AnySizePuzzleCreatorTest {
   @Test
   public void testPieceType_3X3Puzzle() throws Exception {
     //setup
-    PuzzleCreator puzzleCreator = new PuzzleCreator(Type.Three_X_Three);
+    PuzzleBuilder puzzleBuilder = new PuzzleBuilder(Type.Three_X_Three);
 
-    assertEquals(Piece.TOP_LEFT, puzzleCreator.getPieceType(0));
-    assertEquals(Piece.TOP, puzzleCreator.getPieceType(1));
-    assertEquals(Piece.TOP_RIGHT, puzzleCreator.getPieceType(2));
-    assertEquals(Piece.LEFT, puzzleCreator.getPieceType(3));
-    assertEquals(Piece.CENTER, puzzleCreator.getPieceType(4));
-    assertEquals(Piece.RIGHT, puzzleCreator.getPieceType(5));
-    assertEquals(Piece.BOTTOM_LEFT, puzzleCreator.getPieceType(6));
-    assertEquals(Piece.BOTTOM, puzzleCreator.getPieceType(7));
-    assertEquals(Piece.BOTTOM_RIGHT, puzzleCreator.getPieceType(8));
-    assertEquals(-1, puzzleCreator.getPieceType(-1));
-    assertEquals(-1, puzzleCreator.getPieceType(10));
+    assertEquals(Piece.TOP_LEFT, puzzleBuilder.puzzle.type.getPieceType(0));
+    assertEquals(Piece.TOP, puzzleBuilder.puzzle.type.getPieceType(1));
+    assertEquals(Piece.TOP_RIGHT, puzzleBuilder.puzzle.type.getPieceType(2));
+    assertEquals(Piece.LEFT, puzzleBuilder.puzzle.type.getPieceType(3));
+    assertEquals(Piece.CENTER, puzzleBuilder.puzzle.type.getPieceType(4));
+    assertEquals(Piece.RIGHT, puzzleBuilder.puzzle.type.getPieceType(5));
+    assertEquals(Piece.BOTTOM_LEFT, puzzleBuilder.puzzle.type.getPieceType(6));
+    assertEquals(Piece.BOTTOM, puzzleBuilder.puzzle.type.getPieceType(7));
+    assertEquals(Piece.BOTTOM_RIGHT, puzzleBuilder.puzzle.type.getPieceType(8));
+    assertEquals(-1, puzzleBuilder.puzzle.type.getPieceType(-1));
+    assertEquals(-1, puzzleBuilder.puzzle.type.getPieceType(10));
   }
 
 
@@ -90,9 +90,9 @@ public class AnySizePuzzleCreatorTest {
   }
 
   private void assertPiecesEquals(int type, int... indixes) {
-    PuzzleCreator puzzleCreator = new PuzzleCreator(Type.Four_X_Four);
+    PuzzleBuilder puzzleBuilder = new PuzzleBuilder(Type.Four_X_Four);
     for (int i = 0; i < indixes.length; i++) {
-      assertEquals(type, puzzleCreator.getPieceType(indixes[i]));
+      assertEquals(type, puzzleBuilder.puzzle.type.getPieceType(indixes[i]));
     }
   }
 }
