@@ -1,4 +1,4 @@
-package com.mahsum.puzzle.ui;
+package com.mahsum.puzzle.gameboard;
 
 import android.content.Context;
 import android.util.AttributeSet;

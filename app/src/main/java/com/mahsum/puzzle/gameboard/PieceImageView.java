@@ -1,4 +1,4 @@
-package com.mahsum.puzzle.ui;
+package com.mahsum.puzzle.gameboard;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -16,7 +16,6 @@ public class PieceImageView extends AppCompatImageView{
   private Piece piece;
   private int pieceArrayIndex;
   private int viewArrayIndex;
-  private Observable<MotionEvent> touchStream;
 
   public PieceImageView(Context context) {
     super(context);
@@ -47,7 +46,9 @@ public class PieceImageView extends AppCompatImageView{
         if (action == DragEvent.ACTION_DROP) {
             ClipData data = event.getClipData();
             String arrayIndex = (String) data.getItemAt(0).getText();
-            PieceViewList.swapContents(Integer.valueOf(arrayIndex), PieceImageView.this.viewArrayIndex);
+
+            PieceViewList
+                .swapContents(Integer.valueOf(arrayIndex), PieceImageView.this.viewArrayIndex);
             // Returns true. DragEvent.getResult() will return true.
         }
       }
@@ -55,7 +56,7 @@ public class PieceImageView extends AppCompatImageView{
   }
 
   private void setUpTouchStream() {
-    touchStream = RxView.touches(this);
+    Observable<MotionEvent> touchStream = RxView.touches(this);
     Consumer shadowDrawer = new Consumer() {
       @Override
       public void accept(@NonNull Object o) throws Exception {

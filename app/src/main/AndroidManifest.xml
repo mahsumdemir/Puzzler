@@ -24,7 +24,7 @@
       </intent-filter>
     </activity>
     <activity android:name=".DummyPermissionActivity"/>
-    <activity android:name=".ui.GameBoard"></activity>
+    <activity android:name=".gameboard.GameBoardActivity"></activity>
   </application>
 
 </manifest>

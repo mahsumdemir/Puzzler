@@ -13,6 +13,8 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.mahsum.puzzle.R;
+import com.mahsum.puzzle.gameboard.GameBoardActivity;
+import com.mahsum.puzzle.gameboard.GameBoardPresenter;
 
 
 public class PuzzlePropertiesDialog extends DialogFragment {
@@ -36,12 +38,12 @@ public class PuzzlePropertiesDialog extends DialogFragment {
     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        Intent intent = new Intent(inflater.getContext(), GameBoard.class);
-        intent.putExtra(GameBoard.ORIGINAL_IMAGE_FILE_PATH, imageUri);
-        intent.putExtra(GameBoard.PIECES_X, Integer.valueOf(piecesX.getText().toString()));
-        intent.putExtra(GameBoard.PIECES_Y, Integer.valueOf(piecesY.getText().toString()));
-        intent.putExtra(GameBoard.RESOLUTION_X, 1000);
-        intent.putExtra(GameBoard.RESOLUTION_Y, 1000);
+        Intent intent = new Intent(inflater.getContext(), GameBoardActivity.class);
+        intent.putExtra(GameBoardPresenter.ORIGINAL_IMAGE_FILE_PATH, imageUri);
+        intent.putExtra(GameBoardPresenter.PIECES_X, Integer.valueOf(piecesX.getText().toString()));
+        intent.putExtra(GameBoardPresenter.PIECES_Y, Integer.valueOf(piecesY.getText().toString()));
+        intent.putExtra(GameBoardPresenter.RESOLUTION_X, 1000);
+        intent.putExtra(GameBoardPresenter.RESOLUTION_Y, 1000);
         startActivity(intent);
       }
     });

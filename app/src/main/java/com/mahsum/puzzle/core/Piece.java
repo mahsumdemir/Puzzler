@@ -14,8 +14,13 @@ public class Piece {
   public static final int BOTTOM = 7;
   public static final int BOTTOM_RIGHT = 8;
 
+  private int id;
   private Bitmap bitmap;
   private BitmapMask mask;
+
+  public Piece(int id) {
+    this.id = id;
+  }
 
   public int getMaskX() {
     return mask.getMaskX();

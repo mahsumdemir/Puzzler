@@ -58,6 +58,7 @@ public class LocalStorage {
     public static void save(){
         saveBitmaps();
         saveSharedPreferences();
+        bitmaps.clear();
     }
 
     private static void saveSharedPreferences() {

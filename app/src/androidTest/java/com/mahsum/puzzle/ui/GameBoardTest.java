@@ -9,20 +9,16 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 import com.mahsum.puzzle.Application;
-import com.mahsum.puzzle.BuildConfig;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
+import com.mahsum.puzzle.gameboard.GameBoardActivity;
 import com.mahsum.puzzle.utility.Util;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,8 +28,8 @@ import org.junit.runner.RunWith;
 public class GameBoardTest {
 
   @Rule
-  public ActivityTestRule<GameBoard> gameBoardActivityTestRule = new ActivityTestRule<>(
-      GameBoard.class, true, false);
+  public ActivityTestRule<GameBoardActivity> gameBoardActivityTestRule = new ActivityTestRule<>(
+      GameBoardActivity.class, true, false);
 
   @Before
   public void setUp() throws Exception {
@@ -54,12 +50,12 @@ public class GameBoardTest {
     gameBoardActivityTestRule.launchActivity(intent);
 
     //assert
-    GameBoard gameBoard = gameBoardActivityTestRule.getActivity();
-    assertEquals(imageFilePath, gameBoard.getImageFilePath());
-    assertEquals(resolutionX, gameBoard.getResolutionX());
-    assertEquals(resolutionY, gameBoard.getResolutionY());
-    assertEquals(piecesX, gameBoard.getPiecesX());
-    assertEquals(piecesY, gameBoard.getPiecesY());
+    GameBoardActivity gameBoardActivity = gameBoardActivityTestRule.getActivity();
+    assertEquals(imageFilePath, gameBoardActivity.getImageFilePath());
+    assertEquals(resolutionX, gameBoardActivity.getResolutionX());
+    assertEquals(resolutionY, gameBoardActivity.getResolutionY());
+    assertEquals(piecesX, gameBoardActivity.getPiecesX());
+    assertEquals(piecesY, gameBoardActivity.getPiecesY());
   }
 
   private Intent createIntentWithExtras(String imageFilePath, int resolutionX, int resolutionY,
@@ -67,7 +63,7 @@ public class GameBoardTest {
 
     Context targetApplicationContext = InstrumentationRegistry.getContext();
 
-    Intent intent = new Intent(targetApplicationContext, GameBoard.class);
+    Intent intent = new Intent(targetApplicationContext, GameBoardActivity.class);
     intent.putExtra("ORIGINAL_IMAGE_FILE_PATH", imageFilePath);
     intent.putExtra("RESOLUTION_X", resolutionX);
     intent.putExtra("RESOLUTION_Y", resolutionY);
@@ -105,11 +101,11 @@ public class GameBoardTest {
     gameBoardActivityTestRule.getActivity().finish();
   }
 
-  private void assertPiecesDisplayed(GameBoard gameBoard, int piecesNumber)
+  private void assertPiecesDisplayed(GameBoardActivity gameBoardActivity, int piecesNumber)
       throws FileCouldNotSaved, FileCouldNotCreated {
     //assert
     for (int index = 0; index < piecesNumber; index++) {
-      int id = gameBoard.getImageViewIdByIndex(index);
+      int id = gameBoardActivity.getImageViewIdByIndex(index);
       onView(withId(id)).check((matches(isDisplayed())));
     }
   }
@@ -126,7 +122,8 @@ public class GameBoardTest {
   private void testFindScaleFactor(int screenWidth, int screenHeight, int puzzleWidth,
                                    int puzzleHeight, double expected) {
     assertEquals(expected,
-                 GameBoard.findScaleFactor(screenWidth, screenHeight, puzzleWidth, puzzleHeight),
+                 GameBoardActivity
+                     .findScaleFactor(screenWidth, screenHeight, puzzleWidth, puzzleHeight),
                  0.01);
   }
 }

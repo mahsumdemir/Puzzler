@@ -14,6 +14,7 @@ import android.support.test.uiautomator.UiDevice;
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.MainActivity;
 
+import com.mahsum.puzzle.gameboard.GameBoardActivity;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -55,11 +56,11 @@ public class UIActionTest {
     //register activity monitor
     Instrumentation.ActivityMonitor activityMonitor = InstrumentationRegistry
         .getInstrumentation()
-        .addMonitor(GameBoard.class.getName(), null, false);
+        .addMonitor(GameBoardActivity.class.getName(), null, false);
 
     onView(withText("Ok")).perform(ViewActions.click());
 
-    GameBoard activity = (GameBoard) activityMonitor.waitForActivityWithTimeout(2000);
+    GameBoardActivity activity = (GameBoardActivity) activityMonitor.waitForActivityWithTimeout(2000);
     assertTrue(activity != null);
 
     uiDevice.findObject(By.res("com.mahsum.puzzle:id/pieceBoard")).pinchOpen(0.5f);

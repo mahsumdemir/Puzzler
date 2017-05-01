@@ -49,7 +49,7 @@ public class PuzzleBuilder {
       Log.d(TAG, String.format("iterating for currentX: %d, currentY: %d", currentX, currentY));
 
       BitmapMask mask = masks[puzzle.type.getPieceType(index)];
-      pieces[index] = new Piece();
+      pieces[index] = new Piece(index);
       pieces[index].setMask(mask);
       pieces[index].setBitmap(maskImage(surroundedImage, mask, currentX, currentY));
 

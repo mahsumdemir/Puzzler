@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 
+import com.mahsum.puzzle.BitmapFactoryWrapper;
 import java.io.IOException;
 
 import static android.provider.MediaStore.Images.Media.getBitmap;
@@ -18,6 +19,10 @@ public class ImageLoader {
     mContentResolver = contentResolver;
   }
 
+  public void loadImage(String imageFilePath, ImageLoadCallBack callBack){
+    Bitmap image = BitmapFactoryWrapper.decodeFile(imageFilePath);
+    callBack.onImageLoaded(image);
+  }
   public void loadImage(Uri imageUri, ImageLoadCallBack callBack) {
     mCallBack = callBack;
     new CustomAsyncTask().execute(imageUri);
