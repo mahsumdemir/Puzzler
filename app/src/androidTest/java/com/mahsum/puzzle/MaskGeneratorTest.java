@@ -3,7 +3,7 @@ package com.mahsum.puzzle;
 import static com.mahsum.puzzle.Saving.saveBitmap;
 
 import android.graphics.Bitmap;
-import org.junit.Test;
+import com.mahsum.puzzle.core.MaskGenerator;
 
 
 /**

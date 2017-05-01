@@ -7,7 +7,7 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 import com.jakewharton.rxbinding2.view.RxView;
-import com.mahsum.puzzle.Piece;
+import com.mahsum.puzzle.core.Piece;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;

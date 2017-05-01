@@ -1,4 +1,4 @@
-package com.mahsum.puzzle;
+package com.mahsum.puzzle.core;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 
-class MaskGenerator {
+public class MaskGenerator {
 
   public static final int WIDTH = 70;
   public static final int HEIGHT = 70;

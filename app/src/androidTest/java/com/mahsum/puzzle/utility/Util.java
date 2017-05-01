@@ -19,8 +19,8 @@ import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 import android.view.View;
 import com.mahsum.puzzle.DummyPermissionActivity;
-import com.mahsum.puzzle.Piece;
-import com.mahsum.puzzle.PuzzleCreator;
+import com.mahsum.puzzle.core.Piece;
+import com.mahsum.puzzle.core.PuzzleCreator;
 import com.mahsum.puzzle.exceptions.FileCouldNotCreated;
 import com.mahsum.puzzle.exceptions.FileCouldNotSaved;
 

@@ -5,8 +5,8 @@ import static junit.framework.Assert.fail;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.test.InstrumentationRegistry;
+import com.mahsum.puzzle.core.BitmapMask;
 import org.junit.Before;
 import org.junit.Test;
 

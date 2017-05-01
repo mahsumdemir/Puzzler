@@ -1,4 +1,4 @@
-package com.mahsum.puzzle;
+package com.mahsum.puzzle.core;
 
 public class Type {
 
@@ -45,9 +45,5 @@ public class Type {
 
   public int getPieceNumber() {
     return getXPieceNumber() * getYPieceNumber();
-  }
-
-  public BitmapMask decideMask(int index, BitmapMask[] masks) {
-    return masks[index];
   }
 }

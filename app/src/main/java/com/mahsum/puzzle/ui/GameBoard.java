@@ -17,10 +17,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.mahsum.puzzle.BitmapFactoryWrapper;
-import com.mahsum.puzzle.Piece;
-import com.mahsum.puzzle.PuzzleCreator;
+import com.mahsum.puzzle.core.Piece;
+import com.mahsum.puzzle.core.Puzzle;
+import com.mahsum.puzzle.core.PuzzleCreator;
 import com.mahsum.puzzle.R;
-import com.mahsum.puzzle.Type;
+import com.mahsum.puzzle.core.Type;
 import com.mahsum.puzzle.loadImage.ImageLoadCallBack;
 import com.mahsum.puzzle.loadImage.ImageLoader;
 import java.util.Timer;
@@ -81,7 +82,7 @@ public class GameBoard extends Activity {
 
   private void createPuzzle() {
     puzzleCreator = new PuzzleCreator(new Type(piecesX, piecesY));
-    puzzleCreator.setImage(image);
+    Puzzle.setImage(image);
     pieces = puzzleCreator.createPuzzle();
   }
 

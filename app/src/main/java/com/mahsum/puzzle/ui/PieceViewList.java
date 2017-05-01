@@ -1,7 +1,7 @@
 package com.mahsum.puzzle.ui;
 
 
-import com.mahsum.puzzle.Piece;
+import com.mahsum.puzzle.core.Piece;
 import java.util.Random;
 
 

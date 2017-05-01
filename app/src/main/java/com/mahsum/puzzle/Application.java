@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.annotation.DrawableRes;
+import com.mahsum.puzzle.R;
 
 public class Application extends android.app.Application {
 

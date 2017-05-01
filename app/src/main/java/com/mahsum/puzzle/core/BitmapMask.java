@@ -1,4 +1,4 @@
-package com.mahsum.puzzle;
+package com.mahsum.puzzle.core;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
