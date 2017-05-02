@@ -1,6 +1,7 @@
 package com.mahsum.puzzle.gameboard;
 
 
+import com.mahsum.puzzle.core.GameBoard;
 import com.mahsum.puzzle.core.Piece;
 import com.mahsum.puzzle.gameboard.PieceImageView;
 import java.util.Random;

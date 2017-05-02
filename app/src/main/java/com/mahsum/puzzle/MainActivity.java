@@ -56,7 +56,6 @@ public class MainActivity extends Activity implements PermissionFragment.Permiss
     //Handle Image Cropping Library Response
     if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
       final Uri resultUri = UCrop.getOutput(data);
-      LocalStorage.addSavedPuzzles(resultUri);
       PuzzlePropertiesDialog dialog = new PuzzlePropertiesDialog();
       dialog.setImageUri(resultUri);
       dialog.show(getFragmentManager(), "MY DIALOG");
@@ -73,10 +72,4 @@ public class MainActivity extends Activity implements PermissionFragment.Permiss
     transaction.replace(R.id.root, PickImageFragment.newInstance());
     transaction.commit();
   }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LocalStorage.save();
-    }
 }

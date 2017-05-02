@@ -54,4 +54,9 @@ public class Puzzle {
   public Piece getPieceAt(int index) {
     return pieces[index];
   }
+
+  @Override
+  public String toString() {
+    return "Puzzle{" + "type=" + type + '}';
+  }
 }

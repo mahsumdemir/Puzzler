@@ -42,7 +42,7 @@ public class PieceImageView extends AppCompatImageView{
         // Handles each of the expected events
         if (action == DragEvent.ACTION_DROP) {
           int sourcePieceId = (int) event.getLocalState();
-          GameBoard.swapPieces(sourcePieceId, piece.getId());
+          GameBoard.current.swapPieces(sourcePieceId, piece.getId());
           // Returns true. DragEvent.getResult() will return true.
         }
       }

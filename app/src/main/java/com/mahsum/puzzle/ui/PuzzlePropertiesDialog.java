@@ -39,6 +39,7 @@ public class PuzzlePropertiesDialog extends DialogFragment {
       @Override
       public void onClick(DialogInterface dialog, int which) {
         Intent intent = new Intent(inflater.getContext(), GameBoardActivity.class);
+        intent.putExtra(GameBoardPresenter.GAME_TYPE, GameBoardPresenter.NEW_GAME);
         intent.putExtra(GameBoardPresenter.ORIGINAL_IMAGE_FILE_PATH, imageUri);
         intent.putExtra(GameBoardPresenter.PIECES_X, Integer.valueOf(piecesX.getText().toString()));
         intent.putExtra(GameBoardPresenter.PIECES_Y, Integer.valueOf(piecesY.getText().toString()));

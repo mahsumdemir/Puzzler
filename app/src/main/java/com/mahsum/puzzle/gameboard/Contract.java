@@ -11,7 +11,7 @@ import com.mahsum.puzzle.core.Puzzle;
 public interface Contract {
 
   interface View{
-    void onPuzzleCreated(Puzzle puzzle);
+    void onPuzzleCreated(Puzzle puzzle, final int GAME_TYPE);
 
     ContentResolver getContentResolver();
   }

@@ -1,8 +1,33 @@
 package com.mahsum.puzzle.core;
 
 import android.util.Log;
+import java.util.Arrays;
+import java.util.Random;
 
 public class GameBoard {
+
+  public static GameBoard current;
+
+  public Puzzle getPuzzle() {
+    return puzzle;
+  }
+
+  public int[] getPieceOrder() {
+    return pieceOrder;
+  }
+
+  public void setPieceOrder(int[] pieceOrder) {
+    this.pieceOrder = pieceOrder;
+  }
+
+  public void shuffle(int times) {
+    Random random = new Random();
+    for (int i = 0; i < times; i++) {
+      int index1 = random.nextInt(pieceOrder.length);
+      int index2 = random.nextInt(pieceOrder.length);
+      swapPieces(index1, index2);
+    }
+  }
 
   public interface GameBoardTracer{
     void init(int[] pieceOrder);
@@ -10,14 +35,17 @@ public class GameBoard {
   }
 
   private static final String TAG = "GameBoardActivity";
-  private static Puzzle puzzle;
-  private static int[] pieceOrder;
-  private static GameBoardTracer tracer;
+  private Puzzle puzzle;
+  private int[] pieceOrder;
+  private GameBoardTracer tracer;
 
-  public GameBoard(Puzzle puzzle, GameBoardTracer tracer) {
-    GameBoard.puzzle = puzzle;
-    GameBoard.tracer = tracer;
+  public GameBoard(Puzzle puzzle) {
+    this.puzzle = puzzle;
     initBoard();
+  }
+
+  public void subscribe(GameBoardTracer tracer){
+    this.tracer = tracer;
     tracer.init(pieceOrder);
   }
 
@@ -29,7 +57,7 @@ public class GameBoard {
     }
   }
 
-  public static void swapPieces(int pieceId1, int pieceId2){
+  public void swapPieces(int pieceId1, int pieceId2){
     if (pieceId1 > pieceOrder.length ||
         pieceId2 > pieceOrder.length){
       Log.d(TAG, "Invalid piece id");
@@ -40,5 +68,10 @@ public class GameBoard {
       pieceOrder[pieceId2] = temp;
       tracer.swap(pieceId1, pieceId2);
     }
+  }
+
+  @Override
+  public String toString() {
+    return "GameBoard{" + "puzzle=" + puzzle + ", pieceOrder=" + Arrays.toString(pieceOrder) + '}';
   }
 }

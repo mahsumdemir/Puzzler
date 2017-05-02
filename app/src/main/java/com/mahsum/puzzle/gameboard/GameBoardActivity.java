@@ -14,6 +14,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.mahsum.puzzle.LocalStorage;
 import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.core.GameBoard;
 import com.mahsum.puzzle.core.GameBoard.GameBoardTracer;
@@ -33,6 +34,8 @@ public class GameBoardActivity extends Activity implements Contract.View{
   @BindView(R.id.toggle) Button toggle;
   @BindView(R.id.zoomLayout)
   ZoomLayout zoomLayout;
+  private boolean isFinished;
+  private int gameType;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,9 +121,17 @@ public class GameBoardActivity extends Activity implements Contract.View{
 
 
   @Override
-  public void onPuzzleCreated(final Puzzle puzzle) {
+  public void onPuzzleCreated(final Puzzle puzzle, final int GAME_TYPE) {
     this.puzzle = puzzle;
-    GameBoard gameBoard = new GameBoard(puzzle, new GameBoardTracer() {
+    this.gameType = GAME_TYPE;
+    if (GAME_TYPE == GameBoardPresenter.NEW_GAME) {
+      GameBoard gameBoard = new GameBoard(puzzle);
+      GameBoard.current = gameBoard;
+    }
+
+    final GameBoard gameBoard = GameBoard.current;
+
+    GameBoardTracer tracer =  new GameBoardTracer() {
       @Override
       public void init(int[] pieceOrder) {
         initBoard();
@@ -129,8 +140,9 @@ public class GameBoardActivity extends Activity implements Contract.View{
           PieceImageView view = pieceViewList.get(index);
           view.setPiece(currentPiece);
         }
-        pieceViewList.shuffle(100);
+        if (GAME_TYPE == GameBoardPresenter.NEW_GAME) gameBoard.shuffle(100);
 
+        //start Progress bar checking
         new Timer("Progress Bar Timer").schedule(new TimerTask() {
           @Override
           public void run() {
@@ -139,8 +151,8 @@ public class GameBoardActivity extends Activity implements Contract.View{
               public void run() {
                 progressBar.setProgress(pieceViewList.getProgress());
                 if (progressBar.getProgress() == 100){
-                  Toast.makeText(GameBoardActivity.this.getApplicationContext(), "Game is finished", Toast.LENGTH_LONG).show();
-                  GameBoardActivity.this.finish();
+                  Toast.makeText(GameBoardActivity.this.getApplicationContext(), "Game is finished", Toast.LENGTH_SHORT).show();
+                  isFinished = true;
                 }
               }
             });
@@ -156,6 +168,16 @@ public class GameBoardActivity extends Activity implements Contract.View{
         view.setPiece(view1.getPiece());
         view1.setPiece(temp);
       }
-    });
+    };
+    gameBoard.subscribe(tracer);
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    if (!isFinished){
+      //save current status of game
+      LocalStorage.saveCurrentGameBoard();
+    }
   }
 }

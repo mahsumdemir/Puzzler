@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.mahsum.puzzle.LocalStorage;
 import com.mahsum.puzzle.R;
@@ -51,7 +50,7 @@ public class PickImageFragment extends Fragment implements Contract.View{
 
     RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.savedPuzzles);
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    adapter = new SavedPuzzlesAdapter(LocalStorage.getSavedPuzzles());
+    adapter = new SavedPuzzlesAdapter(getActivity(), LocalStorage.getSavedGames());
     recyclerView.setAdapter(adapter);
 
     FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.addPuzzleFab);
@@ -67,7 +66,7 @@ public class PickImageFragment extends Fragment implements Contract.View{
   @Override
   public void onResume() {
     super.onResume();
-    adapter.setSavedBitmaps(LocalStorage.getSavedPuzzles());
+    adapter.setSavedGames(LocalStorage.getSavedGames());
     adapter.notifyDataSetChanged();
   }
 

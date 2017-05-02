@@ -79,4 +79,9 @@ public class Type {
       return -1;
     }
   }
+
+  @Override
+  public String toString() {
+    return "Type{" + "xPieceNumber=" + xPieceNumber + ", yPieceNumber=" + yPieceNumber + '}';
+  }
 }
