@@ -64,7 +64,7 @@ class SavedPuzzlesAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
           GameBoard.loadBoard(gameBoard);
           Intent intent = new Intent(SavedPuzzlesAdapter.context, GameBoardActivity.class);
-          intent.putExtra("GAME_TYPE", GameBoardPresenter.PREVIOUS_GAME);
+          intent.putExtra(GameBoardPresenter.GAME_TYPE, GameBoardPresenter.PREVIOUS_GAME);
           context.startActivity(intent);
         }
       });

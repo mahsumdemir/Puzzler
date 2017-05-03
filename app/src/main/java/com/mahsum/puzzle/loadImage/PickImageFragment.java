@@ -31,7 +31,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
 
-public class PickImageFragment extends Fragment implements Contract.View{
+public class PickImageFragment extends Fragment implements Contract.View, DatabaseInterface.DataListener{
 
   private static final String TAG = "PickImageFragment";
   private Contract.Presenter presenter;
@@ -61,14 +61,7 @@ public class PickImageFragment extends Fragment implements Contract.View{
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     adapter = new SavedPuzzlesAdapter(getActivity(), DatabaseInterface.getGameBoards());
     recyclerView.setAdapter(adapter);
-    DatabaseInterface.addDataListener(new DataListener() {
-      @Override
-      public void onDataChanges(ArrayList<GameBoard> newDataSet) {
-        adapter.setSavedGames(newDataSet);
-        adapter.notifyDataSetChanged();
-      }
-    });
-
+    DatabaseInterface.addDataListener(this);
     FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.addPuzzleFab);
     fab.setOnClickListener(new OnClickListener() {
       @Override
@@ -107,5 +100,17 @@ public class PickImageFragment extends Fragment implements Contract.View{
   @Override
   public ContentResolver getContentResolver() {
     return getActivity().getContentResolver();
+  }
+
+  @Override
+  public void onDataChanges(ArrayList<GameBoard> newDataSet) {
+    adapter.setSavedGames(newDataSet);
+    adapter.notifyDataSetChanged();
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    DatabaseInterface.removeListener(this);
   }
 }

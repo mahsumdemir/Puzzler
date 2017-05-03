@@ -21,6 +21,14 @@ import java.util.Map;
 
 public class DatabaseInterface {
 
+  public static void removeListener(DataListener listener) {
+    listeners.remove(listener);
+  }
+
+  public static boolean hasData() {
+    return hasData;
+  }
+
   public interface DataListener{
     void onDataChanges(ArrayList<GameBoard> newDataSet);
   }
@@ -29,6 +37,7 @@ public class DatabaseInterface {
   private static DatabaseHelper databaseHelper;
   private static HashMap<Integer, GameBoard> runTimeGameBoards, databaseGameBoards;
   private static ArrayList<DataListener> listeners = new ArrayList<>();
+  private static boolean hasData = false;
 
   public static void addDataListener(DataListener listener){
     listeners.add(listener);
@@ -38,11 +47,20 @@ public class DatabaseInterface {
   private static ArrayList<Integer> updated = new ArrayList<>();
   private static ArrayList<Integer> deleted = new ArrayList<>();
 
-  public static void init(Context context){
+  public static void onCreate(Context context){
+    hasData = true;
     databaseHelper = new DatabaseHelper(context);
     databaseGameBoards = readGameBoards();
-    runTimeGameBoards = new HashMap<>(databaseGameBoards);
+    runTimeGameBoards = copyHasMaps(databaseGameBoards);
     notifyListeners();
+  }
+
+  private static HashMap<Integer, GameBoard> copyHasMaps(HashMap<Integer, GameBoard> source) {
+    HashMap<Integer, GameBoard> target = new HashMap<>();
+    for (Map.Entry<Integer, GameBoard> sourceEntry : source.entrySet()) {
+      target.put(sourceEntry.getKey(), GameBoard.copy(sourceEntry.getValue()));
+    }
+    return target;
   }
 
   private static HashMap<Integer, GameBoard> readGameBoards() {
@@ -108,13 +126,20 @@ public class DatabaseInterface {
     notifyListeners();
   }
 
-  public static void end(){
+  public static void onDestroy(){
     //sync array list modified on run time and database
     SQLiteDatabase database = databaseHelper.getWritableDatabase();
     executeDeletes(database);
     executeUpdates(database);
     executeAdds(database);
     database.close();
+    cleanFields();
+  }
+
+  private static void cleanFields() {
+    added.clear();
+    updated.clear();
+    deleted.clear();
   }
 
   private static void executeAdds(SQLiteDatabase database) {
@@ -138,8 +163,7 @@ public class DatabaseInterface {
     Gson gson = new Gson();
     for (Integer gameBoardId : updated) {
       Log.d(TAG, "Updating Game Board");
-      Log.d(TAG, "OLD: " + databaseGameBoards.get(gameBoardId).toString());
-      Log.d(TAG, "NEW: " + runTimeGameBoards.get(gameBoardId).toString());
+      Log.d(TAG, "NEW VALUE: " + runTimeGameBoards.get(gameBoardId).toString());
       GameBoard gameBoard = runTimeGameBoards.get(gameBoardId);
       ContentValues values = new ContentValues();
       values.put(Entry.PIECE_ORDER, gson.toJson(gameBoard.getPieceOrder()));

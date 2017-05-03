@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.view.View;
+import android.view.ViewGroup;
 import com.mahsum.puzzle.loadImage.PickImageFragment;
 import com.mahsum.puzzle.ui.PermissionFragment;
 import com.mahsum.puzzle.ui.PuzzlePropertiesDialog;
@@ -24,7 +26,7 @@ public class MainActivity extends Activity implements PermissionFragment.Permiss
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.pick_image_activity);
-    DatabaseInterface.init(getApplicationContext());
+    if (!DatabaseInterface.hasData()) DatabaseInterface.onCreate(getApplicationContext());
 
     if (hasNeededPermission()) {
       FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -75,6 +77,6 @@ public class MainActivity extends Activity implements PermissionFragment.Permiss
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    DatabaseInterface.end();
+    DatabaseInterface.onDestroy();
   }
 }

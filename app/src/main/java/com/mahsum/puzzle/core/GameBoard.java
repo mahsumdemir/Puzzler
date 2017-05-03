@@ -61,6 +61,13 @@ public class GameBoard {
     return newArray;
   }
 
+  public static GameBoard copy(GameBoard source) {
+    GameBoard target = new GameBoard(source.getPuzzle());
+    target.setId(source.getId());
+    target.setPieceOrder(source.getPieceOrder());
+    return target;
+  }
+
   public interface GameBoardTracer{
     void init(int[] pieceOrder);
     void swap(int pieceId1, int pieceId2);
