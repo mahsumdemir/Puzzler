@@ -7,13 +7,17 @@ import java.util.Random;
 public class GameBoard {
 
   public static GameBoard current;
-
+  public int id;
   public Puzzle getPuzzle() {
     return puzzle;
   }
 
   public int[] getPieceOrder() {
-    return pieceOrder;
+    int[] newArray = new int[pieceOrder.length];
+    for (int index = 0; index < pieceOrder.length; index++) {
+      newArray[index] = pieceOrder[index];
+    }
+    return newArray;
   }
 
   public void setPieceOrder(int[] pieceOrder) {
@@ -27,6 +31,34 @@ public class GameBoard {
       int index2 = random.nextInt(pieceOrder.length);
       swapPieces(index1, index2);
     }
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public static void loadBoard(GameBoard gameBoard) {
+    Log.d(TAG, "loading game board" + gameBoard.toString());
+    GameBoard.current = gameBoard.copy();
+  }
+
+  private GameBoard copy() {
+    GameBoard gameBoard = new GameBoard(this.puzzle);
+    gameBoard.pieceOrder = copyArray(pieceOrder);
+    gameBoard.id = this.id;
+    return gameBoard;
+  }
+
+  private int[] copyArray(int[] pieceOrder) {
+    int[] newArray = new int[pieceOrder.length];
+    for (int index = 0; index < pieceOrder.length; index++) {
+      newArray[index] = pieceOrder[index];
+    }
+    return newArray;
   }
 
   public interface GameBoardTracer{
@@ -63,15 +95,26 @@ public class GameBoard {
       Log.d(TAG, "Invalid piece id");
     }
     else {
-      int temp = pieceOrder[pieceId1];
-      pieceOrder[pieceId1] = pieceOrder[pieceId2];
-      pieceOrder[pieceId2] = temp;
+      int index1 = findPieceIndex(pieceId1);
+      int index2 = findPieceIndex(pieceId2);
+
+      int temp = pieceOrder[index1];
+      pieceOrder[index1] = pieceOrder[index2];
+      pieceOrder[index2] = temp;
       tracer.swap(pieceId1, pieceId2);
     }
   }
 
+  private int findPieceIndex(int pieceId1) {
+    for (int index = 0; index < pieceOrder.length; index++) {
+      if (pieceOrder[index] == pieceId1) return index;
+    }
+    return 0;
+  }
+
   @Override
   public String toString() {
-    return "GameBoard{" + "puzzle=" + puzzle + ", pieceOrder=" + Arrays.toString(pieceOrder) + '}';
+    return "GameBoard{ " + super.toString() + "id=" + id + ", puzzle=" + puzzle + ", pieceOrder=" + Arrays
+        .toString(pieceOrder) + '}';
   }
 }

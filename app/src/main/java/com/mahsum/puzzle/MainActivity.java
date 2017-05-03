@@ -8,13 +8,11 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-
-import com.mahsum.puzzle.LocalStorage;
-import com.mahsum.puzzle.R;
 import com.mahsum.puzzle.loadImage.PickImageFragment;
 import com.mahsum.puzzle.ui.PermissionFragment;
 import com.mahsum.puzzle.ui.PuzzlePropertiesDialog;
 import com.yalantis.ucrop.UCrop;
+import database.DatabaseInterface;
 
 
 public class MainActivity extends Activity implements PermissionFragment.PermissionCallbacks{
@@ -26,7 +24,7 @@ public class MainActivity extends Activity implements PermissionFragment.Permiss
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.pick_image_activity);
-    LocalStorage.init(getApplicationContext());
+    DatabaseInterface.init(getApplicationContext());
 
     if (hasNeededPermission()) {
       FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -40,6 +38,7 @@ public class MainActivity extends Activity implements PermissionFragment.Permiss
     }
 
   }
+
 
   private boolean hasNeededPermission() {
     for (String neededPermission : NEEDED_PERMISSIONS) {
@@ -71,5 +70,11 @@ public class MainActivity extends Activity implements PermissionFragment.Permiss
     FragmentTransaction transaction = getFragmentManager().beginTransaction();
     transaction.replace(R.id.root, PickImageFragment.newInstance());
     transaction.commit();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    DatabaseInterface.end();
   }
 }

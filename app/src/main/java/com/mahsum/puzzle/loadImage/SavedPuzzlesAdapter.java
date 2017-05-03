@@ -62,7 +62,7 @@ class SavedPuzzlesAdapter extends RecyclerView.Adapter {
       imageButton.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View v) {
-          GameBoard.current = gameBoard;
+          GameBoard.loadBoard(gameBoard);
           Intent intent = new Intent(SavedPuzzlesAdapter.context, GameBoardActivity.class);
           intent.putExtra("GAME_TYPE", GameBoardPresenter.PREVIOUS_GAME);
           context.startActivity(intent);

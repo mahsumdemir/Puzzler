@@ -46,7 +46,6 @@ public class PuzzleBuilder {
     int currentX = 0;
     int currentY = 0;
     for (int index = 0; index < type.getPieceNumber(); index++) {
-      Log.d(TAG, String.format("iterating for currentX: %d, currentY: %d", currentX, currentY));
 
       BitmapMask mask = masks[puzzle.type.getPieceType(index)];
       pieces[index] = new Piece(index);

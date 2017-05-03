@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract.RawContacts.Data;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,15 +18,22 @@ import android.view.ViewGroup;
 
 import com.mahsum.puzzle.LocalStorage;
 import com.mahsum.puzzle.R;
+import com.mahsum.puzzle.core.GameBoard;
 import com.yalantis.ucrop.UCrop;
 
+import database.DatabaseHelper;
+import database.DatabaseInterface;
+import database.DatabaseInterface.DataListener;
 import java.io.File;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import java.util.ArrayList;
 
 public class PickImageFragment extends Fragment implements Contract.View{
+
+  private static final String TAG = "PickImageFragment";
   private Contract.Presenter presenter;
   private SavedPuzzlesAdapter adapter;
 
@@ -50,8 +59,15 @@ public class PickImageFragment extends Fragment implements Contract.View{
 
     RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.savedPuzzles);
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    adapter = new SavedPuzzlesAdapter(getActivity(), LocalStorage.getSavedGames());
+    adapter = new SavedPuzzlesAdapter(getActivity(), DatabaseInterface.getGameBoards());
     recyclerView.setAdapter(adapter);
+    DatabaseInterface.addDataListener(new DataListener() {
+      @Override
+      public void onDataChanges(ArrayList<GameBoard> newDataSet) {
+        adapter.setSavedGames(newDataSet);
+        adapter.notifyDataSetChanged();
+      }
+    });
 
     FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.addPuzzleFab);
     fab.setOnClickListener(new OnClickListener() {
@@ -65,9 +81,8 @@ public class PickImageFragment extends Fragment implements Contract.View{
 
   @Override
   public void onResume() {
+    Log.d(TAG, "PickImageFragment.onResume");
     super.onResume();
-    adapter.setSavedGames(LocalStorage.getSavedGames());
-    adapter.notifyDataSetChanged();
   }
 
   @Override

@@ -1,9 +1,14 @@
 package com.mahsum.puzzle.gameboard;
 
+import static com.mahsum.puzzle.gameboard.GameBoardPresenter.GAME_TYPE;
+import static com.mahsum.puzzle.gameboard.GameBoardPresenter.NEW_GAME;
+import static com.mahsum.puzzle.gameboard.GameBoardPresenter.PREVIOUS_GAME;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -20,11 +25,14 @@ import com.mahsum.puzzle.core.GameBoard;
 import com.mahsum.puzzle.core.GameBoard.GameBoardTracer;
 import com.mahsum.puzzle.core.Piece;
 import com.mahsum.puzzle.core.Puzzle;
+import com.mahsum.puzzle.gameboard.Contract.Presenter;
+import database.DatabaseHelper;
+import database.DatabaseInterface;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class GameBoardActivity extends Activity implements Contract.View{
+public class GameBoardActivity extends Activity implements Contract.View, GameBoardTracer{
 
   private static final String TAG = "GameBoardActivity";
   private Puzzle puzzle;
@@ -36,17 +44,24 @@ public class GameBoardActivity extends Activity implements Contract.View{
   ZoomLayout zoomLayout;
   private boolean isFinished;
   private int gameType;
+  private Presenter presenter;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
+    Log.d(TAG, "GameBoardActivity.onCreate");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.game_board);
     ButterKnife.bind(this);
 
-    Contract.Presenter presenter = new GameBoardPresenter(this);
-    presenter.createPuzzle(getIntent());
+    presenter = new GameBoardPresenter(this);
   }
 
+  @Override
+  protected void onStart() {
+    Log.d(TAG, "GameBoardActivity.onResume");
+    super.onStart();
+    presenter.createPuzzle(getIntent());
+  }
 
   private void initBoard() {
     int piecesX = puzzle.getType().getXPieceNumber();
@@ -124,60 +139,68 @@ public class GameBoardActivity extends Activity implements Contract.View{
   public void onPuzzleCreated(final Puzzle puzzle, final int GAME_TYPE) {
     this.puzzle = puzzle;
     this.gameType = GAME_TYPE;
+
+    //if it is a new game update GameBoard
     if (GAME_TYPE == GameBoardPresenter.NEW_GAME) {
-      GameBoard gameBoard = new GameBoard(puzzle);
-      GameBoard.current = gameBoard;
+      GameBoard.loadBoard(new GameBoard(puzzle));
     }
 
-    final GameBoard gameBoard = GameBoard.current;
-
-    GameBoardTracer tracer =  new GameBoardTracer() {
-      @Override
-      public void init(int[] pieceOrder) {
-        initBoard();
-        for (int index = 0; index < pieceOrder.length; index++) {
-          Piece currentPiece = puzzle.getPieceAt(pieceOrder[index]);
-          PieceImageView view = pieceViewList.get(index);
-          view.setPiece(currentPiece);
-        }
-        if (GAME_TYPE == GameBoardPresenter.NEW_GAME) gameBoard.shuffle(100);
-
-        //start Progress bar checking
-        new Timer("Progress Bar Timer").schedule(new TimerTask() {
-          @Override
-          public void run() {
-            progressBar.post(new Runnable() {
-              @Override
-              public void run() {
-                progressBar.setProgress(pieceViewList.getProgress());
-                if (progressBar.getProgress() == 100){
-                  Toast.makeText(GameBoardActivity.this.getApplicationContext(), "Game is finished", Toast.LENGTH_SHORT).show();
-                  isFinished = true;
-                }
-              }
-            });
-          }
-        }, 0, 1000);
-      }
-
-      @Override
-      public void swap(int pieceId1, int pieceId2) {
-        PieceImageView view = PieceViewList.findViewById(pieceId1);
-        PieceImageView view1 = PieceViewList.findViewById(pieceId2);
-        Piece temp = view.getPiece();
-        view.setPiece(view1.getPiece());
-        view1.setPiece(temp);
-      }
-    };
-    gameBoard.subscribe(tracer);
+    GameBoard.current.subscribe(this);
   }
 
   @Override
   protected void onDestroy() {
+    Log.d(TAG, "GameBoardActivity.onDestroy");
     super.onDestroy();
-    if (!isFinished){
-      //save current status of game
-      LocalStorage.saveCurrentGameBoard();
+    if (gameType == NEW_GAME && !isFinished){
+      DatabaseInterface.addGameBoard(GameBoard.current);
     }
+
+    if (gameType == PREVIOUS_GAME ){
+      if (isFinished){
+        DatabaseInterface.deleteGameBoard(GameBoard.current);
+      }
+      else{
+        DatabaseInterface.updataGameBoard(GameBoard.current);
+      }
+    }
+  }
+
+  @Override
+  public void init(int[] pieceOrder) {
+    GameBoard gameBoard = GameBoard.current;
+    initBoard();
+    for (int index = 0; index < pieceOrder.length; index++) {
+      Piece currentPiece = puzzle.getPieceAt(pieceOrder[index]);
+      PieceImageView view = pieceViewList.get(index);
+      view.setPiece(currentPiece);
+    }
+    if (gameType == GameBoardPresenter.NEW_GAME) gameBoard.shuffle(100);
+
+    //start Progress bar checking
+    new Timer("Progress Bar Timer").schedule(new TimerTask() {
+      @Override
+      public void run() {
+        progressBar.post(new Runnable() {
+          @Override
+          public void run() {
+            progressBar.setProgress(pieceViewList.getProgress());
+            if (progressBar.getProgress() == 100){
+              Toast.makeText(GameBoardActivity.this.getApplicationContext(), "Game is finished", Toast.LENGTH_SHORT).show();
+              isFinished = true;
+            }
+          }
+        });
+      }
+    }, 0, 1000);
+  }
+
+  @Override
+  public void swap(int pieceId1, int pieceId2) {
+    PieceImageView view = PieceViewList.findViewById(pieceId1);
+    PieceImageView view1 = PieceViewList.findViewById(pieceId2);
+    Piece temp = view.getPiece();
+    view.setPiece(view1.getPiece());
+    view1.setPiece(temp);
   }
 }

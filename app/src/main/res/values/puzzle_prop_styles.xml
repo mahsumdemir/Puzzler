@@ -14,7 +14,7 @@
     <item name="android:ems">2</item>
     <item name="android:inputType">number</item>
     <item name="android:lineSpacingExtra">18sp</item>
-    <item name="android:text">10</item>
+    <item name="android:text">4</item>
     <item name="android:textAlignment">center</item>
     <item name="android:textAppearance">
       @style/TextAppearance.AppCompat.Body1
